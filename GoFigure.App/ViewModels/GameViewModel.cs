@@ -4,10 +4,6 @@ namespace GoFigure.App.ViewModels
 {
     class GameViewModel : BaseViewModel
     {
-        private int _score;
-        private string _time;
-        private int _target;
-
         public StatusViewModel Status { get; private set; }
 
         public SolutionViewModel Solution { get; private set; }
@@ -15,39 +11,6 @@ namespace GoFigure.App.ViewModels
         public ControlsViewModel Controls { get; private set; }
 
         public LevelMeterViewModel LevelMeter { get; private set; }
-
-        public int Score
-        {
-            get => _score;
-            set
-            {
-                _score = value;
-
-                NotifyOfPropertyChange(() => Score);
-            }
-        }
-
-        public string Time
-        {
-            get => _time;
-            set
-            {
-                _time = value;
-
-                NotifyOfPropertyChange(() => Time);
-            }
-        }
-
-        public int Target
-        {
-            get => _target;
-            set
-            {
-                _target = value;
-
-                NotifyOfPropertyChange(() => Target);
-            }
-        }
 
         public GameViewModel(
             IEventAggregator eventAggregator,
@@ -61,8 +24,6 @@ namespace GoFigure.App.ViewModels
             Solution = solution;
             Controls = controls;
             LevelMeter = levelMeter;
-
-            Time = "00:00";
         }
     }
 }

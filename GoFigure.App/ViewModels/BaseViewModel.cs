@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using System.Threading.Tasks;
 
 namespace GoFigure.App.ViewModels
 {
@@ -12,5 +13,8 @@ namespace GoFigure.App.ViewModels
 
             _eventAggregator.SubscribeOnPublishedThread(this);
         }
+
+        protected async Task PublishMessage<T>(T message) => 
+            await _eventAggregator.PublishOnCurrentThreadAsync(message);
     }
 }

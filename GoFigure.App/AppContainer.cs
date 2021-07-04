@@ -11,8 +11,8 @@ namespace GoFigure.App
 
         public void Configure()
         {
-            Register<IWindowManager, WindowManager>();
-            Register<IEventAggregator, EventAggregator>();
+            RegisterSingleton<IWindowManager, WindowManager>();
+            RegisterSingleton<IEventAggregator, EventAggregator>();
 
             GetType().Assembly
                 .GetTypes()
