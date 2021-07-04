@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GoFigure.App.ViewModels
 {
-    class SolutionViewModel : BaseViewModel, IHandle<SetSolutionSlotMessage>
+    class SolutionViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<SetSolutionSlotMessage>
     {
         private readonly IDictionary<int, Func<string>> _indexToSlotNotifyCall;
         private readonly ISolutionSlotValue[] _solutionSlots;
@@ -96,6 +96,9 @@ namespace GoFigure.App.ViewModels
 
         public void SetSlotIndex(int index) =>
             CurrentSlotIndex = index;
+
+        public async Task HandleAsync(NewGameStartedMessage _, CancellationToken __) 
+            => ControlsEnabled = true;
 
         public async Task HandleAsync(SetSolutionSlotMessage message, CancellationToken _)
         {
