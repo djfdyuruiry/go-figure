@@ -109,6 +109,8 @@
     <Compile Include="Model\Solution\NumberSlotValue.cs" />
     <Compile Include="Model\Solution\OperatorSlotValue.cs" />
     <Compile Include="Model\Solution\ISolutionSlotValue.cs" />
+    <Compile Include="Model\Solution\Solution.cs" />
+    <Compile Include="Service\SolutionService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\NumberSolutionSlotValue.cs" />

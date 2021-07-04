@@ -3,14 +3,15 @@ using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Solution;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace GoFigure.App.ViewModels
 {
-    class SolutionViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<SetSolutionSlotMessage>
+    class SolutionViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<SetSolutionSlotMessage>, IHandle<ZeroDataMessages>
     {
-        private readonly IDictionary<int, Func<string>> _indexToSlotNotifyCall;
+        private readonly IDictionary<int, Expression<Func<string>>> _indexToSlotProperty;
         private readonly ISolutionSlotValue[] _solutionSlots;
         private int _currentSlotIndex;
         private string _solutionResult;
@@ -79,7 +80,7 @@ namespace GoFigure.App.ViewModels
 
         public SolutionViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
         {
-            _indexToSlotNotifyCall = new Dictionary<int, Func<string>>
+            _indexToSlotProperty = new Dictionary<int, Expression<Func<string>>>
             {
                 { 0, () => Slot1 },
                 { 1, () => Slot2 },
@@ -104,8 +105,21 @@ namespace GoFigure.App.ViewModels
         {
             _solutionSlots[CurrentSlotIndex] = message.Value;
 
-            _indexToSlotNotifyCall[CurrentSlotIndex]();
+            NotifyOfPropertyChange(
+                _indexToSlotProperty[CurrentSlotIndex]
+            );
+
             CurrentSlotIndex++;
+        }
+
+        public async Task HandleAsync(ZeroDataMessages message, CancellationToken __)
+        {
+            if (message != ZeroDataMessages.SubmitSolution)
+            {
+                return;
+            }
+
+            // TODO: check if solution is valid
         }
     }
 }
