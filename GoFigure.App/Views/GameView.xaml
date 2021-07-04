@@ -1,0 +1,83 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             x:Class="GoFigure.App.Views.GameView"
+             d:DesignWidth="800"
+             d:DesignHeight="300"
+             Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.9*"/>
+            <ColumnDefinition Width="0.12*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.25*"/>
+                <RowDefinition Height="0.25*"/>
+                <RowDefinition Height="0.25*"/>
+                <RowDefinition Height="0.25*"/>
+            </Grid.RowDefinitions>
+
+            <ContentControl x:Name="Status" Grid.Row="0"/>
+
+            <ContentControl x:Name="Solution" Grid.Row="1" Margin="0,2,0,0"/>
+
+            <Grid Grid.Row="2" Margin="0,4,0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.075*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.025*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.025*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.025*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.05*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.05*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="Number0" Grid.Column="1" Content="" FontSize="22" FontWeight="Bold" IsEnabled="False"/>
+
+                <Button x:Name="Number1" Grid.Column="3" Content="" FontSize="22" FontWeight="Bold" IsEnabled="False"/>
+
+                <Button x:Name="Number2" Grid.Column="5" Content="" FontSize="22" FontWeight="Bold" IsEnabled="False"/>
+
+                <Button x:Name="Number3" Grid.Column="7" Content="" FontSize="22" FontWeight="Bold" IsEnabled="False"/>
+
+                <Button x:Name="Figure" Grid.Column="9" FontSize="22" FontWeight="Bold" Content="_Figure!" IsEnabled="False"/>
+            </Grid>
+
+            <Grid Grid.Row="3" Margin="0,4,0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.075*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.025*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.025*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.025*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.05*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.05*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="Multiply" Grid.Column="1" Content="*" FontSize="22" FontWeight="Bold" IsEnabled="False"/>
+
+                <Button x:Name="Divide" Grid.Column="3" Content="/" FontSize="22" FontWeight="Bold" IsEnabled="False"/>
+
+                <Button x:Name="Plus" Grid.Column="5" Content="+" FontSize="22" FontWeight="Bold" IsEnabled="False"/>
+
+                <Button x:Name="Minus" Grid.Column="7" Content="-" FontSize="22" FontWeight="Bold" IsEnabled="False"/>
+
+                <Button x:Name="Hint" Grid.Column="9" Content="Hi_nt!" FontSize="22" FontWeight="Bold" IsEnabled="False"/>
+            </Grid>
+        </Grid>
+
+        <ContentControl x:Name="LevelMeter" Grid.Column="1" Margin="2,2,2,2"/>
+    </Grid>
+</UserControl>

@@ -3,15 +3,10 @@ using System.Windows;
 
 namespace GoFigure.App.ViewModels
 {
-    class MenuBarViewModel : PropertyChangedBase
+    class MenuBarViewModel : BaseViewModel
     {
-        private readonly IEventAggregator _eventAggregator;
-
-        public MenuBarViewModel(IEventAggregator eventAggregator)
+        public MenuBarViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
         {
-            _eventAggregator = eventAggregator;
-
-            _eventAggregator.SubscribeOnPublishedThread(this);
         }
 
         public void StartNewGame()

@@ -2,16 +2,19 @@
 
 namespace GoFigure.App.ViewModels
 {
-    class AppScreenViewModel : Screen
+    class GameViewModel : BaseViewModel
     {
         private int _score;
         private string _time;
         private int _target;
 
-        public MenuBarViewModel MenuBar { get; private set; }
-        public GameViewModel Game { get; private set; }
+        public StatusViewModel Status { get; private set; }
 
-        public int Score 
+        public SolutionViewModel Solution { get; private set; }
+
+        public LevelMeterViewModel LevelMeter { get; private set; }
+
+        public int Score
         {
             get => _score;
             set
@@ -44,10 +47,16 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public AppScreenViewModel(MenuBarViewModel menuBar, GameViewModel game)
+        public GameViewModel(
+            IEventAggregator eventAggregator,
+            StatusViewModel status,
+            SolutionViewModel solution,
+            LevelMeterViewModel levelMeter
+        ) : base(eventAggregator)
         {
-            MenuBar = menuBar;
-            Game = game;
+            Status = status;
+            Solution = solution;
+            LevelMeter = levelMeter;
 
             Time = "00:00";
         }
