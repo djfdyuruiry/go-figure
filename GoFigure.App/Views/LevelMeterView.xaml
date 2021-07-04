@@ -6,7 +6,7 @@
              x:Class="GoFigure.App.Views.LevelMeterView"
              d:DesignWidth="100"
              Background="White">
-    <GroupBox Header="Level">
+    <GroupBox Header="Level" Margin="2,2,2,2">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.2*"/>

@@ -2,9 +2,9 @@
 
 namespace GoFigure.App.ViewModels
 {
-    class StatusViewModel : BaseViewModel
+    class ControlsViewModel : BaseViewModel
     {
-        public StatusViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
+        public ControlsViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
         {
         }
     }

@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:GoFigure.App.Views"
              mc:Ignorable="d" 
              d:DesignWidth="275">
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="0.7*"/>
             <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="0,2,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.05*"/>
                 <ColumnDefinition/>

@@ -12,6 +12,8 @@ namespace GoFigure.App.ViewModels
 
         public SolutionViewModel Solution { get; private set; }
 
+        public ControlsViewModel Controls { get; private set; }
+
         public LevelMeterViewModel LevelMeter { get; private set; }
 
         public int Score
@@ -51,11 +53,13 @@ namespace GoFigure.App.ViewModels
             IEventAggregator eventAggregator,
             StatusViewModel status,
             SolutionViewModel solution,
+            ControlsViewModel controls,
             LevelMeterViewModel levelMeter
         ) : base(eventAggregator)
         {
             Status = status;
             Solution = solution;
+            Controls = controls;
             LevelMeter = levelMeter;
 
             Time = "00:00";
