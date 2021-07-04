@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
+using GoFigure.App.Model.Solution;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,21 @@ namespace GoFigure.App.ViewModels
                     t => (Operator) Enum.Parse(typeof(Operator), t.member.Name)
                 );
 
+        private readonly int?[] _numbers;
         private bool _controlsEnabled;
-        private int?[] _numbers;
 
         private string NumberOrDefault(int index) =>
             _numbers[index].HasValue 
                 ? $"{_numbers[index]}"
                 : string.Empty;
+
+        public string Number1 => NumberOrDefault(0);
+
+        public string Number2 => NumberOrDefault(1);
+
+        public string Number3 => NumberOrDefault(2);
+
+        public string Number4 => NumberOrDefault(3);
 
         public bool ControlsEnabled
         {
@@ -40,19 +49,40 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public string Number1 => NumberOrDefault(0);
-
-        public string Number2 => NumberOrDefault(1);
-
-        public string Number3 => NumberOrDefault(2);
-
-        public string Number4 => NumberOrDefault(3);
-
         public ControlsViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
         {
             ControlsEnabled = false;
             _numbers = new int?[4];
         }
+
+        public async void EnterNumberIntoSolution(int numberIndex) => 
+            await PublishMessage(
+                new SetSolutionSlotMessage
+                {
+                    Value = new NumberSlotValue
+                    {
+                        Value = _numbers[numberIndex].Value
+                    }
+                }
+            );
+
+        public async void EnterOperatorIntoSolution(char operatorSymbol) =>
+            await PublishMessage(
+                new SetSolutionSlotMessage
+                {
+                    Value = new OperatorSlotValue
+                    {
+                        Character = operatorSymbol,
+                        Value = CharacterToOperator[operatorSymbol]
+                    }
+                }
+            );
+
+        public async void SubmitSolution() =>
+            await PublishMessage(ZeroDataMessages.SubmitSolution);
+
+        public async void ShowSolutionHint() =>
+            await PublishMessage(ZeroDataMessages.ShowSolutionHint);
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
@@ -67,27 +97,5 @@ namespace GoFigure.App.ViewModels
 
             ControlsEnabled = true;
         }
-
-        public async void EnterNumberIntoSolution(int numberIndex) => 
-            await PublishMessage(
-                new NumberEnteredMessage
-                {
-                    Value = _numbers[numberIndex].Value
-                }
-            );
-
-        public async void EnterOperatorIntoSolution(char operatorSymbol) =>
-            await PublishMessage(
-                new OperatorEnteredMessage
-                {
-                    Value = CharacterToOperator[operatorSymbol]
-                }
-            );
-
-        public async void SubmitSolution() =>
-            await PublishMessage(ZeroDataMessages.SubmitSolution);
-
-        public async void ShowSolutionHint() =>
-            await PublishMessage(ZeroDataMessages.ShowSolutionHint);
     }
 }

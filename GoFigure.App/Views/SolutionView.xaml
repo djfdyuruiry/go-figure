@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="GoFigure.App.Views.SolutionView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GoFigure.App.Views"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
+             x:Class="GoFigure.App.Views.SolutionView"
              d:DesignWidth="275">
     <Grid >
         <Grid.RowDefinitions>
@@ -32,15 +32,57 @@
                     <ColumnDefinition Width="0.4*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" FontSize="32" FontWeight="Bold" IsEnabled="False"/>
-                <TextBox Grid.Column="1" FontSize="32" FontWeight="Bold" IsEnabled="False"/>
-                <TextBox Grid.Column="2" FontSize="32" FontWeight="Bold" IsEnabled="False"/>
-                <TextBox Grid.Column="3" FontSize="32" FontWeight="Bold" IsEnabled="False"/>
-                <TextBox Grid.Column="4" FontSize="32" FontWeight="Bold" IsEnabled="False"/>
-                <TextBox Grid.Column="5" FontSize="32" FontWeight="Bold" IsEnabled="False"/>
-                <TextBox Grid.Column="6" FontSize="32" FontWeight="Bold" IsEnabled="False"/>
-                <TextBlock Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32" FontWeight="Bold" Text="=" />
-                <TextBox Grid.Column="8" IsEnabled="False"/>
+                <Button Grid.Column="0"
+                        cal:Message.Attach="[Event Click] = [Action SetSlotIndex(0)]" 
+                        Content="{Binding Path=Slot1, Mode=OneWay}" 
+                        FontSize="32"
+                        FontWeight="Bold"
+                        IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+                <Button Grid.Column="1"
+                        cal:Message.Attach="[Event Click] = [Action SetSlotIndex(1)]" 
+                        Content="{Binding Path=Slot2, Mode=OneWay}" 
+                        FontSize="32"
+                        FontWeight="Bold"
+                        IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+                <Button Grid.Column="2"
+                        cal:Message.Attach="[Event Click] = [Action SetSlotIndex(2)]" 
+                        Content="{Binding Path=Slot3, Mode=OneWay}" 
+                        FontSize="32"
+                        FontWeight="Bold"
+                        IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+                <Button Grid.Column="3"
+                        cal:Message.Attach="[Event Click] = [Action SetSlotIndex(3)]" 
+                        Content="{Binding Path=Slot4, Mode=OneWay}" 
+                        FontSize="32"
+                        FontWeight="Bold"
+                        IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+                <Button Grid.Column="4"
+                        cal:Message.Attach="[Event Click] = [Action SetSlotIndex(4)]" 
+                        Content="{Binding Path=Slot5, Mode=OneWay}" 
+                        FontSize="32"
+                        FontWeight="Bold"
+                        IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+                <Button Grid.Column="5"
+                        cal:Message.Attach="[Event Click] = [Action SetSlotIndex(5)]" 
+                        Content="{Binding Path=Slot6, Mode=OneWay}" 
+                        FontSize="32"
+                        FontWeight="Bold"
+                        IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+                <Button Grid.Column="6"
+                        cal:Message.Attach="[Event Click] = [Action SetSlotIndex(6)]" 
+                        Content="{Binding Path=Slot7, Mode=OneWay}" 
+                        FontSize="32"
+                        FontWeight="Bold"
+                        IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+                
+                <TextBlock Grid.Column="7" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           FontSize="32" 
+                           FontWeight="Bold" 
+                           Text="=" />
+                
+                <TextBox x:Name="SolutionResult" Grid.Column="8" IsEnabled="False"/>
             </Grid>
         </Grid>
 
@@ -62,7 +104,12 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Polygon Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" StrokeThickness="2" Fill="Red" Points="5,15 25,0 45,15"/>
+                <Polygon Grid.Column="{Binding Path=CurrentSlotIndex, Mode=OneWay}"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Top"
+                         StrokeThickness="2"
+                         Fill="Red"
+                         Points="5,15 25,0 45,15"/>
             </Grid>
         </Grid>
     </Grid>
