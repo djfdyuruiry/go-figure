@@ -42,6 +42,7 @@ namespace GoFigure.App.Utils
 
                 if (result < 0)
                 {
+                    i--;
                     continue;
                 }
 
