@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,13 +8,15 @@ using Caliburn.Micro;
 using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Solution;
+using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels
 {
-    class ControlsViewModel : BaseViewModel, IHandle<NewGameStartedMessage>
+    class ControlsViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<ZeroDataMessages>
     {
         private IList<int> _numbers;
         private bool _controlsEnabled;
+        private bool _hintEnabled;
 
         private string NumberOrDefault(int index) =>
             _numbers.Count == 0 || _numbers.Count - 1 < index
@@ -39,13 +42,26 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public ControlsViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
+        public bool HintEnabled
         {
-            ControlsEnabled = false;
-            _numbers = new List<int>();
+            get => _hintEnabled;
+            set
+            {
+                _hintEnabled = value;
+
+                NotifyOfPropertyChange(() => HintEnabled);
+            }
         }
 
-        public async void EnterNumberIntoSolution(int numberIndex) => 
+        public ControlsViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
+        {
+            _numbers = new List<int>();
+
+            ControlsEnabled = false;
+            HintEnabled = false;
+        }
+
+        public async void EnterNumberIntoSolution(int numberIndex) =>
             await PublishMessage(
                 new SetSolutionSlotMessage
                 {
@@ -75,7 +91,10 @@ namespace GoFigure.App.ViewModels
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
-            _numbers = message.Solution.AvailableNumbers;
+            _numbers = message.Solution
+                .AvailableNumbers
+                .Shuffle()
+                .ToList();
 
             NotifyOfPropertyChange(() => Number1);
             NotifyOfPropertyChange(() => Number2);
@@ -83,6 +102,17 @@ namespace GoFigure.App.ViewModels
             NotifyOfPropertyChange(() => Number4);
 
             ControlsEnabled = true;
+            HintEnabled = true;
+        }
+
+        public async Task HandleAsync(ZeroDataMessages message, CancellationToken _)
+        {
+            if (message != ZeroDataMessages.NoHintsLeft)
+            {
+                return;
+            }
+
+            HintEnabled = false;
         }
     }
 }

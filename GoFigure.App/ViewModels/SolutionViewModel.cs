@@ -23,9 +23,11 @@ namespace GoFigure.App.ViewModels
     {
         private readonly SolutionComputer _computer;
         private readonly IDictionary<int, Expression<Func<string>>> _indexToSlotProperty;
+        private readonly SolutionGenerator _generator;
         private readonly SolutionPlan _userSolution;
         private readonly List<int> _hintIndicesGiven;
 
+        private int _currentLevel;
         private SolutionPlan _cpuSolution;
         private int _currentSlotIndex;
         private bool _controlsEnabled;
@@ -88,9 +90,12 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public SolutionViewModel(IEventAggregator eventAggregator, SolutionComputer computer) : base(eventAggregator)
+        public SolutionViewModel(IEventAggregator eventAggregator, 
+                                 SolutionComputer computer,
+                                 SolutionGenerator generator) : base(eventAggregator)
         {
             _computer = computer;
+            _generator = generator;
             _indexToSlotProperty = new Dictionary<int, Expression<Func<string>>>
             {
                 { 0, () => Slot1 },
@@ -111,6 +116,7 @@ namespace GoFigure.App.ViewModels
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
+            _currentLevel = message.Level;
             _cpuSolution = message.Solution;
 
             _userSolution.Slots.Clear();
@@ -165,6 +171,8 @@ namespace GoFigure.App.ViewModels
             if (_computer.ResultFor(_userSolution) == _computer.ResultFor(_cpuSolution))
             {
                 userMessage = CorrectSolutionMessage;
+
+                await MoveToNextLevel();
             }
 
             MessageBox.Show(userMessage);
@@ -185,16 +193,39 @@ namespace GoFigure.App.ViewModels
                     continue;
                 }
 
-                _userSolution.Slots[i] = _cpuSolution.Slots[i];
-                _hintIndicesGiven.Add(i);
+                ShowHintInSolutionSlot(i);
 
-                NotifyOfPropertyChange(
-                    _indexToSlotProperty[i]
-                );
-                CurrentSlotIndex = i;
+                if (_hintIndicesGiven.Count == _cpuSolution.Slots.Count)
+                {
+                    await PublishMessage(ZeroDataMessages.NoHintsLeft);
+                }
 
                 return;
             }
+        }
+
+        private void ShowHintInSolutionSlot(int slotIndex)
+        {
+            _userSolution.Slots[slotIndex] = _cpuSolution.Slots[slotIndex];
+            _hintIndicesGiven.Add(slotIndex);
+
+            NotifyOfPropertyChange(
+                _indexToSlotProperty[slotIndex]
+            );
+            CurrentSlotIndex = slotIndex;
+        }
+
+        private async Task MoveToNextLevel()
+        {
+            var nextLevel = _currentLevel + 1;
+
+            await PublishMessage(
+                new NewGameStartedMessage
+                {
+                    Level = nextLevel,
+                    Solution = _generator.Generate(nextLevel)
+                }
+            );
         }
     }
 }

@@ -9,6 +9,6 @@
 
         // user messages
         public const string IncorrectSolutionMessage = "Solution Incorrect! Please try again";
-        public const string CorrectSolutionMessage = "Solution correct!";
+        public const string CorrectSolutionMessage = "Solution correct! Moving to next level";
     }
 }

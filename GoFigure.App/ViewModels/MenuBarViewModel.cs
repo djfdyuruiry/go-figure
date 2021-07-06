@@ -20,7 +20,8 @@ namespace GoFigure.App.ViewModels
             await PublishMessage(
                 new NewGameStartedMessage
                 {
-                    Solution = _generator.Generate()
+                    Level = 1,
+                    Solution = _generator.Generate(1)
                 }
             );
 

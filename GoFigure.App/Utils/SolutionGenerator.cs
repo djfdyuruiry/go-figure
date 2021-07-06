@@ -19,7 +19,7 @@ namespace GoFigure.App.Utils
             _calculator = calculator;
         }
 
-        public SolutionPlan Generate()
+        public SolutionPlan Generate(int level)
         {
             var random = new Random();
 

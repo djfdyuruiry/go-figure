@@ -113,7 +113,7 @@
                     Content="Hi_nt!" 
                     FontSize="22" 
                     FontWeight="Bold" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+                    IsEnabled="{Binding Path=HintEnabled, Mode=OneWay}"/>
         </Grid>
     </Grid>
 </UserControl>
