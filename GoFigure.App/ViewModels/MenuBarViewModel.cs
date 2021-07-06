@@ -1,22 +1,26 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows;
+
 using GoFigure.App.Model.Messages;
-using System.Collections.Generic;
-using System.Windows;
+using GoFigure.App.Utils;
+
+using Caliburn.Micro;
 
 namespace GoFigure.App.ViewModels
 {
     class MenuBarViewModel : BaseViewModel
     {
-        public MenuBarViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
+        private readonly SolutionGenerator _generator;
+
+        public MenuBarViewModel(IEventAggregator eventAggregator, SolutionGenerator generator) : base(eventAggregator)
         {
+            _generator = generator;
         }
 
         public async void StartNewGame() => 
             await PublishMessage(
                 new NewGameStartedMessage
                 {
-                    Target = 122,
-                    AvailableNumbers = new List<int> { 24, 5, 92, 1 }
+                    Solution = _generator.Generate()
                 }
             );
 

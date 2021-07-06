@@ -1,34 +1,24 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
+using Caliburn.Micro;
+
 using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Solution;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GoFigure.App.ViewModels
 {
     class ControlsViewModel : BaseViewModel, IHandle<NewGameStartedMessage>
     {
-        private static readonly IDictionary<char, Operator> CharacterToOperator =
-            typeof(Operator).GetMembers(BindingFlags.Public | BindingFlags.Static)
-                .Select(m => (member: m, charAttributes: m.GetCustomAttributes(typeof(CharacterAttribute), true)))
-                .Where(t => t.charAttributes.Length > 0)
-                .ToDictionary(
-                    t => (t.charAttributes.FirstOrDefault() as CharacterAttribute).Symbol,
-                    t => (Operator) Enum.Parse(typeof(Operator), t.member.Name)
-                );
-
-        private readonly int?[] _numbers;
+        private IList<int> _numbers;
         private bool _controlsEnabled;
 
         private string NumberOrDefault(int index) =>
-            _numbers[index].HasValue 
-                ? $"{_numbers[index]}"
-                : string.Empty;
+            _numbers.Count == 0 || _numbers.Count - 1 < index
+                ? string.Empty
+                : $"{_numbers[index]}";
 
         public string Number1 => NumberOrDefault(0);
 
@@ -52,7 +42,7 @@ namespace GoFigure.App.ViewModels
         public ControlsViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
         {
             ControlsEnabled = false;
-            _numbers = new int?[4];
+            _numbers = new List<int>();
         }
 
         public async void EnterNumberIntoSolution(int numberIndex) => 
@@ -61,7 +51,7 @@ namespace GoFigure.App.ViewModels
                 {
                     Value = new NumberSlotValue
                     {
-                        Value = _numbers[numberIndex].Value
+                        Value = _numbers[numberIndex]
                     }
                 }
             );
@@ -72,8 +62,7 @@ namespace GoFigure.App.ViewModels
                 {
                     Value = new OperatorSlotValue
                     {
-                        Character = operatorSymbol,
-                        Value = CharacterToOperator[operatorSymbol]
+                        Value = operatorSymbol.ToOperator()
                     }
                 }
             );
@@ -86,9 +75,7 @@ namespace GoFigure.App.ViewModels
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
-            message.AvailableNumbers
-                .Select((n, idx) => _numbers[idx] = n)
-                .ToList();
+            _numbers = message.Solution.AvailableNumbers;
 
             NotifyOfPropertyChange(() => Number1);
             NotifyOfPropertyChange(() => Number2);

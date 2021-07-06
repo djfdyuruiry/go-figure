@@ -101,19 +101,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppContainer.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Model\CharacterAttribute.cs" />
     <Compile Include="Model\Messages\NewGameStartedMessage.cs" />
     <Compile Include="Model\Messages\SetSolutionSlotMessage.cs" />
     <Compile Include="Model\Messages\ZeroDataMessages.cs" />
+    <Compile Include="Model\OperationExtensions.cs" />
     <Compile Include="Model\Operator.cs" />
     <Compile Include="Model\Solution\NumberSlotValue.cs" />
     <Compile Include="Model\Solution\OperatorSlotValue.cs" />
     <Compile Include="Model\Solution\ISolutionSlotValue.cs" />
-    <Compile Include="Model\Solution\Solution.cs" />
-    <Compile Include="Service\SolutionService.cs" />
+    <Compile Include="Model\Solution\SolutionPlan.cs" />
+    <Compile Include="Utils\SolutionComputer.cs" />
+    <Compile Include="Utils\SolutionGenerator.cs" />
+    <Compile Include="Utils\Calculator.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
-    <Compile Include="ViewModels\NumberSolutionSlotValue.cs" />
     <Compile Include="ViewModels\SolutionViewModel.cs" />
     <Compile Include="ViewModels\ControlsViewModel.cs" />
     <Compile Include="ViewModels\StatusViewModel.cs" />

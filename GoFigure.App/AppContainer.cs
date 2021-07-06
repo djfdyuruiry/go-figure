@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using SimpleInjector;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -7,7 +8,16 @@ namespace GoFigure.App
 {
     class AppContainer : Container
     {
-        private static readonly string ViewModelAssemblyName = $"{Assembly.GetExecutingAssembly().GetName().Name}.{nameof(ViewModels)}";
+        private static readonly string RootAssemblyName =
+            Assembly.GetExecutingAssembly()
+                .GetName()
+                .Name;
+        private static readonly IList<string> NamespacesToAutoRegister =
+            new List<string>
+            {
+                $"{RootAssemblyName}.{nameof(ViewModels)}",
+                $"{RootAssemblyName}.{nameof(Utils)}"
+            };
 
         public void Configure()
         {
@@ -16,7 +26,7 @@ namespace GoFigure.App
 
             GetType().Assembly
                 .GetTypes()
-                .Where(t => t.FullName.StartsWith(ViewModelAssemblyName))
+                .Where(t => NamespacesToAutoRegister.Any(t.FullName.StartsWith))
                 .Where(t => t.IsClass && !t.IsAbstract)
                 .ToList()
                 .ForEach(Register);

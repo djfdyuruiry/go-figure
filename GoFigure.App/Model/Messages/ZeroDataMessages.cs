@@ -3,6 +3,7 @@
     enum ZeroDataMessages
     {
         SubmitSolution,
-        ShowSolutionHint
+        ShowSolutionHint,
+        NoHintsLeft
     }
 }

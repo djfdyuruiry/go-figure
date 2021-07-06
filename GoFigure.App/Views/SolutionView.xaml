@@ -81,8 +81,14 @@
                            FontSize="32" 
                            FontWeight="Bold" 
                            Text="=" />
-                
-                <TextBox x:Name="SolutionResult" Grid.Column="8" IsEnabled="False"/>
+
+                <TextBox x:Name="SolutionResult" 
+                         Grid.Column="8"
+                         FontSize="32" 
+                         FontWeight="Bold"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         IsEnabled="False"/>
             </Grid>
         </Grid>
 

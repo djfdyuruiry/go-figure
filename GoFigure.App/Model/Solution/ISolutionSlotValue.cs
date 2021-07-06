@@ -1,6 +1,8 @@
 ﻿namespace GoFigure.App.Model.Solution
 {
-    interface ISolutionSlotValue
+    abstract class ISolutionSlotValue
     {
+        public U As<U>() where U : class =>
+            this as U;
     }
 }
