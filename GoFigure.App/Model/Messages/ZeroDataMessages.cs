@@ -2,6 +2,7 @@
 {
     enum ZeroDataMessages
     {
+        PauseGame,
         SubmitSolution,
         ShowSolutionHint,
         NoHintsLeft

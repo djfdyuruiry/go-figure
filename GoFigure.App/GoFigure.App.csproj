@@ -122,11 +122,15 @@
     <Compile Include="Utils\Calculator.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\Menu\GameMenuViewModel.cs" />
+    <Compile Include="ViewModels\Menu\OptionsMenuViewModel.cs" />
+    <Compile Include="ViewModels\Menu\HelpMenuViewModel.cs" />
+    <Compile Include="ViewModels\Menu\SkillMenuViewModel.cs" />
     <Compile Include="ViewModels\SolutionViewModel.cs" />
     <Compile Include="ViewModels\ControlsViewModel.cs" />
     <Compile Include="ViewModels\StatusViewModel.cs" />
     <Compile Include="ViewModels\LevelMeterViewModel.cs" />
-    <Compile Include="ViewModels\MenuBarViewModel.cs" />
+    <Compile Include="ViewModels\Menu\MenuBarViewModel.cs" />
     <Compile Include="Views\ControlsView.xaml.cs">
       <DependentUpon>ControlsView.xaml</DependentUpon>
     </Compile>
@@ -136,7 +140,7 @@
     <Compile Include="Views\LevelMeterView.xaml.cs">
       <DependentUpon>LevelMeterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MenuBarView.xaml.cs">
+    <Compile Include="Views\Menu\MenuBarView.xaml.cs">
       <DependentUpon>MenuBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SolutionView.xaml.cs">
@@ -195,7 +199,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MenuBarView.xaml">
+    <Page Include="Views\Menu\MenuBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

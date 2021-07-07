@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace GoFigure.App.Views
+namespace GoFigure.App.Views.Menu
 {
     public partial class MenuBarView : UserControl
     {

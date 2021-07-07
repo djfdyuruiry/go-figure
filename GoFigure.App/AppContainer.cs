@@ -16,6 +16,7 @@ namespace GoFigure.App
             new List<string>
             {
                 $"{RootAssemblyName}.{nameof(ViewModels)}",
+                $"{RootAssemblyName}.{nameof(ViewModels)}.{nameof(ViewModels.Menu)}",
                 $"{RootAssemblyName}.{nameof(Utils)}"
             };
 

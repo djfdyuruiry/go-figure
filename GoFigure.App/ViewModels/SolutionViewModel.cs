@@ -25,11 +25,11 @@ namespace GoFigure.App.ViewModels
         private readonly IDictionary<int, Expression<Func<string>>> _indexToSlotProperty;
         private readonly SolutionGenerator _generator;
         private readonly SolutionPlan _userSolution;
-        private readonly List<int> _hintIndicesGiven;
-
+        
         private int _currentLevel;
         private SolutionPlan _cpuSolution;
         private int _currentSlotIndex;
+        private int _hintsLeft;
         private bool _controlsEnabled;
 
         private string SlotValueOrDefault(int index)
@@ -106,7 +106,7 @@ namespace GoFigure.App.ViewModels
                 { 5, () => Slot6 },
                 { 6, () => Slot7 }
             };
-            _hintIndicesGiven = new List<int>();
+            _hintsLeft = MaxHints;
 
             _userSolution = new SolutionPlan();
         }
@@ -120,7 +120,7 @@ namespace GoFigure.App.ViewModels
             _cpuSolution = message.Solution;
 
             _userSolution.Slots.Clear();
-            _hintIndicesGiven.Clear();
+            _hintsLeft = MaxHints;
 
             for (int i = 0; i < _cpuSolution.Slots.Count; i++)
             {
@@ -180,39 +180,37 @@ namespace GoFigure.App.ViewModels
 
         private async Task ShowSolutionHint()
         {
-            if (_hintIndicesGiven.Count == _cpuSolution.Slots.Count)
+            if (_hintsLeft == 3)
             {
+                ShowHintInSolutionSlot(0);
+                ShowHintInSolutionSlot(1);
+            }
+            else if (_hintsLeft == 2)
+            {
+                ShowHintInSolutionSlot(2);
+                ShowHintInSolutionSlot(3);
+            }
+            else if (_hintsLeft == 1)
+            {
+                ShowHintInSolutionSlot(4);
+                ShowHintInSolutionSlot(5);
+
                 await PublishMessage(ZeroDataMessages.NoHintsLeft);
-                return;
             }
 
-            for (int i = 0; i < _cpuSolution.Slots.Count; i++)
+            if (_hintsLeft > 0)
             {
-                if (_hintIndicesGiven.Contains(i))
-                {
-                    continue;
-                }
-
-                ShowHintInSolutionSlot(i);
-
-                if (_hintIndicesGiven.Count == _cpuSolution.Slots.Count)
-                {
-                    await PublishMessage(ZeroDataMessages.NoHintsLeft);
-                }
-
-                return;
+                _hintsLeft--;
             }
         }
 
         private void ShowHintInSolutionSlot(int slotIndex)
         {
             _userSolution.Slots[slotIndex] = _cpuSolution.Slots[slotIndex];
-            _hintIndicesGiven.Add(slotIndex);
 
             NotifyOfPropertyChange(
                 _indexToSlotProperty[slotIndex]
             );
-            CurrentSlotIndex = slotIndex;
         }
 
         private async Task MoveToNextLevel()

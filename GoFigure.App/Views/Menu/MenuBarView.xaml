@@ -3,26 +3,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             x:Class="GoFigure.App.Views.MenuBarView">
+             x:Class="GoFigure.App.Views.Menu.MenuBarView">
     <Menu>
         <MenuItem Header="_Game">
             <MenuItem x:Name="StartNewGame" Header="_New Game" InputGestureText="F2"/>
             <MenuItem Header="_Pause" InputGestureText="F3"/>
             <MenuItem Header="_High Scores..."/>
-            
+
             <Separator/>
-            
+ 
             <MenuItem x:Name="CloseApp" Header="E_xit"/>
         </MenuItem>
         
         <MenuItem Header="_Options">
             <MenuItem Header="_Sound" IsCheckable="True" IsChecked="True"/>
-            <MenuItem Header="_Hint"/>
+            <MenuItem x:Name="ShowSolutionHint" Header="_Hint" IsEnabled="{Binding Path=HintEnabled, Mode=OneWay}"/>
             <MenuItem Header="_Clear"/>
             
             <Separator/>
-            
-            <MenuItem Header="_Operator Precedence" IsCheckable="True" IsChecked="True"/>
+    
+            <MenuItem Header="_Operator Precedence" IsCheckable="True" IsChecked="False"/>
             <MenuItem Header="_Left - Right Precedence" IsCheckable="True" IsChecked="True"/>
         </MenuItem>
         

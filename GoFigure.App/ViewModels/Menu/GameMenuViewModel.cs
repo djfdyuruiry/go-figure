@@ -1,22 +1,26 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
+
+using Caliburn.Micro;
 
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Utils;
 
-using Caliburn.Micro;
-
-namespace GoFigure.App.ViewModels
+namespace GoFigure.App.ViewModels.Menu
 {
-    class MenuBarViewModel : BaseViewModel
+    class GameMenuViewModel : OptionsMenuViewModel
     {
         private readonly SolutionGenerator _generator;
 
-        public MenuBarViewModel(IEventAggregator eventAggregator, SolutionGenerator generator) : base(eventAggregator)
+        public GameMenuViewModel(
+            IEventAggregator eventAggregator,
+            SolutionGenerator generator
+        ) : base(eventAggregator)
         {
             _generator = generator;
         }
 
-        public async void StartNewGame() => 
+        public async Task StartNewGame() =>
             await PublishMessage(
                 new NewGameStartedMessage
                 {
@@ -24,6 +28,9 @@ namespace GoFigure.App.ViewModels
                     Solution = _generator.Generate(1)
                 }
             );
+
+        public async Task PauseGame() =>
+            await PublishMessage(ZeroDataMessages.PauseGame);
 
         public void CloseApp() =>
             Application.Current.Shutdown();
