@@ -1,5 +1,4 @@
-﻿using GoFigure.App.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace GoFigure.App.Model.Solution

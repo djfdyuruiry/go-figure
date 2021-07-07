@@ -75,9 +75,17 @@ namespace GoFigure.App.ViewModels
 
         private void IncrementTime(object _, ElapsedEventArgs __)
         {
-            _currentTime = _currentTime.Add(OneSecond);
+            try
+            {
+                _currentTime = _currentTime.Add(OneSecond);
 
-            NotifyOfPropertyChange(() => Time);
+                NotifyOfPropertyChange(() => Time);
+            }
+            catch
+            {
+                // ignore timer thread errors
+                // TODO: cancel timer on 'quit'
+            }
         }
     }
 }
