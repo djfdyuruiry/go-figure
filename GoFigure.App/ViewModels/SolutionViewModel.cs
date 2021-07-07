@@ -32,26 +32,6 @@ namespace GoFigure.App.ViewModels
         private int _hintsLeft;
         private bool _controlsEnabled;
 
-        private string SlotValueOrDefault(int index)
-        {
-            if (_userSolution.Slots.Count == 0 
-                || _userSolution.Slots.Count < index)
-            {
-                return string.Empty;
-            }
-
-            var solutionSlotValue = _userSolution.Slots[index];
-
-            if (solutionSlotValue is null)
-            {
-                return string.Empty;
-            }
-
-            return solutionSlotValue is NumberSlotValue
-                ? $"{solutionSlotValue.As<NumberSlotValue>().Value}"
-                : $"{solutionSlotValue.As<OperatorSlotValue>().Value.ToCharacter()}";
-        }
-
         public string Slot1 => SlotValueOrDefault(0);
 
         public string Slot2 => SlotValueOrDefault(1);
@@ -119,19 +99,10 @@ namespace GoFigure.App.ViewModels
             _currentLevel = message.Level;
             _cpuSolution = message.Solution;
 
-            _userSolution.Slots.Clear();
             _hintsLeft = MaxHints;
 
-            for (int i = 0; i < _cpuSolution.Slots.Count; i++)
-            {
-                _userSolution.Slots.Add(null);
+            ClearSolution();
 
-                NotifyOfPropertyChange(
-                    _indexToSlotProperty[i]
-                );
-            }
-
-            CurrentSlotIndex = 0;
             NotifyOfPropertyChange(() => SolutionResult);
             ControlsEnabled = true;
         }
@@ -143,7 +114,7 @@ namespace GoFigure.App.ViewModels
             NotifyOfPropertyChange(
                 _indexToSlotProperty[CurrentSlotIndex]
             );
-
+            
             if (CurrentSlotIndex != _cpuSolution.Slots.Count - 1)
             {
                 CurrentSlotIndex++;
@@ -153,8 +124,15 @@ namespace GoFigure.App.ViewModels
         public async Task HandleAsync(ZeroDataMessages message, CancellationToken __)
         {
             if (message != ZeroDataMessages.SubmitSolution 
-                && message != ZeroDataMessages.ShowSolutionHint)
+                && message != ZeroDataMessages.ShowSolutionHint
+                && message != ZeroDataMessages.ClearSolution)
             {
+                return;
+            }
+
+            if (message == ZeroDataMessages.ClearSolution)
+            {
+                ClearSolution();
                 return;
             }
 
@@ -176,6 +154,42 @@ namespace GoFigure.App.ViewModels
             }
 
             MessageBox.Show(userMessage);
+        }
+
+        private string SlotValueOrDefault(int index)
+        {
+            if (_userSolution.Slots.Count == 0
+                || _userSolution.Slots.Count < index)
+            {
+                return string.Empty;
+            }
+
+            var solutionSlotValue = _userSolution.Slots[index];
+
+            if (solutionSlotValue is null)
+            {
+                return string.Empty;
+            }
+
+            return solutionSlotValue is NumberSlotValue
+                ? $"{solutionSlotValue.As<NumberSlotValue>().Value}"
+                : $"{solutionSlotValue.As<OperatorSlotValue>().Value.ToCharacter()}";
+        }
+
+        private void ClearSolution()
+        {
+            _userSolution.Slots.Clear();
+
+            for (int i = 0; i < _cpuSolution.Slots.Count; i++)
+            {
+                _userSolution.Slots.Add(null);
+
+                NotifyOfPropertyChange(
+                    _indexToSlotProperty[i]
+                );
+            }
+
+            CurrentSlotIndex = 0;
         }
 
         private async Task ShowSolutionHint()

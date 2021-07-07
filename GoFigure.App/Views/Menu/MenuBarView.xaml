@@ -7,7 +7,7 @@
     <Menu>
         <MenuItem Header="_Game">
             <MenuItem x:Name="StartNewGame" Header="_New Game" InputGestureText="F2"/>
-            <MenuItem Header="_Pause" InputGestureText="F3"/>
+            <MenuItem x:Name="PauseGame" Header="_Pause" InputGestureText="F3"/>
             <MenuItem Header="_High Scores..."/>
 
             <Separator/>
@@ -18,7 +18,7 @@
         <MenuItem Header="_Options">
             <MenuItem Header="_Sound" IsCheckable="True" IsChecked="True"/>
             <MenuItem x:Name="ShowSolutionHint" Header="_Hint" IsEnabled="{Binding Path=HintEnabled, Mode=OneWay}"/>
-            <MenuItem Header="_Clear"/>
+            <MenuItem x:Name="ClearSolution" Header="_Clear"/>
             
             <Separator/>
     

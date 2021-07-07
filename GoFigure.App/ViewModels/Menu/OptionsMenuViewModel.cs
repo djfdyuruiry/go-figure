@@ -31,6 +31,9 @@ namespace GoFigure.App.ViewModels.Menu
         public async void ShowSolutionHint() =>
             await PublishMessage(ZeroDataMessages.ShowSolutionHint);
 
+        public async void ClearSolution() =>
+            await PublishMessage(ZeroDataMessages.ClearSolution);
+
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _) =>
             HintEnabled = true;
 

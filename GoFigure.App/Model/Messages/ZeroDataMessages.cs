@@ -3,8 +3,9 @@
     enum ZeroDataMessages
     {
         PauseGame,
-        SubmitSolution,
+        ClearSolution,
         ShowSolutionHint,
-        NoHintsLeft
+        NoHintsLeft,
+        SubmitSolution
     }
 }
