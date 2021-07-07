@@ -1,5 +1,6 @@
 ﻿using GoFigure.App.Model;
 using GoFigure.App.Model.Solution;
+using System;
 
 namespace GoFigure.App.Utils
 {
@@ -19,39 +20,40 @@ namespace GoFigure.App.Utils
                 return 0;
             }
 
+            return ResolveSolution(solution);
+        }
+
+        private int ResolveSolution(SolutionPlan solution)
+        {
             Calculation calculation = null;
 
             foreach (var slot in solution.Slots)
             {
-                ResultFor(slot, ref calculation);
+                if (slot is null)
+                {
+                    continue;
+                }
+
+                if (calculation is null)
+                {
+                    calculation = new Calculation();
+
+                    calculation.LeftHandSide = slot.As<NumberSlotValue>().Value;
+                    continue;
+                }
+
+                if (slot is OperatorSlotValue)
+                {
+                    calculation.Operator = slot.As<OperatorSlotValue>().Value;
+                    continue;
+                }
+
+                calculation.RightHandSide = slot.As<NumberSlotValue>().Value;
+
+                calculation.LeftHandSide = _calculator.Exec(calculation);
             }
 
             return calculation?.LeftHandSide ?? 0;
-        }
-        
-        private void ResultFor(ISolutionSlotValue slot, ref Calculation calculation)
-        {
-            if (slot is null)
-            {
-                return;
-            }
-
-            if (calculation is null)
-            {
-                calculation = new Calculation();
-
-                calculation.LeftHandSide = slot.As<NumberSlotValue>().Value;
-            }
-
-            if (slot is OperatorSlotValue)
-            {
-                calculation.Operator = slot.As<OperatorSlotValue>().Value;
-                return;
-            }
-
-            calculation.RightHandSide = slot.As<NumberSlotValue>().Value;
-
-            calculation.LeftHandSide = _calculator.Exec(calculation);
         }
     }
 }
