@@ -24,49 +24,62 @@ namespace GoFigure.App.Utils
             var random = new Random();
 
             var slots = new List<ISolutionSlotValue>();
-            var current = random.Next(MinRandom, MaxRandom);
-
-            slots.Add(
-                new NumberSlotValue
-                {
-                    Value = current
-                }
-            );
+            var current = GenerateFirstSlot(slots, random);
 
             for (int i = 0; i < OperatorsPerSolution; i++)
             {
-                var randomOp = Operators[random.Next(0, Operators.Length - 1)];
-                var step = random.Next(MinRandom, MaxRandom);
-
-                var result = _calculator.Exec(current, randomOp, step);
-
-                if (result < 0)
-                {
-                    i--;
-                    continue;
-                }
-
-                slots.Add(
-                    new OperatorSlotValue()
-                    {
-                        Value = randomOp
-                    }
-                );
-
-                slots.Add(
-                    new NumberSlotValue
-                    {
-                        Value = step
-                    }
-                );
-
-                current = result;
+                GenerateNextTwoSlots(random, slots, ref current);
             }
 
             return new SolutionPlan
             {
                 Slots = slots
             };
+        }
+
+        private int GenerateFirstSlot(List<ISolutionSlotValue> slots, Random random)
+        {
+            var firstNumber = random.Next(MinRandom, MaxRandom);
+
+            slots.Add(
+                new NumberSlotValue
+                {
+                    Value = firstNumber
+                }
+            );
+
+            return firstNumber;
+        }
+
+        private void GenerateNextTwoSlots(Random random, List<ISolutionSlotValue> slots, ref int current)
+        {
+            var result = -1;
+            var step = 0;
+            var randomOp = Operator.Divide;
+
+            while (result < 0)
+            {
+                randomOp = Operators[random.Next(0, Operators.Length - 1)];
+                step = random.Next(MinRandom, MaxRandom);
+
+                result = _calculator.Exec(current, randomOp, step);
+            }
+
+            slots.Add(
+                new OperatorSlotValue()
+                {
+                    Value = randomOp
+                }
+            );
+
+            slots.Add(
+                new NumberSlotValue
+                {
+                    Value = step
+                }
+            );
+
+            current = result;
         }
     }
 }

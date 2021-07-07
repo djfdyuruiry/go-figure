@@ -21,5 +21,10 @@ namespace GoFigure.App.Utils
 
             return lhs - rhs;
         }
+
+        public int Exec(Calculation calculation) =>
+            Exec(calculation.LeftHandSide, 
+                 calculation.Operator, 
+                 calculation.RightHandSide);
     }
 }

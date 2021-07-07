@@ -14,40 +14,44 @@ namespace GoFigure.App.Utils
 
         public int ResultFor(SolutionPlan solution)
         {
-            int? result = null;
-            var op = Operator.Divide;
-            int rhs;
-
             if (solution.Slots is null)
             {
                 return 0;
             }
 
+            Calculation calculation = null;
+
             foreach (var slot in solution.Slots)
             {
-                if (slot is null)
-                {
-                    continue;
-                }
-
-                if (!result.HasValue)
-                {
-                    result = slot.As<NumberSlotValue>().Value;
-                    continue;
-                }
-
-                if (slot is OperatorSlotValue)
-                {
-                    op = slot.As<OperatorSlotValue>().Value;
-                    continue;
-                }
-
-                rhs = slot.As<NumberSlotValue>().Value;
-
-                result = _calculator.Exec(result.Value, op, rhs);
+                ResultFor(slot, ref calculation);
             }
 
-            return result ?? 0;
+            return calculation?.LeftHandSide ?? 0;
+        }
+        
+        private void ResultFor(ISolutionSlotValue slot, ref Calculation calculation)
+        {
+            if (slot is null)
+            {
+                return;
+            }
+
+            if (calculation is null)
+            {
+                calculation = new Calculation();
+
+                calculation.LeftHandSide = slot.As<NumberSlotValue>().Value;
+            }
+
+            if (slot is OperatorSlotValue)
+            {
+                calculation.Operator = slot.As<OperatorSlotValue>().Value;
+                return;
+            }
+
+            calculation.RightHandSide = slot.As<NumberSlotValue>().Value;
+
+            calculation.LeftHandSide = _calculator.Exec(calculation);
         }
     }
 }
