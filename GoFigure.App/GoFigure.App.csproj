@@ -106,11 +106,13 @@
     <Compile Include="AppContainer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Model\CharacterAttribute.cs" />
+    <Compile Include="Model\GameSettings.cs" />
     <Compile Include="Model\Messages\NewGameStartedMessage.cs" />
     <Compile Include="Model\Messages\SetSolutionSlotMessage.cs" />
     <Compile Include="Model\Messages\ZeroDataMessages.cs" />
     <Compile Include="Model\OperationExtensions.cs" />
     <Compile Include="Model\Operator.cs" />
+    <Compile Include="Model\Skill.cs" />
     <Compile Include="Model\Solution\NumberSlotValue.cs" />
     <Compile Include="Model\Solution\OperatorSlotValue.cs" />
     <Compile Include="Model\Solution\ISolutionSlotValue.cs" />

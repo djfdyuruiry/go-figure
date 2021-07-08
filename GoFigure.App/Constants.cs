@@ -7,7 +7,7 @@
         public const int MinRandom = 2;
         public const int MaxRandom = 12;
 
-        // settings
+        // game
         public const int MaxHints = 3;
 
         // user messages

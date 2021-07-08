@@ -3,6 +3,7 @@ using System.Windows;
 
 using Caliburn.Micro;
 
+using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Utils;
 
@@ -14,8 +15,9 @@ namespace GoFigure.App.ViewModels.Menu
 
         public GameMenuViewModel(
             IEventAggregator eventAggregator,
-            SolutionGenerator generator
-        ) : base(eventAggregator)
+            SolutionGenerator generator,
+            GameSettings gameSettings
+        ) : base(eventAggregator, gameSettings)
         {
             _generator = generator;
         }

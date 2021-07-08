@@ -6,8 +6,12 @@
              x:Class="GoFigure.App.Views.Menu.MenuBarView">
     <Menu>
         <MenuItem Header="_Game">
-            <MenuItem x:Name="StartNewGame" Header="_New Game" InputGestureText="F2"/>
-            <MenuItem x:Name="PauseGame" Header="_Pause" InputGestureText="F3"/>
+            <MenuItem x:Name="StartNewGame"
+                      Header="_New Game"
+                      InputGestureText="F2"/>
+            <MenuItem x:Name="PauseGame"
+                      Header="_Pause"
+                      InputGestureText="F3"/>
             <MenuItem Header="_High Scores..."/>
 
             <Separator/>
@@ -16,20 +20,41 @@
         </MenuItem>
         
         <MenuItem Header="_Options">
-            <MenuItem Header="_Sound" IsCheckable="True" IsChecked="True"/>
-            <MenuItem x:Name="ShowSolutionHint" Header="_Hint" IsEnabled="{Binding Path=HintEnabled, Mode=OneWay}"/>
-            <MenuItem x:Name="ClearSolution" Header="_Clear"/>
+            <MenuItem x:Name="ToggleSound"
+                      Header="_Sound"
+                      IsCheckable="True"
+                      IsChecked="{Binding Path=SoundEnabled, Mode=OneWay}"/>
+            <MenuItem x:Name="ShowSolutionHint"
+                      Header="_Hint"
+                      IsEnabled="{Binding Path=HintEnabled, Mode=OneWay}"/>
+            <MenuItem x:Name="ClearSolution"
+                      Header="_Clear"/>
             
             <Separator/>
-    
-            <MenuItem Header="_Operator Precedence" IsCheckable="True" IsChecked="False"/>
-            <MenuItem Header="_Left - Right Precedence" IsCheckable="True" IsChecked="True"/>
+
+            <MenuItem x:Name="UseOperatorPrecedence"
+                      Header="_Operator Precedence"
+                      IsCheckable="True"
+                      IsChecked="{Binding Path=OperatorPrecedence, Mode=OneWay}"/>
+            <MenuItem x:Name="UseLeftToRightPrecedence"
+                      Header="_Left - Right Precedence"
+                      IsCheckable="True"
+                      IsChecked="{Binding Path=LeftToRightPrecedence, Mode=OneWay}"/>
         </MenuItem>
         
         <MenuItem Header="_Skill">
-            <MenuItem Header="_Beginner" IsCheckable="True" IsChecked="True"/>
-            <MenuItem Header="_Intermediate" IsCheckable="True" IsChecked="False"/>
-            <MenuItem Header="_Expert" IsCheckable="True" IsChecked="False"/>
+            <MenuItem x:Name="UseBeginnerSkill"
+                      Header="_Beginner"
+                      IsCheckable="True"
+                      IsChecked="{Binding Path=BeginnerSkill, Mode=OneWay}"/>
+            <MenuItem x:Name="UseIntermediateSkill"
+                      Header="_Intermediate"
+                      IsCheckable="True"
+                      IsChecked="{Binding Path=IntermediateSkill, Mode=OneWay}"/>
+            <MenuItem x:Name="UseExpertSkill"
+                      Header="_Expert"
+                      IsCheckable="True"
+                      IsChecked="{Binding Path=ExpertSkill, Mode=OneWay}"/>
         </MenuItem>
         
         <MenuItem Header="_Help">

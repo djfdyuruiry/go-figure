@@ -1,8 +1,11 @@
-﻿using Caliburn.Micro;
-using SimpleInjector;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+
+using Caliburn.Micro;
+using SimpleInjector;
+
+using GoFigure.App.Model;
 
 namespace GoFigure.App
 {
@@ -12,6 +15,7 @@ namespace GoFigure.App
             Assembly.GetExecutingAssembly()
                 .GetName()
                 .Name;
+
         private static readonly IList<string> NamespacesToAutoRegister =
             new List<string>
             {
@@ -20,17 +24,17 @@ namespace GoFigure.App
                 $"{RootAssemblyName}.{nameof(Utils)}"
             };
 
+        public AppContainer()
+        {
+            Options.ResolveUnregisteredConcreteTypes = true;
+            Options.DefaultLifestyle = Lifestyle.Transient;
+        }
+
         public void Configure()
         {
             RegisterSingleton<IWindowManager, WindowManager>();
             RegisterSingleton<IEventAggregator, EventAggregator>();
-
-            GetType().Assembly
-                .GetTypes()
-                .Where(t => NamespacesToAutoRegister.Any(t.FullName.StartsWith))
-                .Where(t => t.IsClass && !t.IsAbstract)
-                .ToList()
-                .ForEach(Register);
+            RegisterSingleton<GameSettings>();
 
             Verify();
         }

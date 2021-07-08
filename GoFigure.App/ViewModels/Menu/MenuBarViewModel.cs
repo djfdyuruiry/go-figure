@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 
+using GoFigure.App.Model;
 using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels.Menu
@@ -8,8 +9,9 @@ namespace GoFigure.App.ViewModels.Menu
     {
         public MenuBarViewModel(
             IEventAggregator eventAggregator,
-            SolutionGenerator generator
-        ) : base(eventAggregator, generator)
+            SolutionGenerator generator,
+            GameSettings gameSettings
+        ) : base(eventAggregator, generator, gameSettings)
         {
         }
     }
