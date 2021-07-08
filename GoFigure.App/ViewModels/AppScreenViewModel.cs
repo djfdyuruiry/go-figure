@@ -9,20 +9,12 @@ namespace GoFigure.App.ViewModels
 {
     class AppScreenViewModel : Screen
     {
-        private SolutionGenerator _generator;
-
         public MenuBarViewModel MenuBar { get; private set; }
 
         public GameViewModel Game { get; private set; }
 
-        public AppScreenViewModel(
-            SolutionGenerator generator,
-            MenuBarViewModel menuBar,
-            GameViewModel game
-        )
+        public AppScreenViewModel(MenuBarViewModel menuBar, GameViewModel game)
         {
-            _generator = generator;
-
             MenuBar = menuBar;
             Game = game;
         }
@@ -35,11 +27,11 @@ namespace GoFigure.App.ViewModels
             }
             else if (e.Key == Key.F2)
             {
-                await MenuBar.StartNewGame();
+                await MenuBar.PublishNewGameMessage();
             }
             else if (e.Key == Key.F3)
             {
-                await MenuBar.PauseGame();
+                await MenuBar.PublishPauseGameMessage();
             }
         }
     }

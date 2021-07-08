@@ -10,7 +10,7 @@ namespace GoFigure.App.ViewModels.Menu
 {
     class SkillMenuViewModel : HelpMenuViewModel, IHandle<ZeroDataMessages>
     {
-        private readonly GameSettings _gameSettings;
+        protected readonly GameSettings _gameSettings;
 
         public bool BeginnerSkill => _gameSettings.CurrentSkill == Skill.Beginner;
 

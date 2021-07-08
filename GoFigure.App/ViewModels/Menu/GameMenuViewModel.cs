@@ -22,7 +22,10 @@ namespace GoFigure.App.ViewModels.Menu
             _generator = generator;
         }
 
-        public async Task StartNewGame() =>
+        public async void StartNewGame() =>
+            await PublishNewGameMessage();
+
+        public async Task PublishNewGameMessage() =>
             await PublishMessage(
                 new NewGameStartedMessage
                 {
@@ -31,7 +34,10 @@ namespace GoFigure.App.ViewModels.Menu
                 }
             );
 
-        public async Task PauseGame() =>
+        public async void PauseGame() =>
+            await PublishPauseGameMessage();
+
+        public async Task PublishPauseGameMessage() =>
             await PublishMessage(ZeroDataMessages.PauseGame);
 
         public void CloseApp() =>

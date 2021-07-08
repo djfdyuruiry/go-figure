@@ -1,6 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GoFigure.App.Service;
-using System;
+﻿using System;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using GoFigure.App.Utils;
 
 namespace GoFigure.Tests
 {
@@ -10,10 +12,9 @@ namespace GoFigure.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            var svc = new SolutionService();
+            var svc = new SolutionGenerator(new Calculator());
 
-            var result = svc.Generate();
-
+            var result = svc.Generate(1);
 
             Console.WriteLine("Wa");
         }

@@ -12,8 +12,6 @@ namespace GoFigure.App.ViewModels.Menu
                                  IHandle<NewGameStartedMessage>,
                                  IHandle<ZeroDataMessages>
     {
-        private readonly GameSettings _gameSettings;
-
         private bool _hintEnabled;
 
         public bool SoundEnabled => _gameSettings.SoundEnabled;
@@ -36,8 +34,9 @@ namespace GoFigure.App.ViewModels.Menu
         public OptionsMenuViewModel(
             IEventAggregator eventAggregator,
             GameSettings gameSettings
-        ) : base(eventAggregator, gameSettings) =>
-            _gameSettings = gameSettings;
+        ) : base(eventAggregator, gameSettings)
+        {
+        }
 
         public async void ToggleSound()
         {
