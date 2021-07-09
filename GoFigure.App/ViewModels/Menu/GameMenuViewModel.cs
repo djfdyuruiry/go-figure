@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 using Caliburn.Micro;
@@ -9,9 +10,22 @@ using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    class GameMenuViewModel : OptionsMenuViewModel
+    class GameMenuViewModel : OptionsMenuViewModel, IHandle<NewGameStartedMessage>
     {
         private readonly SolutionGenerator _generator;
+
+        private bool _canPause;
+
+        public bool CanPause
+        {
+            get => _canPause;
+            set
+            {
+                _canPause = value;
+
+                NotifyOfPropertyChange(() => CanPause);
+            }
+        }
 
         public GameMenuViewModel(
             IEventAggregator eventAggregator,
@@ -42,5 +56,12 @@ namespace GoFigure.App.ViewModels.Menu
 
         public void CloseApp() =>
             Application.Current.Shutdown();
+
+        public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
+        {
+            await base.HandleAsync(message, _);
+
+            CanPause = true;
+        }
     }
 }

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 
+using Caliburn.Micro;
+
 using GoFigure.App.ViewModels;
 using GoFigure.App.ViewModels.Menu;
 using GoFigure.App.Views;
-
-using Caliburn.Micro;
 
 namespace GoFigure.App
 {

@@ -11,6 +11,7 @@
                       InputGestureText="F2"/>
             <MenuItem x:Name="PauseGame"
                       Header="_Pause"
+                      IsEnabled="{Binding Path=CanPause, Mode=OneWay}"
                       InputGestureText="F3"/>
             <MenuItem Header="_High Scores..."/>
 

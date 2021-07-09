@@ -12,13 +12,16 @@ using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels
 {
-    class StatusViewModel : BaseViewModel, IHandle<NewGameStartedMessage>
+    class StatusViewModel : BaseViewModel,
+                            IHandle<NewGameStartedMessage>,
+                            IHandle<ZeroDataMessages>
     {
         private static readonly TimeSpan OneSecond = new TimeSpan(TicksPerSecond);
 
         private readonly SolutionComputer _computer;
 
         private int _score;
+        private bool _timerRunning;
         private System.Timers.Timer _timer;
         private TimeSpan _currentTime;
         private int _target;
@@ -59,10 +62,30 @@ namespace GoFigure.App.ViewModels
             SetupTimer();
         }
 
+        public async Task HandleAsync(ZeroDataMessages message, CancellationToken _)
+        {
+            if (message != ZeroDataMessages.PauseGame)
+            {
+                return;
+            }
+
+            if (_timerRunning)
+            {
+                _timer.Stop();
+                _timerRunning = false;
+            }
+            else
+            {
+                _timer.Start();
+                _timerRunning = true;
+            }
+        }
+
         private void SetupTimer()
         {
             _timer?.Stop();
             _timer?.Dispose();
+            _timerRunning = false;
 
             _currentTime = new TimeSpan();
             _timer = new System.Timers.Timer(1000);
@@ -70,7 +93,9 @@ namespace GoFigure.App.ViewModels
             _timer.Elapsed += IncrementTime;
 
             NotifyOfPropertyChange(() => Time);
+
             _timer.Start();
+            _timerRunning = true;
         }
 
         private void IncrementTime(object _, ElapsedEventArgs __)
