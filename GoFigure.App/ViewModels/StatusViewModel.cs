@@ -14,7 +14,7 @@ namespace GoFigure.App.ViewModels
 {
     class StatusViewModel : BaseViewModel,
                             IHandle<NewGameStartedMessage>,
-                            IHandle<ZeroDataMessages>
+                            IHandle<ZeroDataMessage>
     {
         private static readonly TimeSpan OneSecond = new TimeSpan(TicksPerSecond);
 
@@ -62,19 +62,26 @@ namespace GoFigure.App.ViewModels
             SetupTimer();
         }
 
-        public async Task HandleAsync(ZeroDataMessages message, CancellationToken _)
+        public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {
-            if (message != ZeroDataMessages.PauseGame)
+            if (message != ZeroDataMessage.PauseGame
+                && message != ZeroDataMessage.ResumeGame)
             {
                 return;
             }
 
-            if (_timerRunning)
+            if (message == ZeroDataMessage.PauseGame)
             {
-                _timer.Stop();
-                _timerRunning = false;
+                if (_timerRunning)
+                {
+                    _timer.Stop();
+                    _timerRunning = false;
+                }
+
+                return;
             }
-            else
+
+            if (!_timerRunning)
             {
                 _timer.Start();
                 _timerRunning = true;

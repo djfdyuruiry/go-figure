@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace GoFigure.App.ViewModels
     class SolutionViewModel : BaseViewModel,
                               IHandle<NewGameStartedMessage>,
                               IHandle<SetSolutionSlotMessage>,
-                              IHandle<ZeroDataMessages>
+                              IHandle<ZeroDataMessage>
     {
         private readonly SolutionComputer _computer;
         private readonly IDictionary<int, Expression<Func<string>>> _indexToSlotProperty;
@@ -28,6 +29,7 @@ namespace GoFigure.App.ViewModels
         
         private int _currentLevel;
         private SolutionPlan _cpuSolution;
+        private IDictionary<int, int> _cpuSolutionNumbers;
         private int _currentSlotIndex;
         private int _hintsLeft;
         private bool _controlsEnabled;
@@ -97,7 +99,11 @@ namespace GoFigure.App.ViewModels
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
             _currentLevel = message.Level;
+
             _cpuSolution = message.Solution;
+            _cpuSolutionNumbers = _cpuSolution.AvailableNumbers
+                .GroupBy(n => n)
+                .ToDictionary(g => g.Key, g => g.Count());
 
             _hintsLeft = MaxHints;
 
@@ -109,6 +115,11 @@ namespace GoFigure.App.ViewModels
 
         public async Task HandleAsync(SetSolutionSlotMessage message, CancellationToken _)
         {
+            if (AllValueInstancesAreInUse(message.Value))
+            {
+                return;
+            }
+
             _userSolution.Slots[CurrentSlotIndex] = message.Value;
 
             NotifyOfPropertyChange(
@@ -121,39 +132,57 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public async Task HandleAsync(ZeroDataMessages message, CancellationToken __)
+        public async Task HandleAsync(ZeroDataMessage message, CancellationToken __)
         {
-            if (message != ZeroDataMessages.SubmitSolution 
-                && message != ZeroDataMessages.ShowSolutionHint
-                && message != ZeroDataMessages.ClearSolution)
+            if (message != ZeroDataMessage.SubmitSolution 
+                && message != ZeroDataMessage.ShowSolutionHint
+                && message != ZeroDataMessage.ClearSolution)
             {
                 return;
             }
 
-            if (message == ZeroDataMessages.ClearSolution)
+            if (message == ZeroDataMessage.ClearSolution)
             {
                 ClearSolution();
                 return;
             }
 
-            if (message == ZeroDataMessages.ShowSolutionHint)
+            if (message == ZeroDataMessage.ShowSolutionHint)
             {
                 await ShowSolutionHint();
                 return;
             }
 
-            NotifyOfPropertyChange(() => SolutionResult);
+            await CheckIfSolutionValid();
+        }
 
-            var userMessage = IncorrectSolutionMessage;
+        private bool AllValueInstancesAreInUse(ISolutionSlotValue value)
+        {
+            var numberSlotValue = value as NumberSlotValue;
 
-            if (_computer.ResultFor(_userSolution) == _computer.ResultFor(_cpuSolution))
+            if (_cpuSolutionNumbers is null || numberSlotValue is null)
             {
-                userMessage = CorrectSolutionMessage;
-
-                await MoveToNextLevel();
+                return false;
             }
 
-            MessageBox.Show(userMessage);
+            var number = numberSlotValue.Value;
+            var userNumberCounts = _userSolution.AvailableNumbers
+                .GroupBy(n => n)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            if (!userNumberCounts.ContainsKey(number)
+                || userNumberCounts[number] < 1)
+            {
+                return false;
+            }
+
+            var remainingCounts = userNumberCounts.ToDictionary(
+                kvp => kvp.Key,
+                kvp => _cpuSolutionNumbers[kvp.Key] - kvp.Value
+            );
+
+            return !remainingCounts.ContainsKey(number)
+                || remainingCounts[number] < 1;
         }
 
         private string SlotValueOrDefault(int index)
@@ -209,7 +238,7 @@ namespace GoFigure.App.ViewModels
                 ShowHintInSolutionSlot(4);
                 ShowHintInSolutionSlot(5);
 
-                await PublishMessage(ZeroDataMessages.NoHintsLeft);
+                await PublishMessage(ZeroDataMessage.NoHintsLeft);
             }
 
             if (_hintsLeft > 0)
@@ -225,6 +254,35 @@ namespace GoFigure.App.ViewModels
             NotifyOfPropertyChange(
                 _indexToSlotProperty[slotIndex]
             );
+        }
+
+        private async Task CheckIfSolutionValid()
+        {
+            var userSolutionIsWellFormed = _userSolution.IsWellFormed;
+            var solutionValid = userSolutionIsWellFormed
+                && _userSolution.Slots.Count == _userSolution.Slots.Count
+                && _computer.ResultFor(_userSolution) == _computer.ResultFor(_cpuSolution);
+            var userMessage = solutionValid 
+                ? CorrectSolutionMessage
+                : IncorrectSolutionMessage;
+
+            if (userSolutionIsWellFormed)
+            {
+                NotifyOfPropertyChange(() => SolutionResult);
+            }
+
+            await PublishMessage(ZeroDataMessage.PauseGame);
+
+            MessageBox.Show(MessageBoxHeader, userMessage, MessageBoxButton.OK);
+
+            if (!solutionValid)
+            {
+                await PublishMessage(ZeroDataMessage.ResumeGame);
+
+                return;
+            }
+
+            await MoveToNextLevel();
         }
 
         private async Task MoveToNextLevel()

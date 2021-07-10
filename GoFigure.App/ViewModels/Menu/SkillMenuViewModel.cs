@@ -8,7 +8,7 @@ using GoFigure.App.Model.Messages;
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    class SkillMenuViewModel : HelpMenuViewModel, IHandle<ZeroDataMessages>
+    class SkillMenuViewModel : HelpMenuViewModel, IHandle<ZeroDataMessage>
     {
         protected readonly GameSettings _gameSettings;
 
@@ -39,12 +39,12 @@ namespace GoFigure.App.ViewModels.Menu
         {
             _gameSettings.CurrentSkill = skill;
 
-            await PublishMessage(ZeroDataMessages.GameSettingsChanged);
+            await PublishMessage(ZeroDataMessage.GameSettingsChanged);
         }
 
-        public async Task HandleAsync(ZeroDataMessages message, CancellationToken _)
+        public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {
-            if (message != ZeroDataMessages.GameSettingsChanged)
+            if (message != ZeroDataMessage.GameSettingsChanged)
             {
                 return;
             }

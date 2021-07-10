@@ -9,7 +9,7 @@
             <MenuItem x:Name="StartNewGame"
                       Header="_New Game"
                       InputGestureText="F2"/>
-            <MenuItem x:Name="PauseGame"
+            <MenuItem x:Name="PauseOrResumeGame"
                       Header="_Pause"
                       IsEnabled="{Binding Path=CanPause, Mode=OneWay}"
                       InputGestureText="F3"/>

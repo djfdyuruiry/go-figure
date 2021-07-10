@@ -109,7 +109,7 @@
     <Compile Include="Model\GameSettings.cs" />
     <Compile Include="Model\Messages\NewGameStartedMessage.cs" />
     <Compile Include="Model\Messages\SetSolutionSlotMessage.cs" />
-    <Compile Include="Model\Messages\ZeroDataMessages.cs" />
+    <Compile Include="Model\Messages\ZeroDataMessage.cs" />
     <Compile Include="Model\OperationExtensions.cs" />
     <Compile Include="Model\Operator.cs" />
     <Compile Include="Model\Skill.cs" />

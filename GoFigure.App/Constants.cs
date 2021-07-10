@@ -11,6 +11,7 @@
         public const int MaxHints = 3;
 
         // user messages
+        public const string MessageBoxHeader = "Go Figure!";
         public const string IncorrectSolutionMessage = "Solution Incorrect! Please try again";
         public const string CorrectSolutionMessage = "Solution correct! Moving to next level";
     }

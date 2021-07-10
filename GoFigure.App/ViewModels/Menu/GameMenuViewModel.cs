@@ -10,10 +10,13 @@ using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    class GameMenuViewModel : OptionsMenuViewModel, IHandle<NewGameStartedMessage>
+    class GameMenuViewModel : OptionsMenuViewModel,
+                              IHandle<NewGameStartedMessage>,
+                              IHandle<ZeroDataMessage>
     {
         private readonly SolutionGenerator _generator;
 
+        private bool _gamePaused;
         private bool _canPause;
 
         public bool CanPause
@@ -48,11 +51,19 @@ namespace GoFigure.App.ViewModels.Menu
                 }
             );
 
-        public async void PauseGame() =>
-            await PublishPauseGameMessage();
+        public async void PauseOrResumeGame() =>
+            await PublishPauseOrResumeGameMessage();
 
-        public async Task PublishPauseGameMessage() =>
-            await PublishMessage(ZeroDataMessages.PauseGame);
+        public async Task PublishPauseOrResumeGameMessage()
+        {
+            if (_gamePaused)
+            {
+                await PublishMessage(ZeroDataMessage.ResumeGame);
+                return;
+            }
+
+            await PublishMessage(ZeroDataMessage.PauseGame);
+        }
 
         public void CloseApp() =>
             Application.Current.Shutdown();
@@ -62,6 +73,19 @@ namespace GoFigure.App.ViewModels.Menu
             await base.HandleAsync(message, _);
 
             CanPause = true;
+        }
+
+        public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
+        {
+            await base.HandleAsync(message, _);
+
+            if (message != ZeroDataMessage.PauseGame
+                && message != ZeroDataMessage.ResumeGame)
+            {
+                return;
+            }
+
+            _gamePaused = message == ZeroDataMessage.PauseGame;
         }
     }
 }

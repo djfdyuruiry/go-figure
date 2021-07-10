@@ -2,7 +2,6 @@
 
 using Caliburn.Micro;
 
-using GoFigure.App.Utils;
 using GoFigure.App.ViewModels.Menu;
 
 namespace GoFigure.App.ViewModels
@@ -31,7 +30,7 @@ namespace GoFigure.App.ViewModels
             }
             else if (e.Key == Key.F3)
             {
-                await MenuBar.PublishPauseGameMessage();
+                await MenuBar.PublishPauseOrResumeGameMessage();
             }
         }
     }

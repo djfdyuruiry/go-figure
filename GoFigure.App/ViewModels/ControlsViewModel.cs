@@ -12,16 +12,11 @@ using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels
 {
-    class ControlsViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<ZeroDataMessages>
+    class ControlsViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<ZeroDataMessage>
     {
         private IList<int> _numbers;
         private bool _controlsEnabled;
         private bool _hintEnabled;
-
-        private string NumberOrDefault(int index) =>
-            _numbers.Count == 0 || _numbers.Count - 1 < index
-                ? string.Empty
-                : $"{_numbers[index]}";
 
         public string Number1 => NumberOrDefault(0);
 
@@ -84,10 +79,10 @@ namespace GoFigure.App.ViewModels
             );
 
         public async void SubmitSolution() =>
-            await PublishMessage(ZeroDataMessages.SubmitSolution);
+            await PublishMessage(ZeroDataMessage.SubmitSolution);
 
         public async void ShowSolutionHint() =>
-            await PublishMessage(ZeroDataMessages.ShowSolutionHint);
+            await PublishMessage(ZeroDataMessage.ShowSolutionHint);
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
@@ -105,14 +100,19 @@ namespace GoFigure.App.ViewModels
             HintEnabled = true;
         }
 
-        public async Task HandleAsync(ZeroDataMessages message, CancellationToken _)
+        public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {
-            if (message != ZeroDataMessages.NoHintsLeft)
+            if (message != ZeroDataMessage.NoHintsLeft)
             {
                 return;
             }
 
             HintEnabled = false;
         }
+
+        private string NumberOrDefault(int index) =>
+            _numbers.Count == 0 || _numbers.Count - 1 < index
+                ? string.Empty
+                : $"{_numbers[index]}";
     }
 }

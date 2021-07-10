@@ -1,9 +1,10 @@
 ﻿namespace GoFigure.App.Model.Messages
 {
-    enum ZeroDataMessages
+    enum ZeroDataMessage
     {
         GameSettingsChanged,
         PauseGame,
+        ResumeGame,
         ClearSolution,
         ShowSolutionHint,
         NoHintsLeft,

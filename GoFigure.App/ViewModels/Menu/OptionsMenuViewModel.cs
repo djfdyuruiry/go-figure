@@ -10,7 +10,7 @@ namespace GoFigure.App.ViewModels.Menu
 {
     class OptionsMenuViewModel : SkillMenuViewModel,
                                  IHandle<NewGameStartedMessage>,
-                                 IHandle<ZeroDataMessages>
+                                 IHandle<ZeroDataMessage>
     {
         private bool _hintEnabled;
 
@@ -42,14 +42,14 @@ namespace GoFigure.App.ViewModels.Menu
         {
             _gameSettings.SoundEnabled = !_gameSettings.SoundEnabled;
 
-            await PublishMessage(ZeroDataMessages.GameSettingsChanged);
+            await PublishMessage(ZeroDataMessage.GameSettingsChanged);
         }
 
         public async void ShowSolutionHint() =>
-            await PublishMessage(ZeroDataMessages.ShowSolutionHint);
+            await PublishMessage(ZeroDataMessage.ShowSolutionHint);
 
         public async void ClearSolution() =>
-            await PublishMessage(ZeroDataMessages.ClearSolution);
+            await PublishMessage(ZeroDataMessage.ClearSolution);
 
         public async void UseOperatorPrecedence() =>
             await SetOperatorPrecendence(true);
@@ -60,17 +60,17 @@ namespace GoFigure.App.ViewModels.Menu
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _) =>
             HintEnabled = true;
 
-        public async Task HandleAsync(ZeroDataMessages message, CancellationToken _)
+        public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {
             await base.HandleAsync(message, _);
 
-            if (message != ZeroDataMessages.NoHintsLeft
-                && message != ZeroDataMessages.GameSettingsChanged)
+            if (message != ZeroDataMessage.NoHintsLeft
+                && message != ZeroDataMessage.GameSettingsChanged)
             {
                 return;
             }
 
-            if (message == ZeroDataMessages.GameSettingsChanged)
+            if (message == ZeroDataMessage.GameSettingsChanged)
             {
                 NotifyOfPropertyChange(() => SoundEnabled);
                 NotifyOfPropertyChange(() => OperatorPrecedence);
@@ -86,7 +86,7 @@ namespace GoFigure.App.ViewModels.Menu
         {
             _gameSettings.UseOperatorPrecedence = onFlag;
 
-            await PublishMessage(ZeroDataMessages.GameSettingsChanged);
+            await PublishMessage(ZeroDataMessage.GameSettingsChanged);
         }
     }
 }
