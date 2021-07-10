@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GoFigure.App.Model;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Model.Solution;
+using GoFigure.App.Utils;
 
 using static GoFigure.App.Constants;
 
@@ -35,14 +36,23 @@ namespace GoFigure.App.Utils
             var solution = new SolutionPlan();
             var result = 0;
 
+            // generate solutions until target is within bounds
             while (result < skillLevel.MinTarget || result > skillLevel.MaxTarget)
             { 
                 var slots = new List<ISolutionSlotValue>();
                 var current = GenerateFirstSlot(slots, random, skillLevel, level);
+                var operatorCounts = new Dictionary<Operator, int>();
 
                 for (int i = 0; i < OperatorsPerSolution; i++)
                 {
-                    GenerateNextTwoSlots(random, slots, skillLevel, level, ref current);
+                    GenerateNextTwoSlots(
+                        random,
+                        slots,
+                        skillLevel,
+                        level,
+                        ref current,
+                        operatorCounts
+                    );
                 }
 
                 solution = new SolutionPlan
@@ -80,25 +90,36 @@ namespace GoFigure.App.Utils
             List<ISolutionSlotValue> slots,
             SkillRules skillLevel,
             int level,
-            ref int current
+            ref int current,
+            IDictionary<Operator, int> operatorCounts
         )
         {
             var result = -1;
             var step = 0;
-            var randomOp = Operator.Divide;
+            Operator? randomOp = null;
 
             while (result < 0)
             {
-                randomOp = Operators[random.Next(0, Operators.Length - 1)];
+                // pick a random operator that is not present, or is only present once
+                while (
+                    !randomOp.HasValue 
+                    || operatorCounts.GetOrSet(randomOp.Value, 0) > 1
+                )
+                {
+                    randomOp = Operators[random.Next(0, Operators.Length - 1)];
+                }
+
+                operatorCounts[randomOp.Value]++;
+
                 step = random.Next(skillLevel.MinRandom, skillLevel.MaxRandom);
 
-                result = _calculator.Exec(current, randomOp, step);
+                result = _calculator.Exec(current, randomOp.Value, step);
             }
 
             slots.Add(
                 new OperatorSlotValue()
                 {
-                    Value = randomOp
+                    Value = randomOp.Value
                 }
             );
 
