@@ -74,7 +74,9 @@ namespace GoFigure.App.ViewModels
         {
             if (!message.IsOneOf(
                 ZeroDataMessage.PauseGame,
-                ZeroDataMessage.ResumeGame
+                ZeroDataMessage.ResumeGame,
+                ZeroDataMessage.PauseTimer,
+                ZeroDataMessage.ResumeTimer
             ))
             {
                 return;
@@ -82,25 +84,27 @@ namespace GoFigure.App.ViewModels
 
             if (message is ZeroDataMessage.PauseGame)
             {
-                if (_timerRunning)
-                {
-                    _timer.Stop();
-                    _timerRunning = false;
-                }
+                PauseTimer();
 
                 Score = ScorePlaceholder;
                 Target = TargetPlaceholder;
 
                 return;
             }
-
-            Score = $"{_gameScore}";
-            Target = $"{_solutionTarget}";
-
-            if (!_timerRunning)
+            else if (message is ZeroDataMessage.ResumeGame)
             {
-                _timer.Start();
-                _timerRunning = true;
+                Score = $"{_gameScore}";
+                Target = $"{_solutionTarget}";
+
+                ResumeTimer();
+            }
+            else if (message is ZeroDataMessage.PauseTimer)
+            {
+                PauseTimer();
+            }
+            else if (message is ZeroDataMessage.ResumeTimer)
+            {
+                ResumeTimer();
             }
         }
 
@@ -117,8 +121,7 @@ namespace GoFigure.App.ViewModels
 
             NotifyOfPropertyChange(() => Time);
 
-            _timer.Start();
-            _timerRunning = true;
+            ResumeTimer();
         }
 
         private void IncrementTime(object _, ElapsedEventArgs __)
@@ -133,6 +136,24 @@ namespace GoFigure.App.ViewModels
             {
                 // ignore timer thread errors
                 // TODO: cancel timer on 'quit'
+            }
+        }
+
+        private void PauseTimer()
+        {
+            if (_timerRunning)
+            {
+                _timer.Stop();
+                _timerRunning = false;
+            }
+        }
+
+        private void ResumeTimer()
+        {
+            if (!_timerRunning)
+            {
+                _timer.Start();
+                _timerRunning = true;
             }
         }
     }

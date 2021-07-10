@@ -316,13 +316,13 @@ namespace GoFigure.App.ViewModels
                 NotifyOfPropertyChange(() => SolutionResult);
             }
 
-            await PublishMessage(ZeroDataMessage.PauseGame);
+            await PublishMessage(ZeroDataMessage.PauseTimer);
 
             _messageBoxManager.ShowInformation(userMessage);
 
             if (!solutionValid)
             {
-                await PublishMessage(ZeroDataMessage.ResumeGame);
+                await PublishMessage(ZeroDataMessage.ResumeTimer);
 
                 return;
             }

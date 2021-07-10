@@ -5,6 +5,8 @@
         GameSettingsChanged,
         PauseGame,
         ResumeGame,
+        PauseTimer,
+        ResumeTimer,
         ClearSolution,
         ShowSolutionHint,
         NoHintsLeft,
