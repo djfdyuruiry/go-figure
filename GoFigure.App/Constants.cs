@@ -62,6 +62,7 @@ namespace GoFigure.App
 
         // user messages
         public const string MessageBoxHeader = "Go Figure!";
+        public const string TooManyNumberUsesMessage = "Each number must be used once! Please try again";
         public const string IncorrectSolutionMessage = "Solution Incorrect! Please try again";
         public const string CorrectSolutionMessage = "Solution correct! Moving to next level";
     }

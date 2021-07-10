@@ -16,5 +16,13 @@ namespace GoFigure.App.Utils
                 OK,
                 Information
             );
+
+        public void ShowWarning(string message) =>
+            MessageBox.Show(
+                message,
+                MessageBoxHeader,
+                OK,
+                Warning
+            );
     }
 }

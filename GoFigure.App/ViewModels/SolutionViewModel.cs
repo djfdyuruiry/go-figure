@@ -150,11 +150,6 @@ namespace GoFigure.App.ViewModels
 
         public async Task HandleAsync(SetSolutionSlotMessage message, CancellationToken _)
         {
-            if (AllValueInstancesAreInUse(message.Value))
-            {
-                return;
-            }
-
             _userSolution.Slots[CurrentSlotIndex] = message.Value;
 
             NotifyOfPropertyChange(
@@ -199,35 +194,6 @@ namespace GoFigure.App.ViewModels
                     : DefaultSlotBackground;
                 _ignoreControls = message is ZeroDataMessage.PauseGame;
             }
-        }
-
-        private bool AllValueInstancesAreInUse(ISolutionSlotValue value)
-        {
-            var numberSlotValue = value as NumberSlotValue;
-
-            if (_cpuSolutionNumbers is null || numberSlotValue is null)
-            {
-                return false;
-            }
-
-            var number = numberSlotValue.Value;
-            var userNumberCounts = _userSolution.AvailableNumbers
-                .GroupBy(n => n)
-                .ToDictionary(g => g.Key, g => g.Count());
-
-            if (!userNumberCounts.ContainsKey(number)
-                || userNumberCounts[number] < 1)
-            {
-                return false;
-            }
-
-            var remainingCounts = userNumberCounts.ToDictionary(
-                kvp => kvp.Key,
-                kvp => _cpuSolutionNumbers[kvp.Key] - kvp.Value
-            );
-
-            return !remainingCounts.ContainsKey(number)
-                || remainingCounts[number] < 1;
         }
 
         private string SlotValueOrDefault(int index)
@@ -303,6 +269,15 @@ namespace GoFigure.App.ViewModels
 
         private async Task CheckIfSolutionValid()
         {
+            if (!CheckNumberUseCountCorrect())
+            {
+                await PublishMessage(ZeroDataMessage.PauseTimer);
+                _messageBoxManager.ShowWarning(TooManyNumberUsesMessage);
+                await PublishMessage(ZeroDataMessage.ResumeTimer);
+
+                return;
+            }
+
             var userSolutionIsWellFormed = _userSolution.IsWellFormed;
             var solutionValid = userSolutionIsWellFormed
                 && _userSolution.Slots.Count == _userSolution.Slots.Count
@@ -328,6 +303,25 @@ namespace GoFigure.App.ViewModels
             }
 
             await MoveToNextLevel();
+        }
+
+        private bool CheckNumberUseCountCorrect()
+        {
+            if (_cpuSolutionNumbers is null)
+            {
+                return true;
+            }
+
+            var userNumberCounts = _userSolution.AvailableNumbers
+                .GroupBy(n => n)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var remainingCounts = userNumberCounts.ToDictionary(
+                kvp => kvp.Key,
+                kvp => _cpuSolutionNumbers[kvp.Key] - kvp.Value
+            );
+
+            return remainingCounts.All(kvp => kvp.Value == 0);
         }
 
         private async Task MoveToNextLevel()
