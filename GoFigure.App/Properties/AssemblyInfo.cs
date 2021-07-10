@@ -6,9 +6,9 @@ using System.Windows;
 [assembly: AssemblyTitle("GoFigure.App")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("djfdyuruiry")]
 [assembly: AssemblyProduct("GoFigure.App")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyright djfdyuruiry© 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
