@@ -3,12 +3,12 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-[assembly: AssemblyTitle("GoFigure.App")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Go Figure!")]
+[assembly: AssemblyDescription("Modern clone of the Windows Entertainment Pack classic")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("djfdyuruiry")]
-[assembly: AssemblyProduct("GoFigure.App")]
-[assembly: AssemblyCopyright("Copyright djfdyuruiry© 2021")]
+[assembly: AssemblyProduct("Go Figure!")]
+[assembly: AssemblyCopyright("Copyright© djfdyuruiry 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
