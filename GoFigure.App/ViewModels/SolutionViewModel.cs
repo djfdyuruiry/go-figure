@@ -143,7 +143,9 @@ namespace GoFigure.App.ViewModels
             ClearSolution();
 
             NotifyOfPropertyChange(() => SolutionResult);
+
             ControlsEnabled = true;
+            SlotBackground = DefaultSlotBackground;
         }
 
         public async Task HandleAsync(SetSolutionSlotMessage message, CancellationToken _)
