@@ -280,7 +280,7 @@ namespace GoFigure.App.ViewModels
 
             var userSolutionIsWellFormed = _userSolution.IsWellFormed;
             var solutionValid = userSolutionIsWellFormed
-                && _userSolution.Slots.Count == _userSolution.Slots.Count
+                && _userSolution.Slots.Count == _cpuSolution.Slots.Count
                 && _computer.ResultFor(_userSolution) == _computer.ResultFor(_cpuSolution);
             var userMessage = solutionValid 
                 ? CorrectSolutionMessage
