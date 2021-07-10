@@ -4,12 +4,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 
 using Caliburn.Micro;
 
 using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
+using GoFigure.App.Model.Settings;
 using GoFigure.App.Model.Solution;
 using GoFigure.App.Utils;
 
@@ -22,9 +22,14 @@ namespace GoFigure.App.ViewModels
                               IHandle<SetSolutionSlotMessage>,
                               IHandle<ZeroDataMessage>
     {
+        private const string DefaultSlotBackground = "White";
+        private const string DisabledSlotBackground = "Black";
+
         private readonly SolutionComputer _computer;
-        private readonly IDictionary<int, Expression<Func<string>>> _indexToSlotProperty;
         private readonly SolutionGenerator _generator;
+        private readonly MessageBoxManager _messageBoxManager;
+        private readonly GameSettings _gameSettings;
+        private readonly IDictionary<int, Expression<Func<string>>> _indexToSlotProperty;
         private readonly SolutionPlan _userSolution;
         
         private int _currentLevel;
@@ -33,6 +38,8 @@ namespace GoFigure.App.ViewModels
         private int _currentSlotIndex;
         private int _hintsLeft;
         private bool _controlsEnabled;
+        private bool _ignoreControls;
+        private string _slotBackground;
 
         public string Slot1 => SlotValueOrDefault(0);
 
@@ -72,12 +79,29 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public SolutionViewModel(IEventAggregator eventAggregator, 
-                                 SolutionComputer computer,
-                                 SolutionGenerator generator) : base(eventAggregator)
+        public string SlotBackground
+        {
+            get => _slotBackground;
+            set 
+            {
+                _slotBackground = value;
+
+                NotifyOfPropertyChange(() => SlotBackground);
+            }
+        }
+
+        public SolutionViewModel(
+            IEventAggregator eventAggregator, 
+            SolutionComputer computer,
+            SolutionGenerator generator,
+            MessageBoxManager messageBoxManager,
+            GameSettings gameSettings
+        ) : base(eventAggregator)
         {
             _computer = computer;
             _generator = generator;
+            _messageBoxManager = messageBoxManager;
+            _gameSettings = gameSettings;
             _indexToSlotProperty = new Dictionary<int, Expression<Func<string>>>
             {
                 { 0, () => Slot1 },
@@ -88,13 +112,22 @@ namespace GoFigure.App.ViewModels
                 { 5, () => Slot6 },
                 { 6, () => Slot7 }
             };
-            _hintsLeft = MaxHints;
-
             _userSolution = new SolutionPlan();
+
+            _hintsLeft = SkillLevels[_gameSettings.CurrentSkill].MaxHints;
+
+            SlotBackground = DefaultSlotBackground;
         }
 
-        public void SetSlotIndex(int index) =>
+        public void SetSlotIndex(int index)
+        {
+            if (_ignoreControls)
+            {
+                return;
+            }
+
             CurrentSlotIndex = index;
+        }
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
@@ -105,7 +138,7 @@ namespace GoFigure.App.ViewModels
                 .GroupBy(n => n)
                 .ToDictionary(g => g.Key, g => g.Count());
 
-            _hintsLeft = MaxHints;
+            _hintsLeft = SkillLevels[_gameSettings.CurrentSkill].MaxHints;
 
             ClearSolution();
 
@@ -134,26 +167,36 @@ namespace GoFigure.App.ViewModels
 
         public async Task HandleAsync(ZeroDataMessage message, CancellationToken __)
         {
-            if (message != ZeroDataMessage.SubmitSolution 
-                && message != ZeroDataMessage.ShowSolutionHint
-                && message != ZeroDataMessage.ClearSolution)
+            if (!message.IsOneOf(
+                ZeroDataMessage.SubmitSolution,
+                ZeroDataMessage.ShowSolutionHint,
+                ZeroDataMessage.ClearSolution,
+                ZeroDataMessage.PauseGame,
+                ZeroDataMessage.ResumeGame
+            ))
             {
                 return;
             }
 
-            if (message == ZeroDataMessage.ClearSolution)
+            if (message is ZeroDataMessage.SubmitSolution)
+            {
+                await CheckIfSolutionValid();
+            }
+            else if (message is ZeroDataMessage.ClearSolution)
             {
                 ClearSolution();
-                return;
             }
-
-            if (message == ZeroDataMessage.ShowSolutionHint)
+            else if (message is ZeroDataMessage.ShowSolutionHint)
             {
                 await ShowSolutionHint();
-                return;
             }
-
-            await CheckIfSolutionValid();
+            else
+            {
+                SlotBackground = message is ZeroDataMessage.PauseGame
+                    ? DisabledSlotBackground
+                    : DefaultSlotBackground;
+                _ignoreControls = message is ZeroDataMessage.PauseGame;
+            }
         }
 
         private bool AllValueInstancesAreInUse(ISolutionSlotValue value)
@@ -273,7 +316,7 @@ namespace GoFigure.App.ViewModels
 
             await PublishMessage(ZeroDataMessage.PauseGame);
 
-            MessageBox.Show(MessageBoxHeader, userMessage, MessageBoxButton.OK);
+            _messageBoxManager.ShowInformation(userMessage);
 
             if (!solutionValid)
             {

@@ -16,17 +16,24 @@ namespace GoFigure.App.ViewModels
                             IHandle<NewGameStartedMessage>,
                             IHandle<ZeroDataMessage>
     {
+        private const string TimeFormat = @"mm\:ss";
+        private const string ScorePlaceholder = "Paused";
+        private const string TargetPlaceholder = "???";
         private static readonly TimeSpan OneSecond = new TimeSpan(TicksPerSecond);
 
         private readonly SolutionComputer _computer;
 
-        private int _score;
+        private int _gameScore;
+        private string _score;
+        
         private bool _timerRunning;
         private System.Timers.Timer _timer;
         private TimeSpan _currentTime;
-        private int _target;
 
-        public int Score
+        private int _solutionTarget;
+        private string _target;
+
+        public string Score
         {
             get => _score;
             set
@@ -37,9 +44,9 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public string Time => _currentTime.ToString("mm\\:ss");
+        public string Time => _currentTime.ToString(TimeFormat);
 
-        public int Target
+        public string Target
         {
             get => _target;
             set
@@ -50,27 +57,30 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public StatusViewModel(IEventAggregator eventAggregator, SolutionComputer computer) : base(eventAggregator)
-        {
+        public StatusViewModel(IEventAggregator eventAggregator, SolutionComputer computer) : base(eventAggregator) =>
             _computer = computer;
-        }
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
-            Target = _computer.ResultFor(message.Solution);
+            _solutionTarget = _computer.ResultFor(message.Solution);
+
+            Score = $"{_gameScore}";
+            Target = $"{_solutionTarget}";
 
             SetupTimer();
         }
 
         public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {
-            if (message != ZeroDataMessage.PauseGame
-                && message != ZeroDataMessage.ResumeGame)
+            if (!message.IsOneOf(
+                ZeroDataMessage.PauseGame,
+                ZeroDataMessage.ResumeGame
+            ))
             {
                 return;
             }
 
-            if (message == ZeroDataMessage.PauseGame)
+            if (message is ZeroDataMessage.PauseGame)
             {
                 if (_timerRunning)
                 {
@@ -78,8 +88,14 @@ namespace GoFigure.App.ViewModels
                     _timerRunning = false;
                 }
 
+                Score = ScorePlaceholder;
+                Target = TargetPlaceholder;
+
                 return;
             }
+
+            Score = $"{_gameScore}";
+            Target = $"{_solutionTarget}";
 
             if (!_timerRunning)
             {
@@ -95,7 +111,7 @@ namespace GoFigure.App.ViewModels
             _timerRunning = false;
 
             _currentTime = new TimeSpan();
-            _timer = new System.Timers.Timer(1000);
+            _timer = new System.Timers.Timer(OneSecond.TotalMilliseconds);
 
             _timer.Elapsed += IncrementTime;
 

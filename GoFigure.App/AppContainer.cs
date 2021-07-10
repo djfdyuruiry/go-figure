@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using SimpleInjector;
 
-using GoFigure.App.Model;
+using GoFigure.App.Model.Settings;
 
 namespace GoFigure.App
 {

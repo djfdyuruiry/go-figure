@@ -14,17 +14,19 @@ namespace GoFigure.App.ViewModels
 {
     class ControlsViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<ZeroDataMessage>
     {
+        private const string NumberPlaceholder = "?";
+
         private IList<int> _numbers;
         private bool _controlsEnabled;
         private bool _hintEnabled;
 
-        public string Number1 => NumberOrDefault(0);
+        public string Number1 => NumberOrPlaceholder(0);
 
-        public string Number2 => NumberOrDefault(1);
+        public string Number2 => NumberOrPlaceholder(1);
 
-        public string Number3 => NumberOrDefault(2);
+        public string Number3 => NumberOrPlaceholder(2);
 
-        public string Number4 => NumberOrDefault(3);
+        public string Number4 => NumberOrPlaceholder(3);
 
         public bool ControlsEnabled
         {
@@ -34,12 +36,19 @@ namespace GoFigure.App.ViewModels
                 _controlsEnabled = value;
 
                 NotifyOfPropertyChange(() => ControlsEnabled);
+
+                NotifyOfPropertyChange(() => HintEnabled);
+
+                NotifyOfPropertyChange(() => Number1);
+                NotifyOfPropertyChange(() => Number2);
+                NotifyOfPropertyChange(() => Number3);
+                NotifyOfPropertyChange(() => Number4);
             }
         }
 
         public bool HintEnabled
         {
-            get => _hintEnabled;
+            get => _hintEnabled && _controlsEnabled;
             set
             {
                 _hintEnabled = value;
@@ -91,28 +100,36 @@ namespace GoFigure.App.ViewModels
                 .Shuffle()
                 .ToList();
 
-            NotifyOfPropertyChange(() => Number1);
-            NotifyOfPropertyChange(() => Number2);
-            NotifyOfPropertyChange(() => Number3);
-            NotifyOfPropertyChange(() => Number4);
-
             ControlsEnabled = true;
             HintEnabled = true;
         }
 
         public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {
-            if (message != ZeroDataMessage.NoHintsLeft)
+            if (!message.IsOneOf(
+                ZeroDataMessage.NoHintsLeft,
+                ZeroDataMessage.PauseGame,
+                ZeroDataMessage.ResumeGame
+            ))
             {
                 return;
             }
 
-            HintEnabled = false;
+            if (message is ZeroDataMessage.NoHintsLeft)
+            {
+                HintEnabled = false;
+            }
+            else
+            {
+                ControlsEnabled = message != ZeroDataMessage.PauseGame;
+            }
         }
 
-        private string NumberOrDefault(int index) =>
-            _numbers.Count == 0 || _numbers.Count - 1 < index
-                ? string.Empty
+        private string NumberOrPlaceholder(int index) =>
+            !ControlsEnabled 
+            || _numbers.Count == 0
+            || _numbers.Count - 1 < index
+                ? NumberPlaceholder
                 : $"{_numbers[index]}";
     }
 }

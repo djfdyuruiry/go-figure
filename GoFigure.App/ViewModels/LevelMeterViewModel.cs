@@ -31,11 +31,6 @@ namespace GoFigure.App.ViewModels
         {
         }
 
-        private string GetFillForLevel(int level) =>
-            level > _level
-                ? "Transparent"
-                : "Red";
-
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
             _level = message.Level;
@@ -50,5 +45,10 @@ namespace GoFigure.App.ViewModels
             NotifyOfPropertyChange(() => Level9Fill);
             NotifyOfPropertyChange(() => Level10Fill);
         }
+
+        private string GetFillForLevel(int level) =>
+            level > _level
+                ? "Transparent"
+                : "Red";
     }
 }

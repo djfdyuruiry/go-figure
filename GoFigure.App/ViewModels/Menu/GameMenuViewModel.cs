@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 using System.Windows;
 
 using Caliburn.Micro;
-
-using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
+using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels.Menu
@@ -79,13 +78,15 @@ namespace GoFigure.App.ViewModels.Menu
         {
             await base.HandleAsync(message, _);
 
-            if (message != ZeroDataMessage.PauseGame
-                && message != ZeroDataMessage.ResumeGame)
+            if (!message.IsOneOf(
+                ZeroDataMessage.PauseGame,
+                ZeroDataMessage.ResumeGame
+            ))
             {
                 return;
             }
 
-            _gamePaused = message == ZeroDataMessage.PauseGame;
+            _gamePaused = message is ZeroDataMessage.PauseGame;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace GoFigure.App.Model
+﻿namespace GoFigure.App.Model.Settings
 {
     class GameSettings
     {

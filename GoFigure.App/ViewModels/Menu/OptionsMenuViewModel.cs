@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 
 using Caliburn.Micro;
-
-using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
+using GoFigure.App.Model.Settings;
 
 namespace GoFigure.App.ViewModels.Menu
 {
@@ -64,13 +63,15 @@ namespace GoFigure.App.ViewModels.Menu
         {
             await base.HandleAsync(message, _);
 
-            if (message != ZeroDataMessage.NoHintsLeft
-                && message != ZeroDataMessage.GameSettingsChanged)
+            if (!message.IsOneOf(
+                ZeroDataMessage.NoHintsLeft,
+                ZeroDataMessage.GameSettingsChanged
+            ))
             {
                 return;
             }
 
-            if (message == ZeroDataMessage.GameSettingsChanged)
+            if (message is ZeroDataMessage.GameSettingsChanged)
             {
                 NotifyOfPropertyChange(() => SoundEnabled);
                 NotifyOfPropertyChange(() => OperatorPrecedence);

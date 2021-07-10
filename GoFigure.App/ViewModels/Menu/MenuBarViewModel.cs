@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
-
-using GoFigure.App.Model;
+using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels.Menu

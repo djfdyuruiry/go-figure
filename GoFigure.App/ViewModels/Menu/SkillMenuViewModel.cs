@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 
 using Caliburn.Micro;
-
-using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
+using GoFigure.App.Model.Settings;
 
 namespace GoFigure.App.ViewModels.Menu
 {

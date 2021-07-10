@@ -1,6 +1,8 @@
-﻿using GoFigure.App.Model;
+﻿using System;
+
+using GoFigure.App.Model;
+using GoFigure.App.Model.Settings;
 using GoFigure.App.Model.Solution;
-using System;
 
 namespace GoFigure.App.Utils
 {
@@ -17,7 +19,7 @@ namespace GoFigure.App.Utils
 
         public int ResultFor(SolutionPlan solution)
         {
-            if (solution.Slots is null)
+            if (solution?.Slots is null)
             {
                 return 0;
             }
@@ -25,15 +27,10 @@ namespace GoFigure.App.Utils
             return ResolveSolution(solution);
         }
 
-        private int ResolveSolution(SolutionPlan solution)
-        {
-            if (_gameSettings.UseOperatorPrecedence)
-            {
-                return ResolveSolutionUsingOperatorPrecedence(solution);
-            }
-
-            return ResolveSolutionUsingLeftToRightPrecedence(solution);
-        }
+        private int ResolveSolution(SolutionPlan solution) =>
+            _gameSettings.UseOperatorPrecedence
+                ? ResolveSolutionUsingOperatorPrecedence(solution)
+                : ResolveSolutionUsingLeftToRightPrecedence(solution);
 
         private int ResolveSolutionUsingOperatorPrecedence(SolutionPlan solution)
         {

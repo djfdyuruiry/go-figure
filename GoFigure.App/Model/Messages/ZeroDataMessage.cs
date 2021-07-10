@@ -8,6 +8,7 @@
         ClearSolution,
         ShowSolutionHint,
         NoHintsLeft,
-        SubmitSolution
+        SubmitSolution,
+        GameOver
     }
 }

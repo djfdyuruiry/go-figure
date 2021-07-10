@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using GoFigure.App.Model;
+using GoFigure.App.Model.Settings;
 using GoFigure.App.Model.Solution;
 
 using static GoFigure.App.Constants;
@@ -13,33 +14,56 @@ namespace GoFigure.App.Utils
         private static readonly Operator[] Operators = Enum.GetValues(typeof(Operator)) as Operator[];
 
         private readonly Calculator _calculator;
+        private readonly SolutionComputer _solutionComputer;
+        private readonly GameSettings _gameSettings;
 
-        public SolutionGenerator(Calculator calculator)
+        public SolutionGenerator(
+            Calculator calculator,
+            SolutionComputer solutionComputer,
+            GameSettings gameSettings
+        )
         {
             _calculator = calculator;
+            _solutionComputer = solutionComputer;
+            _gameSettings = gameSettings;
         }
 
         public SolutionPlan Generate(int level)
         {
+            var skillLevel = SkillLevels[_gameSettings.CurrentSkill];
             var random = new Random();
+            var solution = new SolutionPlan();
+            var result = 0;
 
-            var slots = new List<ISolutionSlotValue>();
-            var current = GenerateFirstSlot(slots, random);
+            while (result < skillLevel.MinTarget || result > skillLevel.MaxTarget)
+            { 
+                var slots = new List<ISolutionSlotValue>();
+                var current = GenerateFirstSlot(slots, random, skillLevel, level);
 
-            for (int i = 0; i < OperatorsPerSolution; i++)
-            {
-                GenerateNextTwoSlots(random, slots, ref current);
+                for (int i = 0; i < OperatorsPerSolution; i++)
+                {
+                    GenerateNextTwoSlots(random, slots, skillLevel, level, ref current);
+                }
+
+                solution = new SolutionPlan
+                {
+                    Slots = slots
+                };
+
+                result = _solutionComputer.ResultFor(solution);
             }
 
-            return new SolutionPlan
-            {
-                Slots = slots
-            };
+            return solution;
         }
 
-        private int GenerateFirstSlot(List<ISolutionSlotValue> slots, Random random)
+        private int GenerateFirstSlot(
+            List<ISolutionSlotValue> slots,
+            Random random,
+            SkillRules skillLevel,
+            int level
+        )
         {
-            var firstNumber = random.Next(MinRandom, MaxRandom);
+            var firstNumber = random.Next(skillLevel.MinRandom, skillLevel.MaxRandom);
 
             slots.Add(
                 new NumberSlotValue
@@ -51,7 +75,13 @@ namespace GoFigure.App.Utils
             return firstNumber;
         }
 
-        private void GenerateNextTwoSlots(Random random, List<ISolutionSlotValue> slots, ref int current)
+        private void GenerateNextTwoSlots(
+            Random random,
+            List<ISolutionSlotValue> slots,
+            SkillRules skillLevel,
+            int level,
+            ref int current
+        )
         {
             var result = -1;
             var step = 0;
@@ -60,7 +90,7 @@ namespace GoFigure.App.Utils
             while (result < 0)
             {
                 randomOp = Operators[random.Next(0, Operators.Length - 1)];
-                step = random.Next(MinRandom, MaxRandom);
+                step = random.Next(skillLevel.MinRandom, skillLevel.MaxRandom);
 
                 result = _calculator.Exec(current, randomOp, step);
             }
