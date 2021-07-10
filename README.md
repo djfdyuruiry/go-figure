@@ -1,6 +1,6 @@
 # Go Figure!
 
-Released in 1991, the Windows Entertainement Pack, included a game entitled `Go Figure!`. This simple math game is so fun to play I decided to make a modern clone.
+Microsoft Entertainment Pack 4, released in 1994, included a game entitled `Go Figure!`. This simple math game is so fun to play I decided to make a modern clone.
 
 ![Screenshot of App](docs/screenshot.png)
 
