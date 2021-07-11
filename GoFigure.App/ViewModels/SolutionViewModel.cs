@@ -332,7 +332,7 @@ namespace GoFigure.App.ViewModels
                 new NewGameStartedMessage
                 {
                     Level = nextLevel,
-                    Solution = _generator.Generate(nextLevel)
+                    Solution = _generator.Generate(nextLevel, _computer.ResultFor(_cpuSolution))
                 }
             );
         }

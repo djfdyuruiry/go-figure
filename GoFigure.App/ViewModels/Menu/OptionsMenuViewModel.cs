@@ -16,8 +16,6 @@ namespace GoFigure.App.ViewModels.Menu
                                  IHandle<NewGameStartedMessage>,
                                  IHandle<ZeroDataMessage>
     {
-        private readonly MessageBoxManager _messageBoxManager;
-
         private bool _hintEnabled;
         private bool _gameInProgess;
 
@@ -42,9 +40,8 @@ namespace GoFigure.App.ViewModels.Menu
             IEventAggregator eventAggregator,
             MessageBoxManager messageBoxManager,
             GameSettings gameSettings
-        ) : base(eventAggregator, gameSettings)
+        ) : base(eventAggregator, messageBoxManager, gameSettings)
         {
-            _messageBoxManager = messageBoxManager;
         }
 
         public async void ToggleSound()
@@ -68,6 +65,8 @@ namespace GoFigure.App.ViewModels.Menu
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
+            await base.HandleAsync(message, _);
+
             _gameInProgess = true;
             HintEnabled = true;
         }
@@ -98,11 +97,16 @@ namespace GoFigure.App.ViewModels.Menu
 
         private async Task SetOperatorPrecendence(bool onFlag)
         {
-            if (!_gameInProgess
-                || _messageBoxManager.ShowOkCancel(OperatorPrecedenceMessage) == MessageBoxResult.OK)
+            if (_gameInProgess
+                && _messageBoxManager.ShowOkCancel(OperatorPrecedenceChangeMessage) != MessageBoxResult.OK)
             {
-                _gameSettings.UseOperatorPrecedence = onFlag;
+                NotifyOfPropertyChange(() => OperatorPrecedence);
+                NotifyOfPropertyChange(() => LeftToRightPrecedence);
+
+                return;
             }
+
+            _gameSettings.UseOperatorPrecedence = onFlag;
 
             await PublishMessage(ZeroDataMessage.GameSettingsChanged);
         }

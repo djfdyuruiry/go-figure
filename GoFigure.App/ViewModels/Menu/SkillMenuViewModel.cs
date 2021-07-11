@@ -1,15 +1,24 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
+using System.Windows;
 using Caliburn.Micro;
+
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
+using GoFigure.App.Utils;
+
+using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    public class SkillMenuViewModel : HelpMenuViewModel, IHandle<ZeroDataMessage>
+    public class SkillMenuViewModel : HelpMenuViewModel,
+                                      IHandle<NewGameStartedMessage>,
+                                      IHandle<ZeroDataMessage>
     {
+        protected readonly IMessageBoxManager _messageBoxManager;
         protected readonly GameSettings _gameSettings;
+
+        private bool _gameInProgess;
 
         public bool BeginnerSkill => _gameSettings.CurrentSkill == Skill.Beginner;
 
@@ -19,9 +28,11 @@ namespace GoFigure.App.ViewModels.Menu
 
         public SkillMenuViewModel(
             IEventAggregator eventAggregator,
+            IMessageBoxManager messageBoxManager,
             GameSettings gameSettings
         ) : base(eventAggregator)
         {
+            _messageBoxManager = messageBoxManager;
             _gameSettings = gameSettings;
         }
 
@@ -36,10 +47,23 @@ namespace GoFigure.App.ViewModels.Menu
 
         private async Task SetSkill(Skill skill)
         {
+            if (_gameInProgess
+                && _messageBoxManager.ShowOkCancel(OperatorPrecedenceChangeMessage) != MessageBoxResult.OK)
+            {
+                NotifyOfPropertyChange(() => BeginnerSkill);
+                NotifyOfPropertyChange(() => IntermediateSkill);
+                NotifyOfPropertyChange(() => ExpertSkill);
+
+                return;
+            }
+
             _gameSettings.CurrentSkill = skill;
 
             await PublishMessage(ZeroDataMessage.GameSettingsChanged);
         }
+
+        public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _) => 
+            _gameInProgess = true;
 
         public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {

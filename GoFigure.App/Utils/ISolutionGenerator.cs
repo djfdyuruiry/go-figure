@@ -4,6 +4,6 @@ namespace GoFigure.App.Utils
 {
     public interface ISolutionGenerator
     {
-        SolutionPlan Generate(int level);
+        SolutionPlan Generate(int level, int numberToExclude);
     }
 }

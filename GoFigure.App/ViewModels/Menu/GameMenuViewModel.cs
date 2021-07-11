@@ -47,7 +47,7 @@ namespace GoFigure.App.ViewModels.Menu
                 new NewGameStartedMessage
                 {
                     Level = 1,
-                    Solution = _generator.Generate(1)
+                    Solution = _generator.Generate(1, -1)
                 }
             );
 

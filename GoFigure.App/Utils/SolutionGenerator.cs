@@ -28,7 +28,7 @@ namespace GoFigure.App.Utils
             _gameSettings = gameSettings;
         }
 
-        public SolutionPlan Generate(int level)
+        public SolutionPlan Generate(int level, int numberToExclude)
         {
             var skillLevel = SkillLevels[_gameSettings.CurrentSkill];
             var random = new Random();
@@ -36,7 +36,11 @@ namespace GoFigure.App.Utils
             var result = 0;
 
             // generate solutions until target is within bounds
-            while (result < skillLevel.MinTarget || result > skillLevel.MaxTarget)
+            while (
+                result < skillLevel.MinTargetForLevel(level) 
+                || result > skillLevel.MaxTargetForLevel(level)
+                || result == numberToExclude
+            )
             {
                 var slots = new List<ISolutionSlotValue>();
                 var current = GenerateFirstSlot(slots, random, skillLevel, level);
@@ -110,7 +114,10 @@ namespace GoFigure.App.Utils
 
                 operatorCounts[randomOp.Value]++;
 
-                step = random.Next(skillLevel.MinRandom, skillLevel.MaxRandom);
+                step = random.Next(
+                    skillLevel.MinRandom,
+                    skillLevel.MaxRandomForLevel(level)
+                );
 
                 result = _calculator.Exec(current, randomOp.Value, step);
             }
