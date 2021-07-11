@@ -16,10 +16,10 @@ I have recreated the following features:
 - Game timer
 - Level display gauge
 - Left-to-Right precendence calculation
+- Operator precendence calculation
 
 In the future I wish to add:
 
-- Operator precendence calculation
 - Scoring
 - Timeout / Game Over
 - Difficulity increase between levels
