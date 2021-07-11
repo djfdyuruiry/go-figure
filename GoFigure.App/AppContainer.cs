@@ -2,10 +2,11 @@
 using SimpleInjector;
 
 using GoFigure.App.Model.Settings;
+using GoFigure.App.Utils;
 
 namespace GoFigure.App
 {
-    class AppContainer : Container
+    public class AppContainer : Container
     {
         public AppContainer()
         {
@@ -17,6 +18,12 @@ namespace GoFigure.App
         {
             RegisterSingleton<IWindowManager, WindowManager>();
             RegisterSingleton<IEventAggregator, EventAggregator>();
+
+            RegisterSingleton<ICalculator, Calculator>();
+            RegisterSingleton<ISolutionComputer, SolutionComputer>();
+            RegisterSingleton<ISolutionGenerator, SolutionGenerator>();
+            RegisterSingleton<IMessageBoxManager, MessageBoxManager>();
+
             RegisterSingleton<GameSettings>();
 
             Verify();

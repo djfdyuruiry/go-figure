@@ -12,7 +12,7 @@ using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels
 {
-    class ControlsViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<ZeroDataMessage>
+    public class ControlsViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<ZeroDataMessage>
     {
         private const string NumberPlaceholder = "?";
 

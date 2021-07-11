@@ -6,7 +6,7 @@ using GoFigure.App.ViewModels.Menu;
 
 namespace GoFigure.App.ViewModels
 {
-    class AppScreenViewModel : Screen
+    public class AppScreenViewModel : Screen
     {
         public MenuBarViewModel MenuBar { get; private set; }
 

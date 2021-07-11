@@ -1,6 +1,6 @@
 ﻿namespace GoFigure.App.Model.Settings
 {
-    class SkillRules
+    public class SkillRules
     {
         public int MaxTimeInSeconds { get; set; }
 

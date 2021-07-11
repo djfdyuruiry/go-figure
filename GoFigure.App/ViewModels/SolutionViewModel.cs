@@ -17,7 +17,7 @@ using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels
 {
-    class SolutionViewModel : BaseViewModel,
+    public class SolutionViewModel : BaseViewModel,
                               IHandle<NewGameStartedMessage>,
                               IHandle<SetSolutionSlotMessage>,
                               IHandle<ZeroDataMessage>

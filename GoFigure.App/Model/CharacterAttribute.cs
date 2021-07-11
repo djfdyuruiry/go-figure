@@ -2,7 +2,7 @@
 
 namespace GoFigure.App.Model
 {
-    class CharacterAttribute : Attribute
+    public class CharacterAttribute : Attribute
     {
         public char Symbol { get; private set; }
 

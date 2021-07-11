@@ -1,6 +1,6 @@
 ﻿namespace GoFigure.App.Model.Settings
 {
-    enum Skill
+    public enum Skill
     {
         Beginner,
         Intermediate,

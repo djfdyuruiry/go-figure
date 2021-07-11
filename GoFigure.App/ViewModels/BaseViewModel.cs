@@ -4,7 +4,7 @@ using Caliburn.Micro;
 
 namespace GoFigure.App.ViewModels
 {
-    abstract class BaseViewModel : PropertyChangedBase
+    public abstract class BaseViewModel : PropertyChangedBase
     {
         private readonly IEventAggregator _eventAggregator;
 

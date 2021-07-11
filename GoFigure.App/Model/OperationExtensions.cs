@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace GoFigure.App.Model
 {
-    static class OperationExtensions
+    public static class OperationExtensions
     {
         private static readonly IDictionary<char, Operator> CharacterToOperator =
             typeof(Operator).GetMembers(BindingFlags.Public | BindingFlags.Static)

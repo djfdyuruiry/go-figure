@@ -9,7 +9,7 @@ using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    class GameMenuViewModel : OptionsMenuViewModel,
+    public class GameMenuViewModel : OptionsMenuViewModel,
                               IHandle<NewGameStartedMessage>,
                               IHandle<ZeroDataMessage>
     {

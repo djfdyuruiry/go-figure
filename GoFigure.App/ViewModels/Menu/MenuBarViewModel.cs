@@ -4,7 +4,7 @@ using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    class MenuBarViewModel : GameMenuViewModel
+    public class MenuBarViewModel : GameMenuViewModel
     {
         public MenuBarViewModel(
             IEventAggregator eventAggregator,

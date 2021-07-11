@@ -1,6 +1,6 @@
 ﻿namespace GoFigure.App.Model.Settings
 {
-    class GameSettings
+    public class GameSettings
     {
         public bool SoundEnabled { get; set; }
 

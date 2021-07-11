@@ -1,6 +1,6 @@
 ﻿namespace GoFigure.App.Model
 {
-    enum Operator
+    public enum Operator
     {
         [Character('+')]
         Add,

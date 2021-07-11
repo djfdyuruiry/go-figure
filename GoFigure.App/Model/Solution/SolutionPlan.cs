@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GoFigure.App.Model.Solution
 {
-    class SolutionPlan
+    public class SolutionPlan
     {
         public List<ISolutionSlotValue> Slots { get; set; }
 

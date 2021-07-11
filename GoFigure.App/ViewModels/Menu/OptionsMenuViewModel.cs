@@ -12,7 +12,7 @@ using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    class OptionsMenuViewModel : SkillMenuViewModel,
+    public class OptionsMenuViewModel : SkillMenuViewModel,
                                  IHandle<NewGameStartedMessage>,
                                  IHandle<ZeroDataMessage>
     {

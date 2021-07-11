@@ -7,30 +7,27 @@ using static GoFigure.App.Constants;
 
 namespace GoFigure.App.Utils
 {
-    class MessageBoxManager
+    public class MessageBoxManager : IMessageBoxManager
     {
         public void ShowInformation(string message) =>
-            MessageBox.Show(
-                message,
-                MessageBoxHeader,
-                OK,
-                Information
-            );
+            Show(message);
 
         public void ShowWarning(string message) =>
-            MessageBox.Show(
-                message,
-                MessageBoxHeader,
-                OK,
-                Warning
-            );
+            Show(message, image: Warning);
 
         public MessageBoxResult ShowOkCancel(string message) =>
+            Show(message, OKCancel);
+
+        private MessageBoxResult Show(
+            string message,
+            MessageBoxButton button = OK,
+            MessageBoxImage image = Information
+        ) =>
             MessageBox.Show(
                 message,
                 MessageBoxHeader,
-                OKCancel,
-                Information
+                button,
+                image
             );
     }
 }

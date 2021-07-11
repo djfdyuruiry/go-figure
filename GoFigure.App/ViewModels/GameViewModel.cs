@@ -2,7 +2,7 @@
 
 namespace GoFigure.App.ViewModels
 {
-    class GameViewModel : BaseViewModel
+    public class GameViewModel : BaseViewModel
     {
         public StatusViewModel Status { get; private set; }
 

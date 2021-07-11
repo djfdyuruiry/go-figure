@@ -2,7 +2,7 @@
 
 namespace GoFigure.App.Model.Messages
 {
-    class NewGameStartedMessage
+    public class NewGameStartedMessage
     {
         public int Level { get; set; }
 

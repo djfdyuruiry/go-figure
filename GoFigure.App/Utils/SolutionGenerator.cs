@@ -9,17 +9,17 @@ using static GoFigure.App.Constants;
 
 namespace GoFigure.App.Utils
 {
-    class SolutionGenerator
+    public class SolutionGenerator : ISolutionGenerator
     {
         private static readonly Operator[] Operators = Enum.GetValues(typeof(Operator)) as Operator[];
 
-        private readonly Calculator _calculator;
-        private readonly SolutionComputer _solutionComputer;
+        private readonly ICalculator _calculator;
+        private readonly ISolutionComputer _solutionComputer;
         private readonly GameSettings _gameSettings;
 
         public SolutionGenerator(
-            Calculator calculator,
-            SolutionComputer solutionComputer,
+            ICalculator calculator,
+            ISolutionComputer solutionComputer,
             GameSettings gameSettings
         )
         {
@@ -37,7 +37,7 @@ namespace GoFigure.App.Utils
 
             // generate solutions until target is within bounds
             while (result < skillLevel.MinTarget || result > skillLevel.MaxTarget)
-            { 
+            {
                 var slots = new List<ISolutionSlotValue>();
                 var current = GenerateFirstSlot(slots, random, skillLevel, level);
                 var operatorCounts = new Dictionary<Operator, int>();
@@ -101,7 +101,7 @@ namespace GoFigure.App.Utils
             {
                 // pick a random operator that is not present, or is only present once
                 while (
-                    !randomOp.HasValue 
+                    !randomOp.HasValue
                     || operatorCounts.GetOrSet(randomOp.Value, 0) > 1
                 )
                 {

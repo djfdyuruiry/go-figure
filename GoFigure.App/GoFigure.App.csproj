@@ -120,8 +120,12 @@
     <Compile Include="Model\Solution\ISolutionSlotValue.cs" />
     <Compile Include="Model\Solution\SolutionPlan.cs" />
     <Compile Include="Model\Calculation.cs" />
+    <Compile Include="Utils\ICalculator.cs" />
     <Compile Include="Utils\IDictionaryExtensions.cs" />
     <Compile Include="Utils\IEnumerableExtensions.cs" />
+    <Compile Include="Utils\IMessageBoxManager.cs" />
+    <Compile Include="Utils\ISolutionComputer.cs" />
+    <Compile Include="Utils\ISolutionGenerator.cs" />
     <Compile Include="Utils\MessageBoxManager.cs" />
     <Compile Include="Utils\SolutionComputer.cs" />
     <Compile Include="Utils\SolutionGenerator.cs" />

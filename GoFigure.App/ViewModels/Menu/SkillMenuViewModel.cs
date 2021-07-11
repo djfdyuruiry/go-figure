@@ -7,7 +7,7 @@ using GoFigure.App.Model.Settings;
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    class SkillMenuViewModel : HelpMenuViewModel, IHandle<ZeroDataMessage>
+    public class SkillMenuViewModel : HelpMenuViewModel, IHandle<ZeroDataMessage>
     {
         protected readonly GameSettings _gameSettings;
 

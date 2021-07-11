@@ -2,7 +2,7 @@
 
 namespace GoFigure.App.Utils
 {
-    static class IDictionaryExtensions
+    public static class IDictionaryExtensions
     {
         public static U GetOrSet<T, U>(this IDictionary<T, U> dictionary, T key, U defaultValue)
         {

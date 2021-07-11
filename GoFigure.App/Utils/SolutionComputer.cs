@@ -1,17 +1,15 @@
-﻿using System.Data;
-
-using GoFigure.App.Model;
+﻿using GoFigure.App.Model;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Model.Solution;
 
 namespace GoFigure.App.Utils
 {
-    class SolutionComputer
+    public class SolutionComputer : ISolutionComputer
     {
-        private readonly Calculator _calculator;
+        private readonly ICalculator _calculator;
         private readonly GameSettings _gameSettings;
 
-        public SolutionComputer(Calculator calculator, GameSettings gameSettings)
+        public SolutionComputer(ICalculator calculator, GameSettings gameSettings)
         {
             _calculator = calculator;
             _gameSettings = gameSettings;
@@ -32,27 +30,8 @@ namespace GoFigure.App.Utils
                 ? ResolveSolutionUsingOperatorPrecedence(solution)
                 : ResolveSolutionUsingLeftToRightPrecedence(solution);
 
-        private int ResolveSolutionUsingOperatorPrecedence(SolutionPlan solution)
-        {
-            var solutionString = solution.ToString();
-
-            if (string.IsNullOrWhiteSpace(solutionString))
-            {
-                return 0;
-            }
-
-            using (var table = new DataTable())
-            {
-                var result = table.Compute($"{solutionString}", string.Empty);
-
-                if (result is int)
-                {
-                    return (int)result;
-                }
-
-                return 0;
-            }
-        }
+        private int ResolveSolutionUsingOperatorPrecedence(SolutionPlan solution) =>
+            _calculator.Exec(solution.ToString());
 
         private int ResolveSolutionUsingLeftToRightPrecedence(SolutionPlan solution)
         {

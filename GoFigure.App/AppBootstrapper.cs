@@ -12,7 +12,7 @@ using GoFigure.App.Views;
 
 namespace GoFigure.App
 {
-    class AppBootstrapper : BootstrapperBase
+    public class AppBootstrapper : BootstrapperBase
     {
         private readonly AppContainer _appContainer;
 

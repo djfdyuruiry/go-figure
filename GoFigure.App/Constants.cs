@@ -4,7 +4,7 @@ using GoFigure.App.Model.Settings;
 
 namespace GoFigure.App
 {
-    static class Constants
+    public static class Constants
     {
         // generator
         public const int OperatorsPerSolution = 3; // solution length is (this * 2 + 1)

@@ -1,6 +1,6 @@
 ﻿namespace GoFigure.App.Model.Messages
 {
-    enum ZeroDataMessage
+    public enum ZeroDataMessage
     {
         GameSettingsChanged,
         PauseGame,
