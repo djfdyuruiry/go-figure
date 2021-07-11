@@ -24,5 +24,13 @@ namespace GoFigure.App.Utils
                 OK,
                 Warning
             );
+
+        public MessageBoxResult ShowOkCancel(string message) =>
+            MessageBox.Show(
+                message,
+                MessageBoxHeader,
+                OKCancel,
+                Information
+            );
     }
 }

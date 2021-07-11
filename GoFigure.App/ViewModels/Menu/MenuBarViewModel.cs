@@ -8,9 +8,10 @@ namespace GoFigure.App.ViewModels.Menu
     {
         public MenuBarViewModel(
             IEventAggregator eventAggregator,
+            MessageBoxManager messageBoxManager,
             SolutionGenerator generator,
             GameSettings gameSettings
-        ) : base(eventAggregator, generator, gameSettings)
+        ) : base(eventAggregator, messageBoxManager, generator, gameSettings)
         {
         }
     }

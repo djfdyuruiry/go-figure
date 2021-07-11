@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Data;
 
 using GoFigure.App.Model;
 using GoFigure.App.Model.Settings;
@@ -34,8 +34,24 @@ namespace GoFigure.App.Utils
 
         private int ResolveSolutionUsingOperatorPrecedence(SolutionPlan solution)
         {
-            // TODO: implement operator precedence solution
-            throw new NotImplementedException();
+            var solutionString = solution.ToString();
+
+            if (string.IsNullOrWhiteSpace(solutionString))
+            {
+                return 0;
+            }
+
+            using (var table = new DataTable())
+            {
+                var result = table.Compute($"{solutionString}", string.Empty);
+
+                if (result is int)
+                {
+                    return (int)result;
+                }
+
+                return 0;
+            }
         }
 
         private int ResolveSolutionUsingLeftToRightPrecedence(SolutionPlan solution)

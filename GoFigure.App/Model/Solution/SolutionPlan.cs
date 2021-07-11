@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace GoFigure.App.Model.Solution
 {
     class SolutionPlan
     {
-        public IList<ISolutionSlotValue> Slots { get; set; }
+        public List<ISolutionSlotValue> Slots { get; set; }
 
         public IList<int> AvailableNumbers =>
             Slots.Where(s => s is NumberSlotValue)
@@ -14,7 +15,7 @@ namespace GoFigure.App.Model.Solution
                 .ToList();
 
         public bool IsWellFormed =>
-            !Slots.Select((s, idx) => new { v = s, idx = idx })
+            !Slots?.Select((s, idx) => new { v = s, idx = idx })
                 .Any(s =>
                 {
                     if (s.idx == 0 || s.idx == Slots.Count - 1)
@@ -38,9 +39,24 @@ namespace GoFigure.App.Model.Solution
                     }
 
                     return false;
-                });
+                }) ?? false;
 
         public SolutionPlan() =>
             Slots = new List<ISolutionSlotValue>();
+
+        public override string ToString()
+        {
+            if (Slots is null)
+            {
+                return string.Empty;
+            }
+
+            var stringWriter = new StringBuilder();
+
+            Slots.ForEach(s => stringWriter.Append($"{s} "));
+
+            return stringWriter.ToString().Trim();
+        }
+
     }
 }

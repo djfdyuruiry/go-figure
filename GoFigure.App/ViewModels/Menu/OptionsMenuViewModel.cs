@@ -1,9 +1,14 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 using Caliburn.Micro;
+
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
+using GoFigure.App.Utils;
+
+using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels.Menu
 {
@@ -11,7 +16,10 @@ namespace GoFigure.App.ViewModels.Menu
                                  IHandle<NewGameStartedMessage>,
                                  IHandle<ZeroDataMessage>
     {
+        private readonly MessageBoxManager _messageBoxManager;
+
         private bool _hintEnabled;
+        private bool _gameInProgess;
 
         public bool SoundEnabled => _gameSettings.SoundEnabled;
 
@@ -32,9 +40,11 @@ namespace GoFigure.App.ViewModels.Menu
 
         public OptionsMenuViewModel(
             IEventAggregator eventAggregator,
+            MessageBoxManager messageBoxManager,
             GameSettings gameSettings
         ) : base(eventAggregator, gameSettings)
         {
+            _messageBoxManager = messageBoxManager;
         }
 
         public async void ToggleSound()
@@ -56,8 +66,11 @@ namespace GoFigure.App.ViewModels.Menu
         public async void UseLeftToRightPrecedence() =>
             await SetOperatorPrecendence(false);
 
-        public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _) =>
+        public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
+        {
+            _gameInProgess = true;
             HintEnabled = true;
+        }
 
         public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {
@@ -85,7 +98,11 @@ namespace GoFigure.App.ViewModels.Menu
 
         private async Task SetOperatorPrecendence(bool onFlag)
         {
-            _gameSettings.UseOperatorPrecedence = onFlag;
+            if (!_gameInProgess
+                || _messageBoxManager.ShowOkCancel(OperatorPrecedenceMessage) == MessageBoxResult.OK)
+            {
+                _gameSettings.UseOperatorPrecedence = onFlag;
+            }
 
             await PublishMessage(ZeroDataMessage.GameSettingsChanged);
         }

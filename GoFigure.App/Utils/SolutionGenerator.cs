@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using GoFigure.App.Model;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Model.Solution;
-using GoFigure.App.Utils;
 
 using static GoFigure.App.Constants;
 

@@ -31,9 +31,10 @@ namespace GoFigure.App.ViewModels.Menu
 
         public GameMenuViewModel(
             IEventAggregator eventAggregator,
+            MessageBoxManager messageBoxManager,
             SolutionGenerator generator,
             GameSettings gameSettings
-        ) : base(eventAggregator, gameSettings)
+        ) : base(eventAggregator, messageBoxManager, gameSettings)
         {
             _generator = generator;
         }
