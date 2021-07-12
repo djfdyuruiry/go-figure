@@ -41,5 +41,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: app-zip-package
+          name: ${{ env.APP_PACKAGE_NAME }}
           path: GoFigure.App/bin/Release/go-figure-*.zip

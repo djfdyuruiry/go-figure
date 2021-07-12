@@ -31,13 +31,18 @@ function Main() {
   Remove-Build-Items "*.xml"
   Remove-Build-Items "*.exe.config"
 
-  $outputPath = Join-Path $buildPath "go-figure-${Version}.zip"
+  $outputZip = "go-figure-${Version}.zip"
+  $outputPath = Join-Path $buildPath $outputZip
   
-  Write-Host "Building zip package @ $outputPath"
+  Write-Host "Building zip package: $outputZip"
 
   Compress-Archive "${buildPath}/*" -DestinationPath $outputPath
 
   Write-Host "Packaging complete"
+
+  if ($env:GITHUB_ENV) {
+    Add-Content -Path $env:GITHUB_ENV -Value "APP_PACKAGE_NAME=$outputZip"
+  }
 }
 
 Main
