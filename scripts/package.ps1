@@ -2,13 +2,15 @@ param (
   $Version = "GIT_COMMIT"
 )
 
-$buildPath = "GoFigure.App\bin\Release"
+$repoPath = Split-Path -Parent $PSScriptRoot
+
+$buildPath = Join-Path $repoPath "GoFigure.App\bin\Release"
 
 function Remove-Build-Items() {
   param ($Filter)
 
   Get-ChildItem $buildPath -Filter $Filter | `
-    ForEach-Object { Remove-Item -Force "GoFigure.App\bin\Release\$_" }
+    ForEach-Object { Remove-Item $_.FullName -Force  }
 }
 
 function Main() {
@@ -35,4 +37,3 @@ function Main() {
 }
 
 Main
-
