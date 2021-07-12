@@ -37,8 +37,7 @@ jobs:
         run: packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe "GoFigure.Tests\bin\Release\GoFigure.Tests.dll" -nologo -nocolor -failskips -xml "GoFigure.Tests\bin\Release\GoFigure.Tests.xml"
 
       - name: Package App
-        run: .\scripts\package.ps1 "{{ github.ref }}"
-        shell: powershell
+        run: .\scripts\package.ps1 $env:GITHUB_REF
 
       - uses: actions/upload-artifact@v2
         with:

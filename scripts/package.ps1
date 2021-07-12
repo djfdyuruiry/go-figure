@@ -7,7 +7,8 @@ $buildPath = "GoFigure.App\bin\Release"
 function Remove-Build-Items() {
   param ($Filter)
 
-  Get-ChildItem $buildPath -Filter $Filter | ForEach-Object { Remove-Item -Force $_ }
+  Get-ChildItem $buildPath -Filter $Filter | `
+    ForEach-Object { Remove-Item -Force "GoFigure.App\bin\Release\$_" }
 }
 
 function Main() {
