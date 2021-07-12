@@ -30,6 +30,9 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.0.2
 
+      - name: Build
+        run: msbuild "Go Figure!.sln" /t:Build /p:Configuration=Release
+
       - name: Test
         run: packages\xunit.runner.console.2.4.1\tools\net472\xunit.console.exe "GoFigure.Tests\bin\Release\GoFigure.Tests.dll" -nologo -nocolor -failskips -xml "GoFigure.Tests\bin\Release\GoFigure.Tests.xml"
 
