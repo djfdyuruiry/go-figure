@@ -68,7 +68,7 @@ namespace GoFigure.Tests.Utils
 
         [Fact]
         public void When_LeftToRightPrecendeceUsed_And_ResultForIsCalled_Then_CalculatorIsCalled() =>
-            RunExecTest<Calculation>(3);
+            RunExecTest<Calculation>(5);
 
         [Fact]
         public void When_LeftToRightPrecendeceUsed_And_ResultForIsCalled_And_SolutionIsNull_Then_CalculatorIsNotCalled()
