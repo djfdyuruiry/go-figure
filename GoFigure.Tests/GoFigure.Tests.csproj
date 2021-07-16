@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\SolutionComputerTests.cs" />
+    <Compile Include="Utils\CalculatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoFigure.App\GoFigure.App.csproj">

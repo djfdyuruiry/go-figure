@@ -61,12 +61,31 @@ namespace GoFigure.App.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream alert_sound {
+            get {
+                return ResourceManager.GetStream("alert_sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon app_icon {
+        internal static System.Drawing.Icon AppIcon {
             get {
-                object obj = ResourceManager.GetObject("app-icon", resourceCulture);
+                object obj = ResourceManager.GetObject("AppIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SkillLevels {
+            get {
+                object obj = ResourceManager.GetObject("SkillLevels", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

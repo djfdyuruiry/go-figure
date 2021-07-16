@@ -120,18 +120,23 @@
     <Compile Include="Model\Solution\ISolutionSlotValue.cs" />
     <Compile Include="Model\Solution\SolutionPlan.cs" />
     <Compile Include="Model\Calculation.cs" />
+    <Compile Include="Model\SoundEffect.cs" />
+    <Compile Include="Model\SoundEffectSource.cs" />
     <Compile Include="Utils\ICalculator.cs" />
     <Compile Include="Utils\IDictionaryExtensions.cs" />
     <Compile Include="Utils\IEnumerableExtensions.cs" />
     <Compile Include="Utils\IMessageBoxManager.cs" />
     <Compile Include="Utils\ISolutionComputer.cs" />
     <Compile Include="Utils\ISolutionGenerator.cs" />
+    <Compile Include="Utils\ISoundEffectPlayer.cs" />
     <Compile Include="Utils\MessageBoxManager.cs" />
     <Compile Include="Utils\SolutionComputer.cs" />
     <Compile Include="Utils\SolutionGenerator.cs" />
     <Compile Include="Utils\Calculator.cs" />
+    <Compile Include="Utils\SoundEffectPlayer.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\HighScoresScreenViewModel.cs" />
     <Compile Include="ViewModels\Menu\GameMenuViewModel.cs" />
     <Compile Include="ViewModels\Menu\OptionsMenuViewModel.cs" />
     <Compile Include="ViewModels\Menu\HelpMenuViewModel.cs" />
@@ -146,6 +151,9 @@
     </Compile>
     <Compile Include="Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HighScoresScreenView.xaml.cs">
+      <DependentUpon>HighScoresScreenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LevelMeterView.xaml.cs">
       <DependentUpon>LevelMeterView.xaml</DependentUpon>
@@ -205,6 +213,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\HighScoresScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LevelMeterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -236,6 +248,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\app-icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\alert-sound.WAV" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SkillLevels.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

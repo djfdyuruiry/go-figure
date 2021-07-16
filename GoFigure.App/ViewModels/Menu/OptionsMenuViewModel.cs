@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 
 using Caliburn.Micro;
-
+using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
@@ -16,6 +16,8 @@ namespace GoFigure.App.ViewModels.Menu
                                  IHandle<NewGameStartedMessage>,
                                  IHandle<ZeroDataMessage>
     {
+        private readonly ISoundEffectPlayer _soundEffectPlayer;
+     
         private bool _hintEnabled;
         private bool _gameInProgess;
 
@@ -39,14 +41,15 @@ namespace GoFigure.App.ViewModels.Menu
         public OptionsMenuViewModel(
             IEventAggregator eventAggregator,
             MessageBoxManager messageBoxManager,
+            ISoundEffectPlayer soundEffectPlayer,
             GameSettings gameSettings
-        ) : base(eventAggregator, messageBoxManager, gameSettings)
-        {
-        }
+        ) : base(eventAggregator, messageBoxManager, gameSettings) => 
+            _soundEffectPlayer = soundEffectPlayer;
 
         public async void ToggleSound()
         {
             _gameSettings.SoundEnabled = !_gameSettings.SoundEnabled;
+            _soundEffectPlayer.Enabled = _gameSettings.SoundEnabled;
 
             await PublishMessage(ZeroDataMessage.GameSettingsChanged);
         }

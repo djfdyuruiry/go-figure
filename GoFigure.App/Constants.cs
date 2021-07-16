@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-
+using GoFigure.App.Model;
 using GoFigure.App.Model.Settings;
+using GoFigure.App.Properties;
 
 namespace GoFigure.App
 {
@@ -109,5 +110,17 @@ namespace GoFigure.App
         public const string TooManyNumberUsesMessage = "Each number must be used once! Please try again";
         public const string IncorrectSolutionMessage = "Solution Incorrect! Please try again";
         public const string CorrectSolutionMessage = "Solution correct! Moving to next level";
+
+        public static readonly IDictionary<SoundEffect, SoundEffectSource> SoundEffects =
+            new Dictionary<SoundEffect, SoundEffectSource>
+            {
+                {
+                    SoundEffect.Alert,
+                    new SoundEffectSource(
+                        SoundEffect.Alert,
+                        () => Resources.alert_sound
+                    )
+                }
+            };
     }
 }

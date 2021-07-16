@@ -13,7 +13,7 @@
                       Header="_Pause"
                       IsEnabled="{Binding Path=CanPause, Mode=OneWay}"
                       InputGestureText="F3"/>
-            <MenuItem Header="_High Scores..."/>
+            <MenuItem x:Name="ShowHighScores" Header="_High Scores..."/>
 
             <Separator/>
  
@@ -59,14 +59,14 @@
         </MenuItem>
         
         <MenuItem Header="_Help">
-            <MenuItem Header="_Contents" InputGestureText="F1"/>
-            <MenuItem Header="_How to Play"/>
-            <MenuItem Header="C_ommands"/>
-            <MenuItem Header="How to _Use Help"/>
+            <MenuItem x:Name="ShowHelp" Header="_Contents" InputGestureText="F1"/>
+            <MenuItem x:Name="ShowHowToPlay" Header="_How to Play"/>
+            <MenuItem x:Name="ShowCommands" Header="C_ommands"/>
+            <MenuItem x:Name="ShowHowToUseHelp" Header="How to _Use Help"/>
             
             <Separator/>
-            
-            <MenuItem Header="_About Go Figure!..."/>
+
+            <MenuItem x:Name="ShowAbout" Header="_About Go Figure!..."/>
         </MenuItem>
     </Menu>
 </UserControl>

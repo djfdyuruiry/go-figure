@@ -23,8 +23,14 @@ namespace GoFigure.App
             RegisterSingleton<ISolutionComputer, SolutionComputer>();
             RegisterSingleton<ISolutionGenerator, SolutionGenerator>();
             RegisterSingleton<IMessageBoxManager, MessageBoxManager>();
+            RegisterSingleton<ISoundEffectPlayer, SoundEffectPlayer>();
 
-            RegisterSingleton<GameSettings>();
+            RegisterInstance(
+                new GameSettings
+                {
+                    SoundEnabled = true
+                }
+            );
 
             Verify();
         }

@@ -43,7 +43,7 @@ namespace GoFigure.App.Utils
             )
             {
                 var slots = new List<ISolutionSlotValue>();
-                var current = GenerateFirstSlot(slots, random, skillLevel, level);
+                var current = GenerateFirstSlot(slots, random, skillLevel);
                 var operatorCounts = new Dictionary<Operator, int>();
 
                 for (int i = 0; i < OperatorsPerSolution; i++)
@@ -72,8 +72,7 @@ namespace GoFigure.App.Utils
         private int GenerateFirstSlot(
             List<ISolutionSlotValue> slots,
             Random random,
-            SkillRules skillLevel,
-            int level
+            SkillRules skillLevel
         )
         {
             var firstNumber = random.Next(skillLevel.MinRandom, skillLevel.MaxRandom);
