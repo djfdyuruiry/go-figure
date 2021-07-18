@@ -17,11 +17,3 @@ using System.Windows;
 
 [assembly: AssemblyVersion("0.0.0.0")]
 [assembly: AssemblyFileVersion("0.0.0.0")]
-
-[assembly: SuppressMessage(
-    "Interoperability",
-    "CA1416:Validate platform compatibility",
-    Justification = "WPF App",
-    Scope = "member", 
-    Target = "~M:GoFigure.App.Utils.SoundEffectPlayer.Play(GoFigure.App.Model.SoundEffectSource)"
-)]
