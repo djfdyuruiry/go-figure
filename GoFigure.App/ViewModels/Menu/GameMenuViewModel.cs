@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 
 using Caliburn.Micro;
+
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
@@ -10,11 +11,10 @@ using GoFigure.App.Utils;
 namespace GoFigure.App.ViewModels.Menu
 {
     public class GameMenuViewModel : OptionsMenuViewModel,
-                              IHandle<NewGameStartedMessage>,
-                              IHandle<ZeroDataMessage>
+                                     IHandle<NewGameStartedMessage>,
+                                     IHandle<ZeroDataMessage>
     {
         private readonly IWindowManager _windowManager;
-        private readonly SolutionGenerator _generator;
         private readonly HighScoresScreenViewModel _highScores;
 
         private bool _gamePaused;
@@ -34,29 +34,19 @@ namespace GoFigure.App.ViewModels.Menu
         public GameMenuViewModel(
             IEventAggregator eventAggregator,
             IWindowManager windowManager,
-            MessageBoxManager messageBoxManager,
-            SolutionGenerator generator,
+            IMessageBoxManager messageBoxManager,
+            ISolutionGenerator generator,
             ISoundEffectPlayer soundEffectPlayer,
             HighScoresScreenViewModel highScores,
             GameSettings gameSettings
-        ) : base(eventAggregator, messageBoxManager, soundEffectPlayer, gameSettings)
+        ) : base(eventAggregator, messageBoxManager, soundEffectPlayer, generator, gameSettings)
         {
             _windowManager = windowManager;
-            _generator = generator;
             _highScores = highScores;
         }
 
         public async void StartNewGame() =>
             await PublishNewGameMessage();
-
-        public async Task PublishNewGameMessage() =>
-            await PublishMessage(
-                new NewGameStartedMessage
-                {
-                    Level = 1,
-                    Solution = _generator.Generate(1, -1)
-                }
-            );
 
         public async void PauseOrResumeGame() =>
             await PublishPauseOrResumeGameMessage();
@@ -78,14 +68,14 @@ namespace GoFigure.App.ViewModels.Menu
         public void CloseApp() =>
             Application.Current.Shutdown();
 
-        public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
+        public new async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
             await base.HandleAsync(message, _);
 
             CanPause = true;
         }
 
-        public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
+        public new async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {
             await base.HandleAsync(message, _);
 

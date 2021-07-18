@@ -4,8 +4,10 @@ namespace GoFigure.App.Utils
 {
     public interface IMessageBoxManager
     {
-        void ShowInformation(string message);
-        MessageBoxResult ShowOkCancel(string message);
-        void ShowWarning(string message);
+        void ShowInformation(Window window, string message);
+        
+        MessageBoxResult ShowOkCancel(Window window, string message);
+        
+        void ShowWarning(Window window, string message);
     }
 }

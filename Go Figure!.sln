@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoFigure.App", "GoFigure.App\GoFigure.App.csproj", "{B8284EDC-47DE-4FF1-B992-04B9469A282E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoFigure.App", "GoFigure.App\GoFigure.App.csproj", "{B8284EDC-47DE-4FF1-B992-04B9469A282E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoFigure.Tests", "GoFigure.Tests\GoFigure.Tests.csproj", "{8161187C-1A5E-4431-9D27-EABFF2B2304E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoFigure.Tests", "GoFigure.Tests\GoFigure.Tests.csproj", "{8161187C-1A5E-4431-9D27-EABFF2B2304E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{DEBBA944-41EF-437B-A7C3-2E91A856A953}"
 EndProject
@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflow", "workflow", "{5D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{989CCB47-196F-4A23-B1B5-249779A3545F}"
 	ProjectSection(SolutionItems) = preProject
+		scripts\package.ps1 = scripts\package.ps1
 		README.md = README.md
 	EndProjectSection
 EndProject

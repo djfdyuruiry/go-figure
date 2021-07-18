@@ -6,13 +6,17 @@ using GoFigure.App.ViewModels.Menu;
 
 namespace GoFigure.App.ViewModels
 {
-    public class AppScreenViewModel : Screen
+    public class AppScreenViewModel : BaseScreenViewModel
     {
         public MenuBarViewModel MenuBar { get; private set; }
 
         public GameViewModel Game { get; private set; }
 
-        public AppScreenViewModel(MenuBarViewModel menuBar, GameViewModel game)
+        public AppScreenViewModel(
+            IEventAggregator eventAggregator,
+            MenuBarViewModel menuBar,
+            GameViewModel game
+        ) : base(eventAggregator)
         {
             MenuBar = menuBar;
             Game = game;

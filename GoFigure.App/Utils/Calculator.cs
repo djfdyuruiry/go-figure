@@ -38,17 +38,15 @@ namespace GoFigure.App.Utils
                 return 0;
             }
 
-            using (var table = new DataTable())
+            using var table = new DataTable();
+            var result = table.Compute($"{expression}", string.Empty);
+
+            if (result is int)
             {
-                var result = table.Compute($"{expression}", string.Empty);
-
-                if (result is int)
-                {
-                    return (int)result;
-                }
-
-                return 0;
+                return (int)result;
             }
+
+            return 0;
         }
     }
 }

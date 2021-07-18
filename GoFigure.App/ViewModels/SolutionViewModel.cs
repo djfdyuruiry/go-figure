@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-
+using System.Windows;
 using Caliburn.Micro;
 
 using GoFigure.App.Model;
@@ -17,9 +17,10 @@ using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels
 {
-    public class SolutionViewModel : BaseViewModel,
+    public class SolutionViewModel : BaseControlViewModel,
                               IHandle<NewGameStartedMessage>,
                               IHandle<SetSolutionSlotMessage>,
+                              IHandle<SubmitSolutionMessage>,
                               IHandle<ZeroDataMessage>
     {
         private const string DefaultSlotBackground = "White";
@@ -162,10 +163,12 @@ namespace GoFigure.App.ViewModels
             }
         }
 
+        public async Task HandleAsync(SubmitSolutionMessage message, CancellationToken _) =>
+            await CheckIfSolutionValid(message.ActiveWindow);
+
         public async Task HandleAsync(ZeroDataMessage message, CancellationToken __)
         {
             if (!message.IsOneOf(
-                ZeroDataMessage.SubmitSolution,
                 ZeroDataMessage.ShowSolutionHint,
                 ZeroDataMessage.ClearSolution,
                 ZeroDataMessage.PauseGame,
@@ -175,11 +178,7 @@ namespace GoFigure.App.ViewModels
                 return;
             }
 
-            if (message is ZeroDataMessage.SubmitSolution)
-            {
-                await CheckIfSolutionValid();
-            }
-            else if (message is ZeroDataMessage.ClearSolution)
+            if (message is ZeroDataMessage.ClearSolution)
             {
                 ClearSolution();
             }
@@ -267,12 +266,12 @@ namespace GoFigure.App.ViewModels
             );
         }
 
-        private async Task CheckIfSolutionValid()
+        private async Task CheckIfSolutionValid(Window activeWindow)
         {
             if (!CheckNumberUseCountCorrect())
             {
                 await PublishMessage(ZeroDataMessage.PauseTimer);
-                _messageBoxManager.ShowWarning(TooManyNumberUsesMessage);
+                _messageBoxManager.ShowWarning(activeWindow, TooManyNumberUsesMessage);
                 await PublishMessage(ZeroDataMessage.ResumeTimer);
 
                 return;
@@ -293,7 +292,7 @@ namespace GoFigure.App.ViewModels
 
             await PublishMessage(ZeroDataMessage.PauseTimer);
 
-            _messageBoxManager.ShowInformation(userMessage);
+            _messageBoxManager.ShowInformation(activeWindow, userMessage);
 
             if (!solutionValid)
             {

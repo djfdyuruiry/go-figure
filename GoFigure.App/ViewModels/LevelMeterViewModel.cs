@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GoFigure.App.ViewModels
 {
-    public class LevelMeterViewModel : BaseViewModel, IHandle<NewGameStartedMessage>
+    public class LevelMeterViewModel : BaseControlViewModel, IHandle<NewGameStartedMessage>
     {
         private int _level;
 

@@ -2,7 +2,7 @@
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    public class HelpMenuViewModel : BaseViewModel
+    public class HelpMenuViewModel : BaseControlViewModel
     {
         public HelpMenuViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
         {

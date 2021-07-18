@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
+using System.Windows;
+using System.Windows.Controls;
 using Caliburn.Micro;
 
 using GoFigure.App.Model;
@@ -12,7 +13,9 @@ using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels
 {
-    public class ControlsViewModel : BaseViewModel, IHandle<NewGameStartedMessage>, IHandle<ZeroDataMessage>
+    public class ControlsViewModel : BaseControlViewModel,
+                                     IHandle<NewGameStartedMessage>,
+                                     IHandle<ZeroDataMessage>
     {
         private const string NumberPlaceholder = "?";
 
@@ -87,8 +90,13 @@ namespace GoFigure.App.ViewModels
                 }
             );
 
-        public async void SubmitSolution() =>
-            await PublishMessage(ZeroDataMessage.SubmitSolution);
+        public async void SubmitSolution(object view) =>
+            await PublishMessage(
+                new SubmitSolutionMessage
+                {
+                    ActiveWindow = Window.GetWindow(view as UserControl)
+                }
+            );
 
         public async void ShowSolutionHint() =>
             await PublishMessage(ZeroDataMessage.ShowSolutionHint);

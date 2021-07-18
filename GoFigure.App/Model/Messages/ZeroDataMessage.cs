@@ -10,7 +10,6 @@
         ClearSolution,
         ShowSolutionHint,
         NoHintsLeft,
-        SubmitSolution,
         GameOver
     }
 }

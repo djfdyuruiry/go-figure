@@ -4,7 +4,7 @@ param (
 
 $repoPath = Split-Path -Parent $PSScriptRoot
 
-$buildPath = Join-Path $repoPath "GoFigure.App\bin\Release"
+$buildPath = Join-Path $repoPath "GoFigure.App/bin/Release/net5.0-windows/win-x64/publish"
 
 function Remove-Build-Items() {
   param ($Filter)
@@ -26,10 +26,8 @@ function Main() {
 
   Write-Host "Cleaning build output"
 
-  Remove-Build-Items "*.pdb"
+  Remove-Build-Items "*.dll.config"
   Remove-Build-Items "*.zip"
-  Remove-Build-Items "*.xml"
-  Remove-Build-Items "*.exe.config"
 
   $outputZip = "go-figure-${Version}.zip"
   $outputPath = Join-Path $buildPath $outputZip

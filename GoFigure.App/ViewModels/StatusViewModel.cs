@@ -12,7 +12,7 @@ using GoFigure.App.Utils;
 
 namespace GoFigure.App.ViewModels
 {
-    public class StatusViewModel : BaseViewModel,
+    public class StatusViewModel : BaseControlViewModel,
                             IHandle<NewGameStartedMessage>,
                             IHandle<ZeroDataMessage>
     {

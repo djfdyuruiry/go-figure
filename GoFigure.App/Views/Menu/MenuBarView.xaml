@@ -1,7 +1,8 @@
 ﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              x:Class="GoFigure.App.Views.Menu.MenuBarView">
     <Menu>
@@ -33,26 +34,26 @@
             
             <Separator/>
 
-            <MenuItem x:Name="UseOperatorPrecedence"
+            <MenuItem cal:Message.Attach="[Event Click] = [Action UseOperatorPrecedence($view)]"
                       Header="_Operator Precedence"
                       IsCheckable="True"
                       IsChecked="{Binding Path=OperatorPrecedence, Mode=OneWay}"/>
-            <MenuItem x:Name="UseLeftToRightPrecedence"
+            <MenuItem cal:Message.Attach="[Event Click] = [Action UseLeftToRightPrecedence($view)]"
                       Header="_Left - Right Precedence"
                       IsCheckable="True"
                       IsChecked="{Binding Path=LeftToRightPrecedence, Mode=OneWay}"/>
         </MenuItem>
         
         <MenuItem Header="_Skill">
-            <MenuItem x:Name="UseBeginnerSkill"
+            <MenuItem cal:Message.Attach="[Event Click] = [Action UseBeginnerSkill($view)]"
                       Header="_Beginner"
                       IsCheckable="True"
                       IsChecked="{Binding Path=BeginnerSkill, Mode=OneWay}"/>
-            <MenuItem x:Name="UseIntermediateSkill"
+            <MenuItem cal:Message.Attach="[Event Click] = [Action UseIntermediateSkill($view)]"
                       Header="_Intermediate"
                       IsCheckable="True"
                       IsChecked="{Binding Path=IntermediateSkill, Mode=OneWay}"/>
-            <MenuItem x:Name="UseExpertSkill"
+            <MenuItem cal:Message.Attach="[Event Click] = [Action UseExpertSkill($view)]"
                       Header="_Expert"
                       IsCheckable="True"
                       IsChecked="{Binding Path=ExpertSkill, Mode=OneWay}"/>

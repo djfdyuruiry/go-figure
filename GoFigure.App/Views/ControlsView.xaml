@@ -57,7 +57,7 @@
                     FontWeight="Bold" 
                     IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-            <Button x:Name="SubmitSolution" 
+            <Button cal:Message.Attach="[Event Click] = [Action SubmitSolution($view)]"
                     Grid.Column="9" 
                     FontSize="22" 
                     FontWeight="Bold" 

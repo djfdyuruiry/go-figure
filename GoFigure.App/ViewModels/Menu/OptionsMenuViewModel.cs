@@ -1,9 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 using Caliburn.Micro;
-using GoFigure.App.Model;
+
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
@@ -13,8 +14,8 @@ using static GoFigure.App.Constants;
 namespace GoFigure.App.ViewModels.Menu
 {
     public class OptionsMenuViewModel : SkillMenuViewModel,
-                                 IHandle<NewGameStartedMessage>,
-                                 IHandle<ZeroDataMessage>
+                                        IHandle<NewGameStartedMessage>,
+                                        IHandle<ZeroDataMessage>
     {
         private readonly ISoundEffectPlayer _soundEffectPlayer;
      
@@ -40,10 +41,11 @@ namespace GoFigure.App.ViewModels.Menu
 
         public OptionsMenuViewModel(
             IEventAggregator eventAggregator,
-            MessageBoxManager messageBoxManager,
+            IMessageBoxManager messageBoxManager,
             ISoundEffectPlayer soundEffectPlayer,
+            ISolutionGenerator solutionGenerator,
             GameSettings gameSettings
-        ) : base(eventAggregator, messageBoxManager, gameSettings) => 
+        ) : base(eventAggregator, messageBoxManager, solutionGenerator, gameSettings) => 
             _soundEffectPlayer = soundEffectPlayer;
 
         public async void ToggleSound()
@@ -60,13 +62,13 @@ namespace GoFigure.App.ViewModels.Menu
         public async void ClearSolution() =>
             await PublishMessage(ZeroDataMessage.ClearSolution);
 
-        public async void UseOperatorPrecedence() =>
-            await SetOperatorPrecendence(true);
+        public async void UseOperatorPrecedence(MenuItem view) =>
+            await SetOperatorPrecendence(view, true);
 
-        public async void UseLeftToRightPrecedence() =>
-            await SetOperatorPrecendence(false);
+        public async void UseLeftToRightPrecedence(MenuItem view) =>
+            await SetOperatorPrecendence(view, false);
 
-        public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
+        public new async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
         {
             await base.HandleAsync(message, _);
 
@@ -74,7 +76,7 @@ namespace GoFigure.App.ViewModels.Menu
             HintEnabled = true;
         }
 
-        public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
+        public new async Task HandleAsync(ZeroDataMessage message, CancellationToken _)
         {
             await base.HandleAsync(message, _);
 
@@ -98,10 +100,19 @@ namespace GoFigure.App.ViewModels.Menu
             HintEnabled = false;
         }
 
-        private async Task SetOperatorPrecendence(bool onFlag)
+        private async Task SetOperatorPrecendence(DependencyObject view, bool onFlag)
         {
-            if (_gameInProgess
-                && _messageBoxManager.ShowOkCancel(OperatorPrecedenceChangeMessage) != MessageBoxResult.OK)
+            var okToProceed = !_gameInProgess;
+
+            if (!okToProceed)
+            {
+                okToProceed = _messageBoxManager.ShowOkCancel(
+                    Window.GetWindow(view),
+                    OperatorPrecedenceChangeMessage
+                ) == MessageBoxResult.OK;
+            }
+
+            if (!okToProceed)
             {
                 NotifyOfPropertyChange(() => OperatorPrecedence);
                 NotifyOfPropertyChange(() => LeftToRightPrecedence);
@@ -112,6 +123,7 @@ namespace GoFigure.App.ViewModels.Menu
             _gameSettings.UseOperatorPrecedence = onFlag;
 
             await PublishMessage(ZeroDataMessage.GameSettingsChanged);
+            await PublishNewGameMessage();
         }
     }
 }
