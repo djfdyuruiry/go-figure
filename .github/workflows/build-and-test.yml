@@ -24,33 +24,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - uses: olegtarasov/get-tag@v2.1
+      - name: Get Git Tag
+        uses: olegtarasov/get-tag@v2.1
         id: tagName
 
-      - name: Package
+      - name: Set App Version
         run: scripts/set-version.ps1 ${{ steps.tagName.outputs.tag }}
 
-      - name: Build
+      - name: Build App
         run: dotnet build --configuration "Release" --nologo
 
-      - name: Test
+      - name: Test App
         run: >
             dotnet test --configuration "Release" `
                 --no-build `
                 --no-restore `
                 --nologo
 
-      - name: Publish
+      - name: Publish App
         run: >
             dotnet publish --configuration "Release" `
                 --no-build `
                 --no-restore `
                 --nologo
 
-      - name: Package
+      - name: Package App
         run: scripts/package.ps1
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload App Package
+        uses: actions/upload-artifact@v2
         with:
           name: app-package
           path: ${{ env.APP_PACKAGE_PATH }}
