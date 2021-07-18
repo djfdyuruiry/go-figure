@@ -14,10 +14,6 @@ function Remove-Build-Items() {
 }
 
 function Main() {
-  if ($env:GITHUB_REF -and $env:GITHUB_REF.StartsWith("v")) {
-    $Version = $env:GITHUB_REF
-  }
-
   if ($Version -eq "GIT_COMMIT") {
     $Version = git rev-parse --short HEAD
   }

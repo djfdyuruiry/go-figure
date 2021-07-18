@@ -49,7 +49,7 @@ jobs:
                 --nologo
 
       - name: Package App
-        run: scripts/package.ps1
+        run: scripts/package.ps1 ${{ steps.tagName.outputs.tag }}
 
       - name: Upload App Package
         uses: actions/upload-artifact@v2
