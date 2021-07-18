@@ -40,6 +40,7 @@ function Main() {
 
   if ($env:GITHUB_ENV) {
     Add-Content -Path $env:GITHUB_ENV -Value "APP_PACKAGE_NAME=$outputZip"
+    Add-Content -Path $env:GITHUB_ENV -Value "APP_PACKAGE_PATH=$outputPath"
   }
 }
 
