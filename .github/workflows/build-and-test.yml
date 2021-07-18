@@ -24,6 +24,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Package
+        run: scripts/set-version.ps1
+
       - name: Build
         run: dotnet build --configuration "Release" --nologo
 
