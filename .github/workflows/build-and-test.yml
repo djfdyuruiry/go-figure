@@ -24,8 +24,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - uses: olegtarasov/get-tag@v2.1
+        id: tagName
+
       - name: Package
-        run: scripts/set-version.ps1
+        run: scripts/set-version.ps1 ${{ steps.tagName.outputs.tag }}
 
       - name: Build
         run: dotnet build --configuration "Release" --nologo

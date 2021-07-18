@@ -10,6 +10,7 @@ using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Solution;
 using GoFigure.App.Utils;
+using GoFigure.App.Views;
 
 namespace GoFigure.App.ViewModels
 {
@@ -90,11 +91,11 @@ namespace GoFigure.App.ViewModels
                 }
             );
 
-        public async void SubmitSolution(object view) =>
+        public async void SubmitSolution(ControlsView view) =>
             await PublishMessage(
                 new SubmitSolutionMessage
                 {
-                    ActiveWindow = Window.GetWindow(view as UserControl)
+                    ActiveWindow = Window.GetWindow(view)
                 }
             );
 
