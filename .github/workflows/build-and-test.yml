@@ -49,5 +49,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.APP_PACKAGE_NAME }}
+          name: app-package
           path: ${{ env.APP_PACKAGE_PATH }}
