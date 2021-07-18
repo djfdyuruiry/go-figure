@@ -311,13 +311,17 @@ namespace GoFigure.App.ViewModels
                 return true;
             }
 
+            var numberCounts = _cpuSolution.AvailableNumbers
+                .GroupBy(n => n)
+                .ToDictionary(g => g.Key, g => g.Count());
+
             var userNumberCounts = _userSolution.AvailableNumbers
                 .GroupBy(n => n)
                 .ToDictionary(g => g.Key, g => g.Count());
 
-            var remainingCounts = userNumberCounts.ToDictionary(
+            var remainingCounts = numberCounts.ToDictionary(
                 kvp => kvp.Key,
-                kvp => _cpuSolutionNumbers[kvp.Key] - kvp.Value
+                kvp => kvp.Value - userNumberCounts.GetValueOrDefault(kvp.Key, 0)
             );
 
             return remainingCounts.All(kvp => kvp.Value == 0);
