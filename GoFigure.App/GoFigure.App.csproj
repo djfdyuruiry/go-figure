@@ -6,6 +6,7 @@
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
 
+    <StartupObject>GoFigure.App.App</StartupObject>
   	<AssemblyName>Go Figure!</AssemblyName>
     <PublishUrl>publish/</PublishUrl>
 
@@ -15,6 +16,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+
+    <NoWarn>CS1998;CA1416</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -22,18 +25,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <StartupObject>GoFigure.App.App</StartupObject>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <ApplicationIcon>Resources\app-icon.ico</ApplicationIcon>
     <PackageIcon>app-icon.ico</PackageIcon>
     <RepositoryUrl>https://github.com/djfdyuruiry/go-figure</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;CS1998;CA1416</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,17 +41,13 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
 
-  <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-  </ItemGroup>
 
-  <ItemGroup>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
