@@ -9,7 +9,15 @@ namespace GoFigure.App.Model
     {
         private static readonly IDictionary<char, Operator> CharacterToOperator =
             typeof(Operator).GetMembers(BindingFlags.Public | BindingFlags.Static)
-                .Select(m => (member: m, charAttributes: m.GetCustomAttributes(typeof(CharacterAttribute), true)))
+                .Select(m => 
+                    (
+                        member: m,
+                        charAttributes: m.GetCustomAttributes(
+                            typeof(CharacterAttribute),
+                            true
+                        )
+                    )
+                )
                 .Where(t => t.charAttributes.Length > 0)
                 .ToDictionary(
                     t => (t.charAttributes.FirstOrDefault() as CharacterAttribute).Symbol,

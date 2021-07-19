@@ -10,8 +10,8 @@ namespace GoFigure.App.ViewModels.Menu
         public MenuBarViewModel(
             IEventAggregator eventAggregator,
             IWindowManager windowManager,
-            MessageBoxManager messageBoxManager,
-            SolutionGenerator generator,
+            IMessageBoxManager messageBoxManager,
+            ISolutionGenerator generator,
             ISoundEffectPlayer soundEffectPlayer,
             HighScoresScreenViewModel highScores,
             GameSettings gameSettings

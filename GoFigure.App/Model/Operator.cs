@@ -4,10 +4,13 @@
     {
         [Character('+')]
         Add,
+
         [Character('-')]
         Subtract,
+
         [Character('*')]
         Multiply,
+
         [Character('/')]
         Divide
     }

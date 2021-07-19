@@ -26,9 +26,9 @@ namespace GoFigure.App.ViewModels
         private const string DefaultSlotBackground = "White";
         private const string DisabledSlotBackground = "Black";
 
-        private readonly SolutionComputer _computer;
-        private readonly SolutionGenerator _generator;
-        private readonly MessageBoxManager _messageBoxManager;
+        private readonly ISolutionComputer _computer;
+        private readonly ISolutionGenerator _generator;
+        private readonly IMessageBoxManager _messageBoxManager;
         private readonly GameSettings _gameSettings;
         private readonly IDictionary<int, Expression<Func<string>>> _indexToSlotProperty;
         private readonly SolutionPlan _userSolution;
@@ -93,8 +93,8 @@ namespace GoFigure.App.ViewModels
 
         public SolutionViewModel(
             IEventAggregator eventAggregator, 
-            SolutionComputer computer,
-            SolutionGenerator generator,
+            ISolutionComputer computer,
+            ISolutionGenerator generator,
             MessageBoxManager messageBoxManager,
             GameSettings gameSettings
         ) : base(eventAggregator)

@@ -21,7 +21,7 @@ namespace GoFigure.App.ViewModels
         private const string TargetPlaceholder = "???";
         private static readonly TimeSpan OneSecond = new TimeSpan(TicksPerSecond);
 
-        private readonly SolutionComputer _computer;
+        private readonly ISolutionComputer _computer;
 
         private int _gameScore;
         private string _score;
@@ -57,7 +57,7 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public StatusViewModel(IEventAggregator eventAggregator, SolutionComputer computer) : base(eventAggregator) =>
+        public StatusViewModel(IEventAggregator eventAggregator, ISolutionComputer computer) : base(eventAggregator) =>
             _computer = computer;
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
