@@ -30,7 +30,7 @@ namespace GoFigure.App.Utils
 
         public SolutionPlan Generate(int level, int numberToExclude)
         {
-            var skillLevel = SkillLevels[_gameSettings.CurrentSkill];
+            var skillLevel = _gameSettings.CurrentSkillLevel;
             var random = new Random();
             var solution = new SolutionPlan();
             var result = 0;

@@ -73,7 +73,11 @@ namespace GoFigure.App.ViewModels.Menu
             _gameSettings.CurrentSkill = skill;
 
             await PublishMessage(ZeroDataMessage.GameSettingsChanged);
-            await PublishNewGameMessage();
+
+            if (_gameInProgess)
+            {
+                await PublishNewGameMessage();
+            }
         }
 
         public async Task PublishNewGameMessage() =>

@@ -17,29 +17,19 @@ namespace GoFigure.App.Model.Solution
         public bool IsWellFormed =>
             !Slots?.Select((s, idx) => new { v = s, idx = idx })
                 .Any(s =>
-                {
-                    if (s.idx == 0 || s.idx == Slots.Count - 1)
+                    s switch
                     {
                         // first and last slots cannot be operators
-                        return s.v is OperatorSlotValue;
-                    }
-
-                    if (s.v is OperatorSlotValue)
-                    {
+                        _ when s.idx == 0 || s.idx == Slots.Count - 1 => s.v is OperatorSlotValue,
                         // can't have two operators in a row
-                        return Slots[s.idx - 1] is OperatorSlotValue
-                            || Slots[s.idx + 1] is OperatorSlotValue;
-                    }
-
-                    if (s.v is NumberSlotValue)
-                    {
+                        _ when s.v is OperatorSlotValue => Slots[s.idx - 1] is OperatorSlotValue
+                            || Slots[s.idx + 1] is OperatorSlotValue,
                         // can't have two numbers in a row
-                        return Slots[s.idx - 1] is NumberSlotValue
-                            || Slots[s.idx + 1] is NumberSlotValue;
+                        _ when s.v is NumberSlotValue => Slots[s.idx - 1] is NumberSlotValue
+                            || Slots[s.idx + 1] is NumberSlotValue,
+                        _ => false
                     }
-
-                    return false;
-                }) ?? false;
+                ) ?? false;
 
         public SolutionPlan() =>
             Slots = new List<ISolutionSlotValue>();

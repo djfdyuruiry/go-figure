@@ -82,9 +82,9 @@ namespace GoFigure.App.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] SkillLevels {
+        internal static byte[] GameSettings {
             get {
-                object obj = ResourceManager.GetObject("SkillLevels", resourceCulture);
+                object obj = ResourceManager.GetObject("GameSettings", resourceCulture);
                 return ((byte[])(obj));
             }
         }

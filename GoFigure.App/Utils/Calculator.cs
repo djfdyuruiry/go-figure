@@ -6,23 +6,15 @@ namespace GoFigure.App.Utils
 {
     public class Calculator : ICalculator
     {
-        public int Exec(int lhs, Operator op, int rhs)
-        {
-            if (op == Operator.Divide)
+        public int Exec(int lhs, Operator op, int rhs) =>
+            op switch
             {
-                return lhs / rhs;
-            }
-            else if (op == Operator.Multiply)
-            {
-                return lhs * rhs;
-            }
-            else if (op == Operator.Add)
-            {
-                return lhs + rhs;
-            }
-
-            return lhs - rhs;
-        }
+                Operator.Divide => lhs / rhs,
+                Operator.Multiply => lhs * rhs,
+                Operator.Add => lhs + rhs,
+                Operator.Subtract => lhs + rhs,
+                _ => 0
+            };
 
         public int Exec(Calculation calculation) =>
             calculation is null

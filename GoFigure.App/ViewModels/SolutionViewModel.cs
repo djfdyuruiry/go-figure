@@ -115,7 +115,7 @@ namespace GoFigure.App.ViewModels
             };
             _userSolution = new SolutionPlan();
 
-            _hintsLeft = SkillLevels[_gameSettings.CurrentSkill].MaxHints;
+            _hintsLeft = _gameSettings.CurrentSkillLevel.MaxHints;
 
             SlotBackground = DefaultSlotBackground;
         }
@@ -139,7 +139,7 @@ namespace GoFigure.App.ViewModels
                 .GroupBy(n => n)
                 .ToDictionary(g => g.Key, g => g.Count());
 
-            _hintsLeft = SkillLevels[_gameSettings.CurrentSkill].MaxHints;
+            _hintsLeft = _gameSettings.CurrentSkillLevel.MaxHints;
 
             ClearSolution();
 
@@ -195,25 +195,16 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        private string SlotValueOrDefault(int index)
-        {
-            if (_userSolution.Slots.Count == 0
-                || _userSolution.Slots.Count < index)
+        private string SlotValueOrDefault(int index) =>
+            index switch
             {
-                return string.Empty;
-            }
-
-            var solutionSlotValue = _userSolution.Slots[index];
-
-            if (solutionSlotValue is null)
-            {
-                return string.Empty;
-            }
-
-            return solutionSlotValue is NumberSlotValue
-                ? $"{solutionSlotValue.As<NumberSlotValue>().Value}"
-                : $"{solutionSlotValue.As<OperatorSlotValue>().Value.ToCharacter()}";
-        }
+                _ when _userSolution.Slots.Count == 0 
+                    || _userSolution.Slots.Count < index => string.Empty,
+                _ when _userSolution.Slots[index] is null => string.Empty,
+                _ => _userSolution.Slots[index] is NumberSlotValue
+                    ? $"{_userSolution.Slots[index].As<NumberSlotValue>().Value}"
+                    : $"{_userSolution.Slots[index].As<OperatorSlotValue>().Value.ToCharacter()}"
+            };
 
         private void ClearSolution()
         {
@@ -327,17 +318,13 @@ namespace GoFigure.App.ViewModels
             return remainingCounts.All(kvp => kvp.Value == 0);
         }
 
-        private async Task MoveToNextLevel()
-        {
-            var nextLevel = _currentLevel + 1;
-
+        private async Task MoveToNextLevel() =>
             await PublishMessage(
                 new NewGameStartedMessage
                 {
-                    Level = nextLevel,
-                    Solution = _generator.Generate(nextLevel, _computer.ResultFor(_cpuSolution))
+                    Level = _currentLevel + 1,
+                    Solution = _generator.Generate(_currentLevel + 1, _computer.ResultFor(_cpuSolution))
                 }
             );
-        }
     }
 }

@@ -1,8 +1,14 @@
-﻿using Caliburn.Micro;
+﻿using System.IO;
+using System.Text.Json;
+
+using Caliburn.Micro;
 using SimpleInjector;
 
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
+using GoFigure.App.Properties;
+
+using static GoFigure.App.Constants;
 
 namespace GoFigure.App
 {
@@ -25,14 +31,18 @@ namespace GoFigure.App
             RegisterSingleton<IMessageBoxManager, MessageBoxManager>();
             RegisterSingleton<ISoundEffectPlayer, SoundEffectPlayer>();
 
-            RegisterInstance(
-                new GameSettings
-                {
-                    SoundEnabled = true
-                }
-            );
+            ConfigureGameSettings();
 
             Verify();
+        }
+
+        private void ConfigureGameSettings()
+        {
+            var settingsStore = new GameSettingsStore();
+            var gameSettings = settingsStore.Read().Result;
+
+            RegisterInstance<IGameSettingsStore>(settingsStore);
+            RegisterInstance(gameSettings);
         }
     }
 }

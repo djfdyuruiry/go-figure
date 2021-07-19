@@ -1,0 +1,141 @@
+---
+soundEnabled: true
+useOperatorPrecedence: false
+
+currentSkill: beginner
+
+skillLevels:
+  beginner:
+    maxTimeInSeconds: 600
+    minRandom: 2
+    maxRandom: 9
+
+    levelMaxRandomModifers:
+      - 0
+      - 1
+      - 1
+      - 2
+      - 2
+      - 2
+      - 4
+      - 4
+      - 5
+      - 5
+
+    minTarget: 4
+    maxTarget: 250
+
+    levelMinTargetModifers:
+      - 0
+      - 1
+      - 1
+      - 1
+      - 2
+      - 2
+      - 3
+      - 3
+      - 3
+      - 3
+    levelMaxTargetModifers:
+      - 0
+      - 25
+      - 25
+      - 50
+      - 75
+      - 100
+      - 200
+      - 300
+      - 400
+      - 450
+
+    maxHints: 3
+
+  intermediate:
+    maxTimeInSeconds: 300
+    minRandom: 5
+    maxRandom: 14
+
+    levelMaxRandomModifers:
+      - 0
+      - 1
+      - 1
+      - 2
+      - 2
+      - 2
+      - 4
+      - 4
+      - 5
+      - 5
+    
+    minTarget: 8
+    maxTarget: 750
+
+    levelMinTargetModifers:
+      - 0
+      - 1
+      - 1
+      - 2
+      - 2
+      - 3
+      - 3
+      - 4
+      - 4
+      - 4
+    levelMaxTargetModifers:
+      - 0
+      - 175
+      - 350
+      - 525
+      - 700
+      - 875
+      - 1050
+      - 1225
+      - 1400
+      - 1500
+
+    maxHints: 2
+  expert:
+    maxTimeInSeconds: 150
+    
+    minRandom: 8
+    maxRandom: 19
+    
+    levelMaxRandomModifers:
+      - 0
+      - 2
+      - 4
+      - 6
+      - 8
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+
+    minTarget: 12
+    maxTarget: 2500
+    
+    levelMinTargetModifers:
+      - 0
+      - 2
+      - 4
+      - 8
+      - 12
+      - 16
+      - 20
+      - 30
+      - 40
+      - 60
+    levelMaxTargetModifers:
+      - 0
+      - 100
+      - 150
+      - 200
+      - 250
+      - 300
+      - 400
+      - 600
+      - 750
+      - 1000
+
+    maxHints: 1
