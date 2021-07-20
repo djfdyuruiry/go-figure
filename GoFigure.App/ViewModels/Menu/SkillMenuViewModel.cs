@@ -29,7 +29,7 @@ namespace GoFigure.App.ViewModels.Menu
         public bool ExpertSkill => _gameSettings.CurrentSkill == Skill.Expert;
 
         public SkillMenuViewModel(
-            IEventAggregator eventAggregator,
+            IEventAggregatorWrapper eventAggregator,
             IMessageBoxManager messageBoxManager,
             ISolutionGenerator generator,
             GameSettings gameSettings

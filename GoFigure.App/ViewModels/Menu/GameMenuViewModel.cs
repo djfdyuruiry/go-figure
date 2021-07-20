@@ -32,7 +32,7 @@ namespace GoFigure.App.ViewModels.Menu
         }
 
         public GameMenuViewModel(
-            IEventAggregator eventAggregator,
+            IEventAggregatorWrapper eventAggregator,
             IWindowManager windowManager,
             IMessageBoxManager messageBoxManager,
             ISolutionGenerator generator,

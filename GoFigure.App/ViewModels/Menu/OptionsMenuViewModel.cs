@@ -40,7 +40,7 @@ namespace GoFigure.App.ViewModels.Menu
         public bool LeftToRightPrecedence => !_gameSettings.UseOperatorPrecedence;
 
         public OptionsMenuViewModel(
-            IEventAggregator eventAggregator,
+            IEventAggregatorWrapper eventAggregator,
             IMessageBoxManager messageBoxManager,
             ISoundEffectPlayer soundEffectPlayer,
             ISolutionGenerator solutionGenerator,

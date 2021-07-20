@@ -9,6 +9,7 @@ using GoFigure.App.Utils;
 using GoFigure.App.Properties;
 
 using static GoFigure.App.Constants;
+using GoFigure.App.ViewModels;
 
 namespace GoFigure.App
 {
@@ -24,6 +25,7 @@ namespace GoFigure.App
         {
             RegisterSingleton<IWindowManager, WindowManager>();
             RegisterSingleton<IEventAggregator, EventAggregator>();
+            RegisterSingleton<IEventAggregatorWrapper, EventAggregatorWrapper>();
 
             RegisterSingleton<ICalculator, Calculator>();
             RegisterSingleton<ISolutionComputer, SolutionComputer>();

@@ -8,7 +8,7 @@ namespace GoFigure.App.ViewModels.Menu
     public class MenuBarViewModel : GameMenuViewModel
     {
         public MenuBarViewModel(
-            IEventAggregator eventAggregator,
+            IEventAggregatorWrapper eventAggregator,
             IWindowManager windowManager,
             IMessageBoxManager messageBoxManager,
             ISolutionGenerator generator,

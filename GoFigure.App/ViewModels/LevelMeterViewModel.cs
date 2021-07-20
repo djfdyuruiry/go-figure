@@ -27,7 +27,7 @@ namespace GoFigure.App.ViewModels
 
         public string Level10Fill => GetFillForLevel(10);
 
-        public LevelMeterViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
+        public LevelMeterViewModel(IEventAggregatorWrapper eventAggregator) : base(eventAggregator)
         {
         }
 

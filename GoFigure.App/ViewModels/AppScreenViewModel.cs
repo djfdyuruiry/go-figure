@@ -1,6 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
 
-using Caliburn.Micro;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
 using GoFigure.App.ViewModels.Menu;
@@ -17,7 +17,7 @@ namespace GoFigure.App.ViewModels
         public GameViewModel Game { get; private set; }
 
         public AppScreenViewModel(
-            IEventAggregator eventAggregator,
+            IEventAggregatorWrapper eventAggregator,
             IGameSettingsStore gameSettingsStore,
             GameSettings gameSettings,
             MenuBarViewModel menuBar,
@@ -31,7 +31,7 @@ namespace GoFigure.App.ViewModels
             Game = game;
         }
 
-        public async void KeyPressed(KeyEventArgs e)
+        public async Task KeyPressed(KeyEventArgs e)
         {
             if (e.Key == Key.F1)
             {

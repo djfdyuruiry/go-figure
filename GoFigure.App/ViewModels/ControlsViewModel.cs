@@ -61,7 +61,7 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public ControlsViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
+        public ControlsViewModel(IEventAggregatorWrapper eventAggregator) : base(eventAggregator)
         {
             _numbers = new List<int>();
 

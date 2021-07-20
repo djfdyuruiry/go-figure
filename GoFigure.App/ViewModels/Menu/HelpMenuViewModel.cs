@@ -1,10 +1,8 @@
-﻿using Caliburn.Micro;
-
-namespace GoFigure.App.ViewModels.Menu
+﻿namespace GoFigure.App.ViewModels.Menu
 {
     public class HelpMenuViewModel : BaseControlViewModel
     {
-        public HelpMenuViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
+        public HelpMenuViewModel(IEventAggregatorWrapper eventAggregator) : base(eventAggregator)
         {
         }
 

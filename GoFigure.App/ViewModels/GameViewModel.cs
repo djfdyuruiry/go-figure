@@ -13,7 +13,7 @@ namespace GoFigure.App.ViewModels
         public LevelMeterViewModel LevelMeter { get; private set; }
 
         public GameViewModel(
-            IEventAggregator eventAggregator,
+            IEventAggregatorWrapper eventAggregator,
             StatusViewModel status,
             SolutionViewModel solution,
             ControlsViewModel controls,

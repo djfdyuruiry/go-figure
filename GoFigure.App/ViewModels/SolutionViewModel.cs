@@ -92,10 +92,10 @@ namespace GoFigure.App.ViewModels
         }
 
         public SolutionViewModel(
-            IEventAggregator eventAggregator, 
+            IEventAggregatorWrapper eventAggregator, 
             ISolutionComputer computer,
             ISolutionGenerator generator,
-            MessageBoxManager messageBoxManager,
+            IMessageBoxManager messageBoxManager,
             GameSettings gameSettings
         ) : base(eventAggregator)
         {

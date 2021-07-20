@@ -6,9 +6,9 @@ namespace GoFigure.App.ViewModels
 {
     public class BaseControlViewModel : PropertyChangedBase
     {
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IEventAggregatorWrapper _eventAggregator;
 
-        protected BaseControlViewModel(IEventAggregator eventAggregator)
+        protected BaseControlViewModel(IEventAggregatorWrapper eventAggregator)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.SubscribeOnPublishedThread(this);

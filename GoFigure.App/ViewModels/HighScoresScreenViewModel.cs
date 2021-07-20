@@ -6,7 +6,7 @@ namespace GoFigure.App.ViewModels
     public class HighScoresScreenViewModel : BaseScreenViewModel
     {
         public HighScoresScreenViewModel(
-            IEventAggregator eventAggregator
+            IEventAggregatorWrapper eventAggregator
         ) : base(eventAggregator)
         {
         }

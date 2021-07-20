@@ -6,10 +6,10 @@ namespace GoFigure.App.ViewModels
 {
     public class BaseScreenViewModel : Screen
     {
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IEventAggregatorWrapper _eventAggregator;
 
         protected BaseScreenViewModel(
-            IEventAggregator eventAggregator
+            IEventAggregatorWrapper eventAggregator
         )
         {
             _eventAggregator = eventAggregator;

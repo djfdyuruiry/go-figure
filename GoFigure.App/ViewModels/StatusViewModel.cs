@@ -57,7 +57,10 @@ namespace GoFigure.App.ViewModels
             }
         }
 
-        public StatusViewModel(IEventAggregator eventAggregator, ISolutionComputer computer) : base(eventAggregator) =>
+        public StatusViewModel(
+            IEventAggregatorWrapper eventAggregator,
+            ISolutionComputer computer
+        ) : base(eventAggregator) =>
             _computer = computer;
 
         public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
