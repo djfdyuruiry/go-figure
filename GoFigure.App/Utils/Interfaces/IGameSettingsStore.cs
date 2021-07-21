@@ -2,7 +2,7 @@
 
 using GoFigure.App.Model.Settings;
 
-namespace GoFigure.App.Utils
+namespace GoFigure.App.Utils.Interfaces
 {
     public interface IGameSettingsStore
     {

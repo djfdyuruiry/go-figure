@@ -8,9 +8,9 @@ using FakeItEasy;
 using Xunit;
 
 using GoFigure.App.Model.Settings;
-using GoFigure.App.Utils;
 using GoFigure.App.ViewModels;
 using GoFigure.App.ViewModels.Interfaces;
+using GoFigure.App.Utils.Interfaces;
 
 namespace GoFigure.Tests.ViewModels
 {

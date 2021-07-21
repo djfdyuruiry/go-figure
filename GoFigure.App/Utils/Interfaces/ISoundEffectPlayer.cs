@@ -2,7 +2,7 @@
 
 using GoFigure.App.Model;
 
-namespace GoFigure.App.Utils
+namespace GoFigure.App.Utils.Interfaces
 {
     public interface ISoundEffectPlayer
     {

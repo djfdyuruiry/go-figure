@@ -8,6 +8,7 @@ using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
 using GoFigure.App.Model.Solution;
 using GoFigure.App.Model;
+using GoFigure.App.Utils.Interfaces;
 
 namespace GoFigure.Tests.Utils
 {

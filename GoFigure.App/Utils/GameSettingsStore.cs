@@ -9,6 +9,7 @@ using GoFigure.App.Model.Settings;
 using GoFigure.App.Properties;
 
 using static GoFigure.App.Constants;
+using GoFigure.App.Utils.Interfaces;
 
 namespace GoFigure.App.Utils
 {

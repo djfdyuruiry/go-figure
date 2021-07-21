@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using SimpleInjector;
 
 using GoFigure.App.Utils;
+using GoFigure.App.Utils.Interfaces;
 
 namespace GoFigure.App
 {
@@ -13,6 +14,8 @@ namespace GoFigure.App
     {
         private static readonly string UtilsNamespace =
             $"{nameof(GoFigure)}.{nameof(GoFigure.App)}.{nameof(Utils)}";
+        private static readonly string UtilsInterfaceNamespace =
+            $"{UtilsNamespace}.{nameof(Utils.Interfaces)}";
         private static readonly string ViewModelNamespace =
             $"{nameof(GoFigure)}.{nameof(GoFigure.App)}.{nameof(ViewModels)}";
         private static readonly string ViewModelInterfaceNamespace =
@@ -50,6 +53,7 @@ namespace GoFigure.App
 
         private void RegisterUtils() =>
             GetInterfaceMappings(
+                UtilsInterfaceNamespace,
                 UtilsNamespace,
                 interfaceFilter: t => t != typeof(IGameSettingsStore)
             ).Foreach(RegisterSingleton);
@@ -65,13 +69,11 @@ namespace GoFigure.App
 
         private IDictionary<Type, Type> GetInterfaceMappings(
             string interfaceNamespace,
-            string classNamespace = null,
+            string classNamespace,
             Func<Type, bool> classFilter = null,
             Func<Type, bool> interfaceFilter = null
         )
         {
-            classNamespace ??= interfaceNamespace;
-
             var classes = Types.Where(t =>
                     !t.IsInterface
                         && (classFilter?.Invoke(t) ?? classNamespace == t?.Namespace)

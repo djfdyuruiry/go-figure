@@ -1,6 +1,7 @@
 ﻿using System.Media;
 
 using GoFigure.App.Model;
+using GoFigure.App.Utils.Interfaces;
 
 namespace GoFigure.App.Utils
 {

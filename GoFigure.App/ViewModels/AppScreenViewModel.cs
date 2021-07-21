@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 using GoFigure.App.Model.Settings;
-using GoFigure.App.Utils;
+using GoFigure.App.Utils.Interfaces;
 using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels

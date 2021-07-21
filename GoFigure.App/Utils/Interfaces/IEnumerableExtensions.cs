@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GoFigure.App.Utils
+namespace GoFigure.App.Utils.Interfaces
 {
     public static class IEnumerableExtensions
     {

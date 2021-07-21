@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GoFigure.App.Utils
+namespace GoFigure.App.Utils.Interfaces
 {
     public static class IDictionaryExtensions
     {

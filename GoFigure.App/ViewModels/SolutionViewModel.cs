@@ -12,7 +12,7 @@ using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Model.Solution;
-using GoFigure.App.Utils;
+using GoFigure.App.Utils.Interfaces;
 using GoFigure.App.ViewModels.Interfaces;
 using static GoFigure.App.Constants;
 
