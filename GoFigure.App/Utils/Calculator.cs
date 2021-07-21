@@ -12,7 +12,7 @@ namespace GoFigure.App.Utils
                 Operator.Divide => lhs / rhs,
                 Operator.Multiply => lhs * rhs,
                 Operator.Add => lhs + rhs,
-                Operator.Subtract => lhs + rhs,
+                Operator.Subtract => lhs - rhs,
                 _ => 0
             };
 
