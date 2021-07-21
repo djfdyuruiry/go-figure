@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GoFigure.App.Utils
 {
@@ -8,5 +9,13 @@ namespace GoFigure.App.Utils
             dictionary.ContainsKey(key)
                 ? dictionary[key]
                 : (dictionary[key] = defaultValue);
+
+        public static void Foreach<T, U>(this IDictionary<T, U> dictionary, Action<T, U> action)
+        {
+            foreach (var kvp in dictionary)
+            {
+                action(kvp.Key, kvp.Value);
+            }
+        }
     }
 }
