@@ -8,17 +8,18 @@ using Caliburn.Micro;
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
-
+using GoFigure.App.ViewModels.Interfaces;
 using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels.Menu
 {
     public class OptionsMenuViewModel : SkillMenuViewModel,
+                                        IOptionsMenuViewModel,
                                         IHandle<NewGameStartedMessage>,
                                         IHandle<ZeroDataMessage>
     {
         private readonly ISoundEffectPlayer _soundEffectPlayer;
-     
+
         private bool _hintEnabled;
         private bool _gameInProgess;
 
@@ -45,7 +46,7 @@ namespace GoFigure.App.ViewModels.Menu
             ISoundEffectPlayer soundEffectPlayer,
             ISolutionGenerator solutionGenerator,
             GameSettings gameSettings
-        ) : base(eventAggregator, messageBoxManager, solutionGenerator, gameSettings) => 
+        ) : base(eventAggregator, messageBoxManager, solutionGenerator, gameSettings) =>
             _soundEffectPlayer = soundEffectPlayer;
 
         public async void ToggleSound()

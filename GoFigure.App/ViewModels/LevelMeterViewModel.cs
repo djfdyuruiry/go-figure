@@ -1,11 +1,16 @@
-﻿using Caliburn.Micro;
-using GoFigure.App.Model.Messages;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+
+using Caliburn.Micro;
+
+using GoFigure.App.Model.Messages;
+using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels
 {
-    public class LevelMeterViewModel : BaseControlViewModel, IHandle<NewGameStartedMessage>
+    public class LevelMeterViewModel : BaseControlViewModel, 
+                                       ILevelMeterViewModel,
+                                       IHandle<NewGameStartedMessage>
     {
         private int _level;
 

@@ -6,9 +6,9 @@ using System.Windows;
 
 using Caliburn.Micro;
 
-using GoFigure.App.ViewModels;
-using GoFigure.App.ViewModels.Menu;
+using GoFigure.App.ViewModels.Interfaces;
 using GoFigure.App.Views;
+using GoFigure.App.Views.Menu;
 
 namespace GoFigure.App
 {
@@ -26,8 +26,9 @@ namespace GoFigure.App
         protected override IEnumerable<Assembly> SelectAssemblies() =>
             base.SelectAssemblies()
                 .Append(typeof(AppScreenView).GetTypeInfo().Assembly)
-                .Append(typeof(AppScreenViewModel).GetTypeInfo().Assembly)
-                .Append(typeof(MenuBarViewModel).GetTypeInfo().Assembly);
+                .Append(typeof(MenuBarView).GetTypeInfo().Assembly)
+                .Append(typeof(IAppScreenViewModel).GetTypeInfo().Assembly)
+                .Append(typeof(IMenuBarViewModel).GetTypeInfo().Assembly);
 
         protected override void Configure() => 
             _appContainer.Configure();
@@ -46,6 +47,6 @@ namespace GoFigure.App
                 .InitializeInstance(instance);
 
         protected override void OnStartup(object sender, StartupEventArgs e) =>
-            DisplayRootViewFor<AppScreenViewModel>();
+            DisplayRootViewFor<IAppScreenViewModel>();
     }
 }

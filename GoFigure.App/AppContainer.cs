@@ -1,20 +1,21 @@
-﻿using System.IO;
-using System.Text.Json;
+﻿using System.Linq;
 
 using Caliburn.Micro;
 using SimpleInjector;
 
-using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
-using GoFigure.App.Properties;
-
-using static GoFigure.App.Constants;
 using GoFigure.App.ViewModels;
+using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App
 {
     public class AppContainer : Container
     {
+        private static readonly string ViewModelNamespace =
+            $"{nameof(GoFigure)}.{nameof(GoFigure.App)}.{nameof(ViewModels)}";
+        private static readonly string ViewModelInterfaceNamespace =
+            $"{ViewModelNamespace}.{nameof(ViewModels.Interfaces)}";
+
         public AppContainer()
         {
             Options.ResolveUnregisteredConcreteTypes = true;
@@ -25,7 +26,6 @@ namespace GoFigure.App
         {
             RegisterSingleton<IWindowManager, WindowManager>();
             RegisterSingleton<IEventAggregator, EventAggregator>();
-            RegisterSingleton<IEventAggregatorWrapper, EventAggregatorWrapper>();
 
             RegisterSingleton<ICalculator, Calculator>();
             RegisterSingleton<ISolutionComputer, SolutionComputer>();
@@ -34,6 +34,8 @@ namespace GoFigure.App
             RegisterSingleton<ISoundEffectPlayer, SoundEffectPlayer>();
 
             ConfigureGameSettings();
+
+            RegisterViewModels();
 
             Verify();
         }
@@ -45,6 +47,34 @@ namespace GoFigure.App
 
             RegisterInstance<IGameSettingsStore>(settingsStore);
             RegisterInstance(gameSettings);
+        }
+
+        private void RegisterViewModels()
+        {
+            var types = GetType().Assembly
+                .GetTypes();
+
+            var viewModels =
+                types.Where(t =>
+                        !(t.Namespace is null)
+                        && t.Namespace.StartsWith(ViewModelNamespace) 
+                        && t.Namespace != ViewModelInterfaceNamespace
+                    )
+                    .ToList();
+
+            types.Where(t => t.Namespace == ViewModelInterfaceNamespace)
+                .Select(interfaceType =>
+                    (
+                        interfaceType: interfaceType,
+                        viewModelType: viewModels.Where(vm =>
+                            interfaceType.Name.EndsWith(vm.Name)
+                        ).FirstOrDefault()
+                    )
+                )
+                .ToList()
+                .ForEach(viewModelInfo =>
+                    Register(viewModelInfo.interfaceType, viewModelInfo.viewModelType)
+                );
         }
     }
 }

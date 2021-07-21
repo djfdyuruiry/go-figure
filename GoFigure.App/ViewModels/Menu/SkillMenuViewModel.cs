@@ -2,17 +2,19 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+
 using Caliburn.Micro;
 
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
-
+using GoFigure.App.ViewModels.Interfaces;
 using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels.Menu
 {
     public class SkillMenuViewModel : HelpMenuViewModel,
+                                      ISkillMenuViewModel,
                                       IHandle<NewGameStartedMessage>,
                                       IHandle<ZeroDataMessage>
     {
@@ -89,7 +91,7 @@ namespace GoFigure.App.ViewModels.Menu
                 }
             );
 
-        public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _) => 
+        public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _) =>
             _gameInProgess = true;
 
         public async Task HandleAsync(ZeroDataMessage message, CancellationToken _)

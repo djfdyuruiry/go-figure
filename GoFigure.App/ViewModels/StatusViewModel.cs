@@ -9,12 +9,14 @@ using Caliburn.Micro;
 
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Utils;
+using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels
 {
     public class StatusViewModel : BaseControlViewModel,
-                            IHandle<NewGameStartedMessage>,
-                            IHandle<ZeroDataMessage>
+                                   IStatusViewModel,
+                                   IHandle<NewGameStartedMessage>,
+                                   IHandle<ZeroDataMessage>
     {
         private const string TimeFormat = @"mm\:ss";
         private const string ScorePlaceholder = "Paused";
@@ -25,7 +27,7 @@ namespace GoFigure.App.ViewModels
 
         private int _gameScore;
         private string _score;
-        
+
         private bool _timerRunning;
         private System.Timers.Timer _timer;
         private TimeSpan _currentTime;

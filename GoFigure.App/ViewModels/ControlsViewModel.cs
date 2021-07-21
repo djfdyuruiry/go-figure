@@ -10,11 +10,13 @@ using GoFigure.App.Model;
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Solution;
 using GoFigure.App.Utils;
+using GoFigure.App.ViewModels.Interfaces;
 using GoFigure.App.Views;
 
 namespace GoFigure.App.ViewModels
 {
     public class ControlsViewModel : BaseControlViewModel,
+                                     IControlsViewModel,
                                      IHandle<NewGameStartedMessage>,
                                      IHandle<ZeroDataMessage>
     {
@@ -135,7 +137,7 @@ namespace GoFigure.App.ViewModels
         }
 
         private string NumberOrPlaceholder(int index) =>
-            !ControlsEnabled 
+            !ControlsEnabled
             || _numbers.Count == 0
             || _numbers.Count - 1 < index
                 ? NumberPlaceholder

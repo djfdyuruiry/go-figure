@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-
+using GoFigure.App.ViewModels.Interfaces;
 using System.Threading.Tasks;
 
 namespace GoFigure.App.ViewModels

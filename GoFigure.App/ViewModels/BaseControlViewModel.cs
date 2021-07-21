@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Caliburn.Micro;
+using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels
 {

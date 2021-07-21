@@ -1,23 +1,23 @@
-﻿using Caliburn.Micro;
+﻿using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels
 {
-    public class GameViewModel : BaseControlViewModel
+    public class GameViewModel : BaseControlViewModel, IGameViewModel
     {
-        public StatusViewModel Status { get; private set; }
+        public IStatusViewModel Status { get; private set; }
 
-        public SolutionViewModel Solution { get; private set; }
+        public ISolutionViewModel Solution { get; private set; }
 
-        public ControlsViewModel Controls { get; private set; }
+        public IControlsViewModel Controls { get; private set; }
 
-        public LevelMeterViewModel LevelMeter { get; private set; }
+        public ILevelMeterViewModel LevelMeter { get; private set; }
 
         public GameViewModel(
             IEventAggregatorWrapper eventAggregator,
-            StatusViewModel status,
-            SolutionViewModel solution,
-            ControlsViewModel controls,
-            LevelMeterViewModel levelMeter
+            IStatusViewModel status,
+            ISolutionViewModel solution,
+            IControlsViewModel controls,
+            ILevelMeterViewModel levelMeter
         ) : base(eventAggregator)
         {
             Status = status;

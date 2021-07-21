@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+
 using Caliburn.Micro;
 
 using GoFigure.App.Model;
@@ -12,12 +13,13 @@ using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Model.Solution;
 using GoFigure.App.Utils;
-
+using GoFigure.App.ViewModels.Interfaces;
 using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels
 {
     public class SolutionViewModel : BaseControlViewModel,
+                              ISolutionViewModel,
                               IHandle<NewGameStartedMessage>,
                               IHandle<SetSolutionSlotMessage>,
                               IHandle<SubmitSolutionMessage>,
@@ -32,7 +34,7 @@ namespace GoFigure.App.ViewModels
         private readonly GameSettings _gameSettings;
         private readonly IDictionary<int, Expression<Func<string>>> _indexToSlotProperty;
         private readonly SolutionPlan _userSolution;
-        
+
         private int _currentLevel;
         private SolutionPlan _cpuSolution;
         private IDictionary<int, int> _cpuSolutionNumbers;
@@ -83,7 +85,7 @@ namespace GoFigure.App.ViewModels
         public string SlotBackground
         {
             get => _slotBackground;
-            set 
+            set
             {
                 _slotBackground = value;
 
@@ -92,7 +94,7 @@ namespace GoFigure.App.ViewModels
         }
 
         public SolutionViewModel(
-            IEventAggregatorWrapper eventAggregator, 
+            IEventAggregatorWrapper eventAggregator,
             ISolutionComputer computer,
             ISolutionGenerator generator,
             IMessageBoxManager messageBoxManager,
@@ -156,7 +158,7 @@ namespace GoFigure.App.ViewModels
             NotifyOfPropertyChange(
                 _indexToSlotProperty[CurrentSlotIndex]
             );
-            
+
             if (CurrentSlotIndex != _cpuSolution.Slots.Count - 1)
             {
                 CurrentSlotIndex++;
@@ -198,7 +200,7 @@ namespace GoFigure.App.ViewModels
         private string SlotValueOrDefault(int index) =>
             index switch
             {
-                _ when _userSolution.Slots.Count == 0 
+                _ when _userSolution.Slots.Count == 0
                     || _userSolution.Slots.Count < index => string.Empty,
                 _ when _userSolution.Slots[index] is null => string.Empty,
                 _ => _userSolution.Slots[index] is NumberSlotValue
@@ -272,7 +274,7 @@ namespace GoFigure.App.ViewModels
             var solutionValid = userSolutionIsWellFormed
                 && _userSolution.Slots.Count == _cpuSolution.Slots.Count
                 && _computer.ResultFor(_userSolution) == _computer.ResultFor(_cpuSolution);
-            var userMessage = solutionValid 
+            var userMessage = solutionValid
                 ? CorrectSolutionMessage
                 : IncorrectSolutionMessage;
 

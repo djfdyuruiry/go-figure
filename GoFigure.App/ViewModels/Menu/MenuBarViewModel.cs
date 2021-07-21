@@ -2,10 +2,11 @@
 
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
+using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels.Menu
 {
-    public class MenuBarViewModel : GameMenuViewModel
+    public class MenuBarViewModel : GameMenuViewModel, IMenuBarViewModel
     {
         public MenuBarViewModel(
             IEventAggregatorWrapper eventAggregator,

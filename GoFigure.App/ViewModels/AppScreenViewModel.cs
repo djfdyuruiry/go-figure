@@ -3,25 +3,25 @@ using System.Windows.Input;
 
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils;
-using GoFigure.App.ViewModels.Menu;
+using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels
 {
-    public class AppScreenViewModel : BaseScreenViewModel
+    public class AppScreenViewModel : BaseScreenViewModel, IAppScreenViewModel
     {
         private readonly IGameSettingsStore _gameSettingsStore;
         private readonly GameSettings _gameSettings;
 
-        public MenuBarViewModel MenuBar { get; private set; }
+        public IMenuBarViewModel MenuBar { get; private set; }
 
-        public GameViewModel Game { get; private set; }
+        public IGameViewModel Game { get; private set; }
 
         public AppScreenViewModel(
             IEventAggregatorWrapper eventAggregator,
             IGameSettingsStore gameSettingsStore,
             GameSettings gameSettings,
-            MenuBarViewModel menuBar,
-            GameViewModel game
+            IMenuBarViewModel menuBar,
+            IGameViewModel game
         ) : base(eventAggregator)
         {
             _gameSettingsStore = gameSettingsStore;
