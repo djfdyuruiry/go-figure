@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 
 using Caliburn.Micro;
 
 using GoFigure.App.ViewModels.Interfaces;
-using GoFigure.App.Views;
-using GoFigure.App.Views.Menu;
 
 namespace GoFigure.App
 {
@@ -22,13 +19,6 @@ namespace GoFigure.App
 
             Initialize();
         }
-
-        protected override IEnumerable<Assembly> SelectAssemblies() =>
-            base.SelectAssemblies()
-                .Append(typeof(AppScreenView).GetTypeInfo().Assembly)
-                .Append(typeof(MenuBarView).GetTypeInfo().Assembly)
-                .Append(typeof(IAppScreenViewModel).GetTypeInfo().Assembly)
-                .Append(typeof(IMenuBarViewModel).GetTypeInfo().Assembly);
 
         protected override void Configure() => 
             _appContainer.Configure();

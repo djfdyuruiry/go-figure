@@ -19,9 +19,11 @@ namespace GoFigure.App.Utils
         public int Exec(Calculation calculation) =>
             calculation is null
             ? 0
-            : Exec(calculation.LeftHandSide,
-                 calculation.Operator,
-                 calculation.RightHandSide);
+            : Exec(
+                calculation.LeftHandSide,
+                calculation.Operator,
+                calculation.RightHandSide
+              );
 
         public int Exec(string expression)
         {
@@ -31,7 +33,7 @@ namespace GoFigure.App.Utils
             }
 
             using var table = new DataTable();
-            var result = table.Compute($"{expression}", string.Empty);
+            var result = table.Compute(expression, string.Empty);
 
             if (result is int)
             {

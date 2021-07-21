@@ -4,8 +4,6 @@ using Caliburn.Micro;
 using SimpleInjector;
 
 using GoFigure.App.Utils;
-using GoFigure.App.ViewModels;
-using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App
 {
@@ -57,7 +55,7 @@ namespace GoFigure.App
             var viewModels =
                 types.Where(t =>
                         !(t.Namespace is null)
-                        && t.Namespace.StartsWith(ViewModelNamespace) 
+                        && t.Namespace.StartsWith(ViewModelNamespace)
                         && t.Namespace != ViewModelInterfaceNamespace
                     )
                     .ToList();
@@ -67,7 +65,7 @@ namespace GoFigure.App
                     (
                         interfaceType: interfaceType,
                         viewModelType: viewModels.Where(vm =>
-                            interfaceType.Name.EndsWith(vm.Name)
+                            interfaceType.Name == $"I{vm.Name}"
                         ).FirstOrDefault()
                     )
                 )
