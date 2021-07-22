@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -11,6 +10,8 @@ using GoFigure.App.Model.Settings;
 using GoFigure.App.ViewModels;
 using GoFigure.App.ViewModels.Interfaces;
 using GoFigure.App.Utils.Interfaces;
+
+using static GoFigure.Tests.TestUtils;
 
 namespace GoFigure.Tests.ViewModels
 {
@@ -38,26 +39,23 @@ namespace GoFigure.Tests.ViewModels
     [Fact]
     public async Task When_F1Key_Is_Pressed_Then_ShowHelp_Is_Called() =>
       await RunKeyPressTest(Key.F1, () =>
-      {
         A.CallTo(() => _menu.ShowHelp())
-          .MustHaveHappened();
-      });
+          .MustHaveHappened()
+      );
 
     [Fact]
     public async Task When_F2Key_Is_Pressed_Then_PublishNewGameMessage_Is_Called() =>
       await RunKeyPressTest(Key.F2, () =>
-      {
         A.CallTo(() => _menu.PublishNewGameMessage())
-          .MustHaveHappened();
-      });
+          .MustHaveHappened()
+      );
 
     [Fact]
     public async Task When_F2Key_Is_Pressed_Then_PublishPauseOrResumeGameMessage_Is_Called() =>
-      await RunKeyPressTest(Key.F3, () =>
-      {
+      await RunKeyPressTest(Key.F3, () => 
         A.CallTo(() => _menu.PublishPauseOrResumeGameMessage())
-          .MustHaveHappened();
-      });
+          .MustHaveHappened()
+      );
 
     [Fact]
     public void When_SaveCurrentSettings_Is_Called_Then_GameSettingsStore_Is_Called()
@@ -68,38 +66,21 @@ namespace GoFigure.Tests.ViewModels
         .MustHaveHappened();
     }
 
-    private async Task RunKeyPressTest(Key key, System.Action test)
-    {
-
-      var tcs = new TaskCompletionSource<bool>();
-      var thread = new Thread(() =>
+    private async Task RunKeyPressTest(Key key, Action test) =>
+      await RunOnUiThread(() =>
       {
-        try
-        {
-          _viewModel.KeyPressed
+        _viewModel.KeyPressed
+        (
+          new KeyEventArgs
           (
-            new KeyEventArgs
-            (
-              Keyboard.PrimaryDevice,
-              new HwndSource(0, 0, 0, 0, 0, "", IntPtr.Zero),
-              0,
-              key
-            )
-          ).Wait();
+            Keyboard.PrimaryDevice,
+            new HwndSource(0, 0, 0, 0, 0, "", IntPtr.Zero),
+            0,
+            key
+          )
+        ).Wait();
 
-          test();
-          tcs.SetResult(true);
-        }
-        catch (Exception e)
-        {
-          tcs.SetException(e);
-        }
+        test();
       });
-
-      thread.SetApartmentState(ApartmentState.STA);
-      thread.Start();
-
-      await tcs.Task;
-    }
   }
 }
