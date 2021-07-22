@@ -2,10 +2,10 @@
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
-    public interface IEventAggregatorWrapper
-    {
-        Task PublishOnCurrentThreadAsync(object message);
+  public interface IEventAggregatorWrapper
+  {
+    Task PublishOnCurrentThreadAsync(object message);
 
-        void SubscribeOnPublishedThread(object subscriber);
-    }
+    void SubscribeOnPublishedThread(object subscriber);
+  }
 }

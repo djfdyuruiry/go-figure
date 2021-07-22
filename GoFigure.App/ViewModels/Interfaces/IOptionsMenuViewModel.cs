@@ -2,24 +2,24 @@
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
-    public interface IOptionsMenuViewModel : ISkillMenuViewModel
-    {
-        bool HintEnabled { get; set; }
+  public interface IOptionsMenuViewModel : ISkillMenuViewModel
+  {
+    bool HintEnabled { get; set; }
 
-        bool LeftToRightPrecedence { get; }
+    bool LeftToRightPrecedence { get; }
 
-        bool OperatorPrecedence { get; }
+    bool OperatorPrecedence { get; }
 
-        bool SoundEnabled { get; }
+    bool SoundEnabled { get; }
 
-        void ClearSolution();
+    void ClearSolution();
 
-        void ShowSolutionHint();
+    void ShowSolutionHint();
 
-        void ToggleSound();
+    void ToggleSound();
 
-        void UseLeftToRightPrecedence(MenuItem view);
+    void UseLeftToRightPrecedence(MenuItem view);
 
-        void UseOperatorPrecedence(MenuItem view);
-    }
+    void UseOperatorPrecedence(MenuItem view);
+  }
 }

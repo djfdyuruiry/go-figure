@@ -1,17 +1,17 @@
 ﻿namespace GoFigure.App.Model
 {
-    public enum Operator
-    {
-        [Character('+')]
-        Add,
+  public enum Operator
+  {
+    [Character('+')]
+    Add,
 
-        [Character('-')]
-        Subtract,
+    [Character('-')]
+    Subtract,
 
-        [Character('*')]
-        Multiply,
+    [Character('*')]
+    Multiply,
 
-        [Character('/')]
-        Divide
-    }
+    [Character('/')]
+    Divide
+  }
 }

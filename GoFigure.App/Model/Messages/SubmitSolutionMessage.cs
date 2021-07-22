@@ -2,8 +2,8 @@
 
 namespace GoFigure.App.Model.Messages
 {
-    public class SubmitSolutionMessage
-    {
-        public Window ActiveWindow { get; set; }
-    }
+  public class SubmitSolutionMessage
+  {
+    public Window ActiveWindow { get; set; }
+  }
 }

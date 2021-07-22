@@ -2,8 +2,8 @@
 
 namespace GoFigure.App.Utils.Interfaces
 {
-    public interface ISolutionComputer
-    {
-        int ResultFor(SolutionPlan solution);
-    }
+  public interface ISolutionComputer
+  {
+    int ResultFor(SolutionPlan solution);
+  }
 }

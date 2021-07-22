@@ -4,10 +4,10 @@ using GoFigure.App.Model;
 
 namespace GoFigure.App.Utils.Interfaces
 {
-    public interface ISoundEffectPlayer
-    {
-        bool Enabled { get; set; }
+  public interface ISoundEffectPlayer
+  {
+    bool Enabled { get; set; }
 
-        void Play(SoundEffectSource effect);
-    }
+    void Play(SoundEffectSource effect);
+  }
 }

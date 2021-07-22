@@ -1,6 +1,6 @@
 ﻿namespace GoFigure.App.Views
 {
-    public interface IAppViewModel
-    {
-    }
+  public interface IAppViewModel
+  {
+  }
 }

@@ -5,19 +5,19 @@ using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels
 {
-    public class BaseScreenViewModel : Screen
+  public class BaseScreenViewModel : Screen
+  {
+    private readonly IEventAggregatorWrapper _eventAggregator;
+
+    protected BaseScreenViewModel(
+      IEventAggregatorWrapper eventAggregator
+    )
     {
-        private readonly IEventAggregatorWrapper _eventAggregator;
-
-        protected BaseScreenViewModel(
-            IEventAggregatorWrapper eventAggregator
-        )
-        {
-            _eventAggregator = eventAggregator;
-            _eventAggregator.SubscribeOnPublishedThread(this);
-        }
-
-        protected async Task PublishMessage<T>(T message) =>
-            await _eventAggregator.PublishOnCurrentThreadAsync(message);
+      _eventAggregator = eventAggregator;
+      _eventAggregator.SubscribeOnPublishedThread(this);
     }
+
+    protected async Task PublishMessage<T>(T message) =>
+      await _eventAggregator.PublishOnCurrentThreadAsync(message);
+  }
 }

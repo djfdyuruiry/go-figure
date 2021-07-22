@@ -1,7 +1,7 @@
 ﻿namespace GoFigure.App.Model
 {
-    public enum SoundEffect
-    {
-        Alert
-    }
+  public enum SoundEffect
+  {
+    Alert
+  }
 }

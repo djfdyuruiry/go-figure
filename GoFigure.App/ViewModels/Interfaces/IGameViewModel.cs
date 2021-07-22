@@ -1,13 +1,13 @@
 ﻿namespace GoFigure.App.ViewModels.Interfaces
 {
-    public interface IGameViewModel
-    {
-        IStatusViewModel Status { get; }
+  public interface IGameViewModel
+  {
+    IStatusViewModel Status { get; }
 
-        ISolutionViewModel Solution { get; }
+    ISolutionViewModel Solution { get; }
 
-        ILevelMeterViewModel LevelMeter { get; }
+    ILevelMeterViewModel LevelMeter { get; }
 
-        IControlsViewModel Controls { get; }
-    }
+    IControlsViewModel Controls { get; }
+  }
 }

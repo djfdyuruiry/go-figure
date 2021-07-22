@@ -5,17 +5,17 @@ using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels
 {
-    public class BaseControlViewModel : PropertyChangedBase
+  public class BaseControlViewModel : PropertyChangedBase
+  {
+    private readonly IEventAggregatorWrapper _eventAggregator;
+
+    protected BaseControlViewModel(IEventAggregatorWrapper eventAggregator)
     {
-        private readonly IEventAggregatorWrapper _eventAggregator;
-
-        protected BaseControlViewModel(IEventAggregatorWrapper eventAggregator)
-        {
-            _eventAggregator = eventAggregator;
-            _eventAggregator.SubscribeOnPublishedThread(this);
-        }
-
-        protected async Task PublishMessage<T>(T message) =>
-            await _eventAggregator.PublishOnCurrentThreadAsync(message);
+      _eventAggregator = eventAggregator;
+      _eventAggregator.SubscribeOnPublishedThread(this);
     }
+
+    protected async Task PublishMessage<T>(T message) =>
+      await _eventAggregator.PublishOnCurrentThreadAsync(message);
+  }
 }

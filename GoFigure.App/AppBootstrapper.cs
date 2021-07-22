@@ -9,34 +9,34 @@ using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App
 {
-    public class AppBootstrapper : BootstrapperBase
+  public class AppBootstrapper : BootstrapperBase
+  {
+    private readonly AppContainer _appContainer;
+
+    public AppBootstrapper()
     {
-        private readonly AppContainer _appContainer;
+      _appContainer = new AppContainer();
 
-        public AppBootstrapper()
-        {
-            _appContainer = new AppContainer();
-
-            Initialize();
-        }
-
-        protected override void Configure() => 
-            _appContainer.Configure();
-
-        protected override object GetInstance(Type service, string key) =>
-            _appContainer.GetInstance(service);
-
-        protected override IEnumerable<object> GetAllInstances(Type serviceType) =>
-            (_appContainer as IServiceProvider).GetService(
-                typeof(IEnumerable<>).MakeGenericType(serviceType)
-            ) as IEnumerable<object> ?? Enumerable.Empty<object>();
-
-        protected override void BuildUp(object instance) => 
-            _appContainer.GetRegistration(instance.GetType(), true)
-                .Registration
-                .InitializeInstance(instance);
-
-        protected override void OnStartup(object sender, StartupEventArgs e) =>
-            DisplayRootViewFor<IAppScreenViewModel>();
+      Initialize();
     }
+
+    protected override void Configure() => 
+      _appContainer.Configure();
+
+    protected override object GetInstance(Type service, string key) =>
+      _appContainer.GetInstance(service);
+
+    protected override IEnumerable<object> GetAllInstances(Type serviceType) =>
+      (_appContainer as IServiceProvider).GetService(
+        typeof(IEnumerable<>).MakeGenericType(serviceType)
+      ) as IEnumerable<object> ?? Enumerable.Empty<object>();
+
+    protected override void BuildUp(object instance) => 
+      _appContainer.GetRegistration(instance.GetType(), true)
+        .Registration
+        .InitializeInstance(instance);
+
+    protected override void OnStartup(object sender, StartupEventArgs e) =>
+      DisplayRootViewFor<IAppScreenViewModel>();
+  }
 }

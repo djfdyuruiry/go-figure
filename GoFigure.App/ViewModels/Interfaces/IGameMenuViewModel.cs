@@ -2,18 +2,18 @@
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
-    public interface IGameMenuViewModel : IOptionsMenuViewModel
-    {
-        bool CanPause { get; set; }
+  public interface IGameMenuViewModel : IOptionsMenuViewModel
+  {
+    bool CanPause { get; set; }
 
-        void CloseApp();
+    void CloseApp();
 
-        void PauseOrResumeGame();
+    void PauseOrResumeGame();
 
-        Task PublishPauseOrResumeGameMessage();
+    Task PublishPauseOrResumeGameMessage();
 
-        void ShowHighScores();
+    void ShowHighScores();
 
-        void StartNewGame();
-    }
+    void StartNewGame();
+  }
 }

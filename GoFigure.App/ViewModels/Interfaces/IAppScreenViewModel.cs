@@ -3,14 +3,14 @@ using System.Windows.Input;
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
-    public interface IAppScreenViewModel
-    {
-        IMenuBarViewModel MenuBar { get; }
+  public interface IAppScreenViewModel
+  {
+    IMenuBarViewModel MenuBar { get; }
 
-        IGameViewModel Game { get; }
+    IGameViewModel Game { get; }
 
-        Task KeyPressed(KeyEventArgs e);
+    Task KeyPressed(KeyEventArgs e);
 
-        void SaveCurrentSettings();
-    }
+    void SaveCurrentSettings();
+  }
 }

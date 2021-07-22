@@ -2,8 +2,8 @@
 
 namespace GoFigure.App.Model.Messages
 {
-    public class SetSolutionSlotMessage
-    {
-        public ISolutionSlotValue Value { get; set; }
-    }
+  public class SetSolutionSlotMessage
+  {
+    public ISolutionSlotValue Value { get; set; }
+  }
 }

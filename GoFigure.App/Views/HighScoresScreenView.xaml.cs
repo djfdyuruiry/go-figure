@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 
 namespace GoFigure.App.Views
 {
-    /// <summary>
-    /// Interaction logic for HighScoresScreenView.xaml
-    /// </summary>
-    public partial class HighScoresScreenView : Window
+  /// <summary>
+  /// Interaction logic for HighScoresScreenView.xaml
+  /// </summary>
+  public partial class HighScoresScreenView : Window
+  {
+    public HighScoresScreenView()
     {
-        public HighScoresScreenView()
-        {
-            InitializeComponent();
-        }
+      InitializeComponent();
     }
+  }
 }

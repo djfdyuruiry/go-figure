@@ -15,14 +15,14 @@ using System.Windows.Shapes;
 
 namespace GoFigure.App.Views
 {
-    /// <summary>
-    /// Interaction logic for GameView.xaml
-    /// </summary>
-    public partial class GameView : UserControl
+  /// <summary>
+  /// Interaction logic for GameView.xaml
+  /// </summary>
+  public partial class GameView : UserControl
+  {
+    public GameView()
     {
-        public GameView()
-        {
-            InitializeComponent();
-        }
+      InitializeComponent();
     }
+  }
 }

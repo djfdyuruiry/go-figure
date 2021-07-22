@@ -3,20 +3,20 @@ using System.Windows.Controls;
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
-    public interface ISkillMenuViewModel : IHelpMenuViewModel
-    {
-        bool BeginnerSkill { get; }
+  public interface ISkillMenuViewModel : IHelpMenuViewModel
+  {
+    bool BeginnerSkill { get; }
 
-        bool ExpertSkill { get; }
+    bool ExpertSkill { get; }
 
-        bool IntermediateSkill { get; }
+    bool IntermediateSkill { get; }
 
-        Task PublishNewGameMessage();
+    Task PublishNewGameMessage();
 
-        void UseBeginnerSkill(MenuItem view);
+    void UseBeginnerSkill(MenuItem view);
 
-        void UseExpertSkill(MenuItem view);
+    void UseExpertSkill(MenuItem view);
 
-        void UseIntermediateSkill(MenuItem view);
-    }
+    void UseIntermediateSkill(MenuItem view);
+  }
 }

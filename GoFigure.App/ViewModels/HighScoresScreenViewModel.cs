@@ -4,12 +4,12 @@ using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels
 {
-    public class HighScoresScreenViewModel : BaseScreenViewModel
+  public class HighScoresScreenViewModel : BaseScreenViewModel
+  {
+    public HighScoresScreenViewModel(
+      IEventAggregatorWrapper eventAggregator
+    ) : base(eventAggregator)
     {
-        public HighScoresScreenViewModel(
-            IEventAggregatorWrapper eventAggregator
-        ) : base(eventAggregator)
-        {
-        }
     }
+  }
 }

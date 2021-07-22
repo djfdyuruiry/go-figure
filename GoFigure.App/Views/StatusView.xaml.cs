@@ -2,8 +2,8 @@
 
 namespace GoFigure.App.Views
 {
-    public partial class StatusView : UserControl
-    {
-        public StatusView() => InitializeComponent();
-    }
+  public partial class StatusView : UserControl
+  {
+    public StatusView() => InitializeComponent();
+  }
 }
