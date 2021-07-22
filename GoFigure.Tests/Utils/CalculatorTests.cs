@@ -9,10 +9,8 @@ namespace GoFigure.Tests.Utils
   {
     private Calculator _calculator;
 
-    public CalculatorTests()
-    {
+    public CalculatorTests() =>
       _calculator = new Calculator();
-    }
 
     [Theory]
     [InlineData(Operator.Add, 8)]

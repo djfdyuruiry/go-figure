@@ -4,6 +4,7 @@ namespace GoFigure.App.Views
 {
   public partial class LevelMeterView : UserControl
   {
-    public LevelMeterView() => InitializeComponent();
+    public LevelMeterView() =>
+      InitializeComponent();
   }
 }

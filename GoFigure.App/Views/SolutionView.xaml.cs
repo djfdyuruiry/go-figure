@@ -4,6 +4,7 @@ namespace GoFigure.App.Views
 {
   public partial class SolutionView : UserControl
   {
-    public SolutionView() => InitializeComponent();
+    public SolutionView() => 
+      InitializeComponent();
   }
 }
