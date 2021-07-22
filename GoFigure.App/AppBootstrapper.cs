@@ -31,11 +31,6 @@ namespace GoFigure.App
         typeof(IEnumerable<>).MakeGenericType(serviceType)
       ) as IEnumerable<object> ?? Enumerable.Empty<object>();
 
-    protected override void BuildUp(object instance) => 
-      _appContainer.GetRegistration(instance.GetType(), true)
-        .Registration
-        .InitializeInstance(instance);
-
     protected override void OnStartup(object sender, StartupEventArgs e) =>
       DisplayRootViewFor<IAppScreenViewModel>();
   }

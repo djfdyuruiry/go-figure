@@ -55,7 +55,7 @@ namespace GoFigure.Tests.ViewModels
     {
       await _viewModel.PublishNewGameMessage();
 
-      A.CallTo(() => 
+      A.CallTo(() =>
         _solutionGenerator.Generate(
           A<int>.That.IsEqualTo(1),
           A<int>._
@@ -97,6 +97,18 @@ namespace GoFigure.Tests.ViewModels
       A.CallTo(() =>
         _eventAggregator.PublishOnCurrentThreadAsync(
           A<NewGameStartedMessage>.That.Matches(m => m.Solution != null)
+        )
+      ).MustHaveHappened();
+    }
+
+    [Fact]
+    public async void When_UseBeginnerSkill_Is_Called_And_Game_Is_Not_InProgess_Then_Settings_Event_Is_Published()
+    {
+      await _viewModel.UseBeginnerSkill(null);
+
+      A.CallTo(() =>
+        _eventAggregator.PublishOnCurrentThreadAsync(
+          A<ZeroDataMessage>.That.Matches(m => m == ZeroDataMessage.GameSettingsChanged)
         )
       ).MustHaveHappened();
     }

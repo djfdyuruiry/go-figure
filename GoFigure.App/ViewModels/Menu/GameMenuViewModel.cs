@@ -47,10 +47,10 @@ namespace GoFigure.App.ViewModels.Menu
       _highScores = highScores;
     }
 
-    public async void StartNewGame() =>
+    public async Task StartNewGame() =>
       await PublishNewGameMessage();
 
-    public async void PauseOrResumeGame() =>
+    public async Task PauseOrResumeGame() =>
       await PublishPauseOrResumeGameMessage();
 
     public async Task PublishPauseOrResumeGameMessage()
@@ -64,7 +64,7 @@ namespace GoFigure.App.ViewModels.Menu
       await PublishMessage(ZeroDataMessage.PauseGame);
     }
 
-    public async void ShowHighScores() =>
+    public async Task ShowHighScores() =>
       await _windowManager.ShowWindowAsync(_highScores);
 
     public void CloseApp() =>

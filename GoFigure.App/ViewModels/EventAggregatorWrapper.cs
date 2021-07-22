@@ -8,10 +8,8 @@ namespace GoFigure.App.ViewModels
   {
     private readonly IEventAggregator _eventAggregator;
 
-    public EventAggregatorWrapper(IEventAggregator eventAggregator)
-    {
+    public EventAggregatorWrapper(IEventAggregator eventAggregator) =>
       _eventAggregator = eventAggregator;
-    }
 
     public void SubscribeOnPublishedThread(object subscriber) =>
        _eventAggregator.SubscribeOnPublishedThread(subscriber);

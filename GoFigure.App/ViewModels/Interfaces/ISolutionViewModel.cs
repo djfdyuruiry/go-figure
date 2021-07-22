@@ -1,4 +1,6 @@
-﻿namespace GoFigure.App.ViewModels.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace GoFigure.App.ViewModels.Interfaces
 {
   public interface ISolutionViewModel
   {

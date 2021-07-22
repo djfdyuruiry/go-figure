@@ -49,7 +49,7 @@ namespace GoFigure.App.ViewModels.Menu
     ) : base(eventAggregator, messageBoxManager, solutionGenerator, gameSettings) =>
       _soundEffectPlayer = soundEffectPlayer;
 
-    public async void ToggleSound()
+    public async Task ToggleSound()
     {
       _gameSettings.SoundEnabled = !_gameSettings.SoundEnabled;
       _soundEffectPlayer.Enabled = _gameSettings.SoundEnabled;
@@ -57,16 +57,16 @@ namespace GoFigure.App.ViewModels.Menu
       await PublishMessage(ZeroDataMessage.GameSettingsChanged);
     }
 
-    public async void ShowSolutionHint() =>
+    public async Task ShowSolutionHint() =>
       await PublishMessage(ZeroDataMessage.ShowSolutionHint);
 
-    public async void ClearSolution() =>
+    public async Task ClearSolution() =>
       await PublishMessage(ZeroDataMessage.ClearSolution);
 
-    public async void UseOperatorPrecedence(MenuItem view) =>
+    public async Task UseOperatorPrecedence(MenuItem view) =>
       await SetOperatorPrecendence(view, true);
 
-    public async void UseLeftToRightPrecedence(MenuItem view) =>
+    public async Task UseLeftToRightPrecedence(MenuItem view) =>
       await SetOperatorPrecendence(view, false);
 
     public new async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
@@ -108,7 +108,7 @@ namespace GoFigure.App.ViewModels.Menu
       if (!okToProceed)
       {
         okToProceed = _messageBoxManager.ShowOkCancel(
-          Window.GetWindow(view),
+          view,
           OperatorPrecedenceChangeMessage
         ) == MessageBoxResult.OK;
       }

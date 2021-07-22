@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using System.Windows.Controls;
+using System.Windows;
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
@@ -13,10 +13,10 @@ namespace GoFigure.App.ViewModels.Interfaces
 
     Task PublishNewGameMessage();
 
-    void UseBeginnerSkill(MenuItem view);
+    Task UseBeginnerSkill(DependencyObject view);
 
-    void UseExpertSkill(MenuItem view);
+    Task UseIntermediateSkill(DependencyObject view);
 
-    void UseIntermediateSkill(MenuItem view);
+    Task UseExpertSkill(DependencyObject view);
   }
 }

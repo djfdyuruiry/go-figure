@@ -9,6 +9,7 @@ using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils.Interfaces;
 using GoFigure.App.ViewModels.Interfaces;
+
 using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels.Menu
@@ -42,13 +43,13 @@ namespace GoFigure.App.ViewModels.Menu
       _gameSettings = gameSettings;
     }
 
-    public async void UseBeginnerSkill(MenuItem view) =>
+    public async Task UseBeginnerSkill(DependencyObject view) =>
       await SetSkill(view, Skill.Beginner);
 
-    public async void UseIntermediateSkill(MenuItem view) =>
+    public async Task UseIntermediateSkill(DependencyObject view) =>
       await SetSkill(view, Skill.Intermediate);
 
-    public async void UseExpertSkill(MenuItem view) =>
+    public async Task UseExpertSkill(DependencyObject view) =>
       await SetSkill(view, Skill.Expert);
 
     private async Task SetSkill(DependencyObject view, Skill skill)
@@ -58,7 +59,7 @@ namespace GoFigure.App.ViewModels.Menu
       if (!okToProceed)
       {
         okToProceed = _messageBoxManager.ShowOkCancel(
-          Window.GetWindow(view),
+          view,
           OperatorPrecedenceChangeMessage
         ) == MessageBoxResult.OK;
       }

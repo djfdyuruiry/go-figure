@@ -47,7 +47,7 @@ namespace GoFigure.App.ViewModels
       }
     }
 
-    public async void SaveCurrentSettings() =>
+    public async Task SaveCurrentSettings() =>
       await _gameSettingsStore.Write(_gameSettings);
   }
 }

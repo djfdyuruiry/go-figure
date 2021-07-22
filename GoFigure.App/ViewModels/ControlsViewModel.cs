@@ -71,7 +71,7 @@ namespace GoFigure.App.ViewModels
       HintEnabled = false;
     }
 
-    public async void EnterNumberIntoSolution(int numberIndex) =>
+    public async Task EnterNumberIntoSolution(int numberIndex) =>
       await PublishMessage(
         new SetSolutionSlotMessage
         {
@@ -82,7 +82,7 @@ namespace GoFigure.App.ViewModels
         }
       );
 
-    public async void EnterOperatorIntoSolution(char operatorSymbol) =>
+    public async Task EnterOperatorIntoSolution(char operatorSymbol) =>
       await PublishMessage(
         new SetSolutionSlotMessage
         {
@@ -93,15 +93,15 @@ namespace GoFigure.App.ViewModels
         }
       );
 
-    public async void SubmitSolution(ControlsView view) =>
+    public async Task SubmitSolution(ControlsView view) =>
       await PublishMessage(
         new SubmitSolutionMessage
         {
-          ActiveWindow = Window.GetWindow(view)
+          Source = view
         }
       );
 
-    public async void ShowSolutionHint() =>
+    public async Task ShowSolutionHint() =>
       await PublishMessage(ZeroDataMessage.ShowSolutionHint);
 
     public async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)

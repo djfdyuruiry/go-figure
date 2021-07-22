@@ -4,10 +4,10 @@ namespace GoFigure.App.Utils.Interfaces
 {
   public interface IMessageBoxManager
   {
-    void ShowInformation(Window window, string message);
+    void ShowInformation(DependencyObject element, string message);
 
-    MessageBoxResult ShowOkCancel(Window window, string message);
+    MessageBoxResult ShowOkCancel(DependencyObject element, string message);
 
-    void ShowWarning(Window window, string message);
+    void ShowWarning(DependencyObject element, string message);
   }
 }

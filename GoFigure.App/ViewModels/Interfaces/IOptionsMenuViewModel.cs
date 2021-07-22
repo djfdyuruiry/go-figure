@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
@@ -12,14 +13,14 @@ namespace GoFigure.App.ViewModels.Interfaces
 
     bool SoundEnabled { get; }
 
-    void ClearSolution();
+    Task ClearSolution();
 
-    void ShowSolutionHint();
+    Task ShowSolutionHint();
 
-    void ToggleSound();
+    Task ToggleSound();
 
-    void UseLeftToRightPrecedence(MenuItem view);
+    Task UseLeftToRightPrecedence(MenuItem view);
 
-    void UseOperatorPrecedence(MenuItem view);
+    Task UseOperatorPrecedence(MenuItem view);
   }
 }

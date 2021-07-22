@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+
 using System.Windows.Input;
 
 namespace GoFigure.App.ViewModels.Interfaces
@@ -11,6 +12,6 @@ namespace GoFigure.App.ViewModels.Interfaces
 
     Task KeyPressed(KeyEventArgs e);
 
-    void SaveCurrentSettings();
+    Task SaveCurrentSettings();
   }
 }

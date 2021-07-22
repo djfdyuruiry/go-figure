@@ -1,4 +1,6 @@
-﻿using GoFigure.App.Views;
+﻿using System.Threading.Tasks;
+
+using GoFigure.App.Views;
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
@@ -16,12 +18,12 @@ namespace GoFigure.App.ViewModels.Interfaces
     
     string Number4 { get; }
 
-    void EnterNumberIntoSolution(int numberIndex);
+    Task EnterNumberIntoSolution(int numberIndex);
     
-    void EnterOperatorIntoSolution(char operatorSymbol);
+    Task EnterOperatorIntoSolution(char operatorSymbol);
 
-    void ShowSolutionHint();
+    Task ShowSolutionHint();
     
-    void SubmitSolution(ControlsView view);
+    Task SubmitSolution(ControlsView view);
   }
 }

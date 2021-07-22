@@ -1,7 +1,9 @@
 ﻿using System.Windows;
-using GoFigure.App.Utils.Interfaces;
+
 using static System.Windows.MessageBoxButton;
 using static System.Windows.MessageBoxImage;
+
+using GoFigure.App.Utils.Interfaces;
 
 using static GoFigure.App.Constants;
 
@@ -9,14 +11,19 @@ namespace GoFigure.App.Utils
 {
   public class MessageBoxManager : IMessageBoxManager
   {
-    public void ShowInformation(Window window, string message) =>
-      Show(window, message);
+    private readonly IWindowLookup _windowLookup;
 
-    public void ShowWarning(Window window, string message) =>
-      Show(window, message, image: Warning);
+    public MessageBoxManager(IWindowLookup windowLookup) => 
+      _windowLookup = windowLookup;
 
-    public MessageBoxResult ShowOkCancel(Window window, string message) =>
-      Show(window, message, OKCancel);
+    public void ShowInformation(DependencyObject element, string message) =>
+      Show(_windowLookup.WindowForElement(element), message);
+
+    public void ShowWarning(DependencyObject element, string message) =>
+      Show(_windowLookup.WindowForElement(element), message, image: Warning);
+
+    public MessageBoxResult ShowOkCancel(DependencyObject element, string message) =>
+      Show(_windowLookup.WindowForElement(element), message, OKCancel);
 
     private MessageBoxResult Show(
       Window window,

@@ -14,6 +14,7 @@ using GoFigure.App.Model.Settings;
 using GoFigure.App.Model.Solution;
 using GoFigure.App.Utils.Interfaces;
 using GoFigure.App.ViewModels.Interfaces;
+
 using static GoFigure.App.Constants;
 
 namespace GoFigure.App.ViewModels
@@ -166,7 +167,7 @@ namespace GoFigure.App.ViewModels
     }
 
     public async Task HandleAsync(SubmitSolutionMessage message, CancellationToken _) =>
-      await CheckIfSolutionValid(message.ActiveWindow);
+      await CheckIfSolutionValid(message.Source);
 
     public async Task HandleAsync(ZeroDataMessage message, CancellationToken __)
     {
@@ -259,12 +260,12 @@ namespace GoFigure.App.ViewModels
       );
     }
 
-    private async Task CheckIfSolutionValid(Window activeWindow)
+    private async Task CheckIfSolutionValid(DependencyObject source)
     {
       if (!CheckNumberUseCountCorrect())
       {
         await PublishMessage(ZeroDataMessage.PauseTimer);
-        _messageBoxManager.ShowWarning(activeWindow, TooManyNumberUsesMessage);
+        _messageBoxManager.ShowWarning(source, TooManyNumberUsesMessage);
         await PublishMessage(ZeroDataMessage.ResumeTimer);
 
         return;
@@ -285,7 +286,7 @@ namespace GoFigure.App.ViewModels
 
       await PublishMessage(ZeroDataMessage.PauseTimer);
 
-      _messageBoxManager.ShowInformation(activeWindow, userMessage);
+      _messageBoxManager.ShowInformation(source, userMessage);
 
       if (!solutionValid)
       {

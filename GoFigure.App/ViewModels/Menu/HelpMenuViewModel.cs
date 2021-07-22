@@ -1,4 +1,6 @@
-﻿using GoFigure.App.ViewModels.Interfaces;
+﻿using System.Threading.Tasks;
+
+using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels.Menu
 {
@@ -8,7 +10,7 @@ namespace GoFigure.App.ViewModels.Menu
     {
     }
 
-    public void ShowHelp()
+    public async Task ShowHelp()
     {
       // TODO: show help contents
     }
