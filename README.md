@@ -27,6 +27,6 @@ In the future I wish to add:
 
 ## How?
 
-This is a Windows desktop app written using C#, .NET 4.8 and WPF. 
+This is a Windows desktop app written using C#, .NET 5.0 and WPF. 
 
 

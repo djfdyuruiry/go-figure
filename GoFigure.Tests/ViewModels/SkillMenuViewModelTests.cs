@@ -1,10 +1,17 @@
-﻿using FakeItEasy;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+
+using FakeItEasy;
+using Xunit;
+
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils.Interfaces;
 using GoFigure.App.ViewModels.Interfaces;
 using GoFigure.App.ViewModels.Menu;
-using Xunit;
 
 namespace GoFigure.Tests.ViewModels
 {
@@ -16,6 +23,8 @@ namespace GoFigure.Tests.ViewModels
     private GameSettings _gameSettings;
 
     private SkillMenuViewModel _viewModel;
+
+    private DependencyObject _testUiComponent;
 
     public SkillMenuViewModelTests()
     {
@@ -30,6 +39,8 @@ namespace GoFigure.Tests.ViewModels
         _solutionGenerator,
         _gameSettings
       );
+
+      _testUiComponent = new DependencyObject();
     }
 
     [Fact]
@@ -101,16 +112,118 @@ namespace GoFigure.Tests.ViewModels
       ).MustHaveHappened();
     }
 
-    [Fact]
-    public async void When_UseBeginnerSkill_Is_Called_And_Game_Is_Not_InProgess_Then_Settings_Event_Is_Published()
+    public static IEnumerable<object[]> GetSkillMethods()
     {
-      await _viewModel.UseBeginnerSkill(null);
+      Func<SkillMenuViewModel, DependencyObject, Task> beginner = (s, d) => s.UseBeginnerSkill(d);
+      Func<SkillMenuViewModel, DependencyObject, Task> intermediate = (s, d) => s.UseIntermediateSkill(d);
+      Func<SkillMenuViewModel, DependencyObject, Task> expert = (s, d) => s.UseExpertSkill(d);
+
+      yield return new object[] { Skill.Beginner, beginner };
+      yield return new object[] { Skill.Intermediate, intermediate };
+      yield return new object[] { Skill.Expert, expert };
+    }
+
+    [Theory]
+    [MemberData(nameof(GetSkillMethods))]
+    public async void When_UseSkill_Is_Called_And_Game_Is_Not_InProgess_Then_GameSettings_Event_Is_Published(
+      Skill _,
+      Func<SkillMenuViewModel, DependencyObject, Task> useSkillMethod
+    )
+    {
+      await useSkillMethod(_viewModel, _testUiComponent);
 
       A.CallTo(() =>
         _eventAggregator.PublishOnCurrentThreadAsync(
           A<ZeroDataMessage>.That.Matches(m => m == ZeroDataMessage.GameSettingsChanged)
         )
       ).MustHaveHappened();
+    }
+
+    [Theory]
+    [MemberData(nameof(GetSkillMethods))]
+    public async void When_UseSkill_Is_Called_And_Game_Is_Not_InProgess_Then_GameSettings_Are_Updated(
+      Skill skill,
+      Func<SkillMenuViewModel, DependencyObject, Task> useSkillMethod
+    )
+    {
+      await useSkillMethod(_viewModel, _testUiComponent);
+
+      Assert.Equal(skill, _gameSettings.CurrentSkill);
+    }
+
+    [Theory]
+    [MemberData(nameof(GetSkillMethods))]
+    public async void When_UseSkill_Is_Called_And_Game_Is_InProgess_And_User_Clicks_Ok_Then_GameSettings_Event_Is_Published(
+      Skill _,
+      Func<SkillMenuViewModel, DependencyObject, Task> useSkillMethod
+    )
+    {
+      await RunGameInProgressSkillTest(useSkillMethod, MessageBoxResult.OK);
+
+      A.CallTo(() =>
+        _eventAggregator.PublishOnCurrentThreadAsync(
+          A<ZeroDataMessage>.That.Matches(m => m == ZeroDataMessage.GameSettingsChanged)
+        )
+      ).MustHaveHappened();
+    }
+
+    [Theory]
+    [MemberData(nameof(GetSkillMethods))]
+    public async void When_UseSkill_Is_Called_And_Game_Is_InProgess_And_User_Clicks_Ok_Then_GameSettings_Are_Updated(
+      Skill skill,
+      Func<SkillMenuViewModel, DependencyObject, Task> useSkillMethod
+    )
+    {
+      await RunGameInProgressSkillTest(useSkillMethod, MessageBoxResult.OK);
+
+      Assert.Equal(skill, _gameSettings.CurrentSkill);
+    }
+
+
+    [Theory]
+    [MemberData(nameof(GetSkillMethods))]
+    public async void When_UseSkill_Is_Called_And_Game_Is_InProgess_And_User_Clicks_Cancel_Then_GameSettings_Event_Is_Not_Published(
+      Skill _,
+      Func<SkillMenuViewModel, DependencyObject, Task> useSkillMethod
+    )
+    {
+      await RunGameInProgressSkillTest(useSkillMethod, MessageBoxResult.Cancel);
+
+      A.CallTo(() =>
+        _eventAggregator.PublishOnCurrentThreadAsync(
+          A<ZeroDataMessage>.That.Matches(m => m == ZeroDataMessage.GameSettingsChanged)
+        )
+      ).MustNotHaveHappened();
+    }
+
+    [Theory]
+    [MemberData(nameof(GetSkillMethods))]
+    public async void When_UseSkill_Is_Called_And_Game_Is_InProgess_And_User_Clicks_Cancel_Then_GameSettings_Are_Not_Updated(
+      Skill _,
+      Func<SkillMenuViewModel, DependencyObject, Task> useSkillMethod
+    )
+    {
+      var startingSkill = _gameSettings.CurrentSkill;
+
+      await RunGameInProgressSkillTest(useSkillMethod, MessageBoxResult.Cancel);
+
+      Assert.Equal(startingSkill, _gameSettings.CurrentSkill);
+    }
+
+    private async Task RunGameInProgressSkillTest(
+      Func<SkillMenuViewModel, DependencyObject, Task> useSkillMethod,
+      MessageBoxResult messageBoxResult
+    )
+    {
+      await _viewModel.HandleAsync(new NewGameStartedMessage(), new CancellationToken());
+
+      A.CallTo(() =>
+        _messageBoxManager.ShowOkCancel(
+          A<DependencyObject>.That.IsEqualTo(_testUiComponent),
+          A<string>._)
+      ).Returns(messageBoxResult);
+
+      await useSkillMethod(_viewModel, _testUiComponent);
     }
   }
 }

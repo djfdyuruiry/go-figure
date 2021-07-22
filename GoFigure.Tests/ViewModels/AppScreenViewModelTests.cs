@@ -58,9 +58,9 @@ namespace GoFigure.Tests.ViewModels
       );
 
     [Fact]
-    public void When_SaveCurrentSettings_Is_Called_Then_GameSettingsStore_Is_Called()
+    public async Task When_SaveCurrentSettings_Is_Called_Then_GameSettingsStore_Is_Called()
     {
-      _viewModel.SaveCurrentSettings();
+      await _viewModel.SaveCurrentSettings();
 
       A.CallTo(() => _gameSettingsStore.Write(A<GameSettings>._))
         .MustHaveHappened();
