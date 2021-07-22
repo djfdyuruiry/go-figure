@@ -94,6 +94,7 @@ skillLevels:
       - 1500
 
     maxHints: 2
+  
   expert:
     maxTimeInSeconds: 150
     
