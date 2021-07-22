@@ -9,9 +9,9 @@
         Width="800"
         Height="300"
         cal:Message.Attach="[Event KeyDown] = [Action KeyPressed($eventArgs)]; [Event Closing] = [Action SaveCurrentSettings()]">
-    <DockPanel LastChildFill="True">
-        <ContentControl x:Name="MenuBar" DockPanel.Dock="Top"/>
+  <DockPanel LastChildFill="True">
+    <ContentControl x:Name="MenuBar" DockPanel.Dock="Top"/>
 
-        <ContentControl x:Name="Game" Margin="2,2,2,2"/>
-    </DockPanel>
+    <ContentControl x:Name="Game" Margin="2,2,2,2"/>
+  </DockPanel>
 </Window>

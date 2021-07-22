@@ -8,112 +8,112 @@
              d:DesignHeight="100"
              d:DesignWidth="400"
              Background="White">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,2,0,2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.075*"/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="0.025*"/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="0.025*"/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="0.025*"/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="0.05*"/>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.05*"/>
-            </Grid.ColumnDefinitions>
+    <Grid Grid.Row="0" Margin="0,2,0,2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="0.075*"/>
+        <ColumnDefinition Width="0.1*"/>
+        <ColumnDefinition Width="0.025*"/>
+        <ColumnDefinition Width="0.1*"/>
+        <ColumnDefinition Width="0.025*"/>
+        <ColumnDefinition Width="0.1*"/>
+        <ColumnDefinition Width="0.025*"/>
+        <ColumnDefinition Width="0.1*"/>
+        <ColumnDefinition Width="0.05*"/>
+        <ColumnDefinition Width="0.2*"/>
+        <ColumnDefinition Width="0.05*"/>
+      </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="1" 
-                    cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(0)]" 
-                    Content="{Binding Path=Number1, Mode=OneWay}" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+      <Button Grid.Column="1" 
+              cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(0)]" 
+              Content="{Binding Path=Number1, Mode=OneWay}" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-            <Button Grid.Column="3" 
-                    cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(1)]" 
-                    Content="{Binding Path=Number2, Mode=OneWay}" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+      <Button Grid.Column="3" 
+              cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(1)]" 
+              Content="{Binding Path=Number2, Mode=OneWay}" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-            <Button Grid.Column="5" 
-                    cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(2)]" 
-                    Content="{Binding Path=Number3, Mode=OneWay}" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+      <Button Grid.Column="5" 
+              cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(2)]" 
+              Content="{Binding Path=Number3, Mode=OneWay}" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-            <Button Grid.Column="7" 
-                    cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(3)]" 
-                    Content="{Binding Path=Number4, Mode=OneWay}" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+      <Button Grid.Column="7" 
+              cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(3)]" 
+              Content="{Binding Path=Number4, Mode=OneWay}" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-            <Button cal:Message.Attach="[Event Click] = [Action SubmitSolution($view)]"
-                    Grid.Column="9" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    Content="_Figure!" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
-        </Grid>
-
-        <Grid Grid.Row="1" Margin="0,2,0,2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.075*"/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="0.025*"/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="0.025*"/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="0.025*"/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="0.05*"/>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.05*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="1" 
-                    cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('*')]" 
-                    Content="*" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
-
-            <Button Grid.Column="3" 
-                    cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('/')]" 
-                    Content="/" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
-
-            <Button Grid.Column="5" 
-                    cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('+')]" 
-                    Content="+" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
-
-            <Button Grid.Column="7" 
-                    cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('-')]" 
-                    Content="-" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
-
-            <Button x:Name="ShowSolutionHint" 
-                    Grid.Column="9" 
-                    Content="Hi_nt!" 
-                    FontSize="22" 
-                    FontWeight="Bold" 
-                    IsEnabled="{Binding Path=HintEnabled, Mode=OneWay}"/>
-        </Grid>
+      <Button cal:Message.Attach="[Event Click] = [Action SubmitSolution($view)]"
+              Grid.Column="9" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              Content="_Figure!" 
+              IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
     </Grid>
+
+    <Grid Grid.Row="1" Margin="0,2,0,2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="0.075*"/>
+        <ColumnDefinition Width="0.1*"/>
+        <ColumnDefinition Width="0.025*"/>
+        <ColumnDefinition Width="0.1*"/>
+        <ColumnDefinition Width="0.025*"/>
+        <ColumnDefinition Width="0.1*"/>
+        <ColumnDefinition Width="0.025*"/>
+        <ColumnDefinition Width="0.1*"/>
+        <ColumnDefinition Width="0.05*"/>
+        <ColumnDefinition Width="0.2*"/>
+        <ColumnDefinition Width="0.05*"/>
+      </Grid.ColumnDefinitions>
+
+      <Button Grid.Column="1" 
+              cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('*')]" 
+              Content="*" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+
+      <Button Grid.Column="3" 
+              cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('/')]" 
+              Content="/" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+
+      <Button Grid.Column="5" 
+              cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('+')]" 
+              Content="+" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+
+      <Button Grid.Column="7" 
+              cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('-')]" 
+              Content="-" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
+
+      <Button x:Name="ShowSolutionHint" 
+              Grid.Column="9" 
+              Content="Hi_nt!" 
+              FontSize="22" 
+              FontWeight="Bold" 
+              IsEnabled="{Binding Path=HintEnabled, Mode=OneWay}"/>
+    </Grid>
+  </Grid>
 </UserControl>

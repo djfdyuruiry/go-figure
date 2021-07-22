@@ -5,23 +5,38 @@
              mc:Ignorable="d" 
              x:Class="GoFigure.App.Views.StatusView"
              Background="White">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition Width="0.3*"/>
-        </Grid.ColumnDefinitions>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="0.3*"/>
+      <ColumnDefinition Width="0.3*"/>
+      <ColumnDefinition Width="0.3*"/>
+    </Grid.ColumnDefinitions>
 
-        <GroupBox Header="Score" Grid.Column="0" Margin="2,2,2,2">
-            <TextBlock x:Name="Score" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32" FontWeight="Bold" Text="0"/>
-        </GroupBox>
+    <GroupBox Header="Score" Grid.Column="0" Margin="2,2,2,2">
+      <TextBlock x:Name="Score"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 FontSize="32"
+                 FontWeight="Bold"
+                 Text="0"/>
+    </GroupBox>
 
-        <GroupBox Header="Time" Grid.Column="1" Margin="2,2,2,2">
-            <TextBlock x:Name="Time" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32" FontWeight="Bold" Text="00:00"/>
-        </GroupBox>
+    <GroupBox Header="Time" Grid.Column="1" Margin="2,2,2,2">
+      <TextBlock x:Name="Time"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 FontSize="32"
+                 FontWeight="Bold"
+                 Text="00:00"/>
+    </GroupBox>
 
-        <GroupBox Header="Target" Grid.Column="2" Margin="2,2,2,2">
-            <TextBlock x:Name="Target" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32" FontWeight="Bold" Text=""/>
-        </GroupBox>
-    </Grid>
+    <GroupBox Header="Target" Grid.Column="2" Margin="2,2,2,2">
+      <TextBlock x:Name="Target"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 FontSize="32"
+                 FontWeight="Bold"
+                 Text=""/>
+    </GroupBox>
+  </Grid>
 </UserControl>

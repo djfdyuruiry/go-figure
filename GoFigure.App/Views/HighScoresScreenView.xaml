@@ -7,5 +7,5 @@
         Title="Go Figure! - High Scores"
         Height="300"
         Width="400">
-    <TextBlock>TODO: High Scores Screen</TextBlock>
+  <TextBlock>TODO: High Scores Screen</TextBlock>
 </Window>
