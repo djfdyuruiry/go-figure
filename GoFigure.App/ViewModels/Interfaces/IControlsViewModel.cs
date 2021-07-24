@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
-
-using GoFigure.App.Views;
+using System.Windows;
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
@@ -24,6 +23,6 @@ namespace GoFigure.App.ViewModels.Interfaces
 
     Task ShowSolutionHint();
     
-    Task SubmitSolution(ControlsView view);
+    Task SubmitSolution(DependencyObject view);
   }
 }

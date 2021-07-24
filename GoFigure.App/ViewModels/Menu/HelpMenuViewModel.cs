@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-
+using GoFigure.App.ViewModels.Controls;
 using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App.ViewModels.Menu
