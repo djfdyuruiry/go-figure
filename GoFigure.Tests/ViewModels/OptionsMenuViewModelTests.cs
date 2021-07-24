@@ -1,34 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+
 using FakeItEasy;
+using Xunit;
+
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils.Interfaces;
-using GoFigure.App.ViewModels.Interfaces;
 using GoFigure.App.ViewModels.Menu;
-using Xunit;
 
 namespace GoFigure.Tests.ViewModels
 {
-  public class OptionsMenuViewModelTests
+  public class OptionsMenuViewModelTests : ViewModelTestsBase<OptionsMenuViewModel>
   {
-    private IEventAggregatorWrapper _eventAggregator;
     private IMessageBoxManager _messageBoxManager;
     private ISoundEffectPlayer _soundEffectPlayer;
     private ISolutionGenerator _solutionGenerator;
     private GameSettings _gameSettings;
 
-    private OptionsMenuViewModel _viewModel;
-
-    private DependencyObject _testUiComponent;
-
-    public OptionsMenuViewModelTests()
+    public OptionsMenuViewModelTests() : base()
     {
-      _eventAggregator = A.Fake<IEventAggregatorWrapper>();
       _messageBoxManager = A.Fake<IMessageBoxManager>();
       _soundEffectPlayer = A.Fake<ISoundEffectPlayer>();
       _solutionGenerator = A.Fake<ISolutionGenerator>();
@@ -41,8 +33,6 @@ namespace GoFigure.Tests.ViewModels
         _solutionGenerator,
         _gameSettings
       );
-
-      _testUiComponent = new DependencyObject();
     }
 
     [Fact]
@@ -86,15 +76,115 @@ namespace GoFigure.Tests.ViewModels
     }
 
     [Fact]
-    public async Task When_ToggleSound_Is_Called_Then_Game_Settings_Event_Is_Published()
+    public async Task When_ToggleSound_Is_Called_Then_GameSettingsChanged_Event_Is_Published()
     {
       await _viewModel.ToggleSound();
 
-      A.CallTo(() => 
-        _eventAggregator.PublishOnCurrentThreadAsync(
-          A<ZeroDataMessage>.That.IsEqualTo(ZeroDataMessage.GameSettingsChanged)
-        )
-      ).MustHaveHappened();
+      AssertMessageWasPublished(ZeroDataMessage.GameSettingsChanged);
+    }
+
+    [Fact]
+    public async Task When_ShowSolutionHint_Is_Called_Then_ShowSolutionHint_Event_Is_Published()
+    {
+      await _viewModel.ShowSolutionHint();
+
+      AssertMessageWasPublished(ZeroDataMessage.ShowSolutionHint);
+    }
+
+    [Fact]
+    public async Task When_ClearSolution_Is_Called_Then_ClearSolution_Event_Is_Published()
+    {
+      await _viewModel.ClearSolution();
+
+      AssertMessageWasPublished(ZeroDataMessage.ClearSolution);
+    }
+
+    [Fact]
+    public async Task When_UseOperatorPrecedence_Is_Called_And_Game_Is_Not_Running_Then_GameSettingsChanged_Event_Is_Published()
+    {
+      await _viewModel.UseOperatorPrecedence(_testUiComponent);
+
+      AssertMessageWasPublished(ZeroDataMessage.GameSettingsChanged);
+    }
+
+    [Fact]
+    public async Task When_UseOperatorPrecedence_Is_Called_And_Game_Is_Running_And_User_Clicks_Ok_Then_GameSettingsChanged_Event_Is_Published()
+    {
+      await _viewModel.HandleAsync(new NewGameStartedMessage(), new CancellationToken());
+
+      A.CallTo(() =>
+        _messageBoxManager.ShowOkCancel(A<DependencyObject>._, A<string>._)
+      ).Returns(MessageBoxResult.OK);
+
+      await _viewModel.UseOperatorPrecedence(_testUiComponent);
+
+      AssertMessageWasPublished(ZeroDataMessage.GameSettingsChanged);
+    }
+
+    [Fact]
+    public async Task When_UseOperatorPrecedence_Is_Called_And_Game_Is_Running_And_User_Clicks_Cancel_Then_GameSettingsChanged_Event_Is_Not_Published()
+    {
+      await _viewModel.HandleAsync(new NewGameStartedMessage(), new CancellationToken());
+
+      A.CallTo(() =>
+        _messageBoxManager.ShowOkCancel(A<DependencyObject>._, A<string>._)
+      ).Returns(MessageBoxResult.Cancel);
+
+      await _viewModel.UseOperatorPrecedence(_testUiComponent);
+
+      AssertMessageWasNotPublished(ZeroDataMessage.GameSettingsChanged);
+    }
+
+    [Fact]
+    public async Task When_UseLeftToRightPrecedence_Is_Called_And_Game_Is_Not_Running_Then_GameSettingsChanged_Event_Is_Published()
+    {
+      await _viewModel.UseLeftToRightPrecedence(_testUiComponent);
+
+      AssertMessageWasPublished(ZeroDataMessage.GameSettingsChanged);
+    }
+
+    [Fact]
+    public async Task When_UseLeftToRightPrecedence_Is_Called_And_Game_Is_Running_And_User_Clicks_Ok_Then_GameSettingsChanged_Event_Is_Published()
+    {
+      await _viewModel.HandleAsync(new NewGameStartedMessage(), new CancellationToken());
+
+      A.CallTo(() =>
+        _messageBoxManager.ShowOkCancel(A<DependencyObject>._, A<string>._)
+      ).Returns(MessageBoxResult.OK);
+
+      await _viewModel.UseLeftToRightPrecedence(_testUiComponent);
+
+      AssertMessageWasPublished(ZeroDataMessage.GameSettingsChanged);
+    }
+
+    [Fact]
+    public async Task When_UseLeftToRightPrecedence_Is_Called_And_Game_Is_Running_And_User_Clicks_Cancel_Then_GameSettingsChanged_Event_Is_Not_Published()
+    {
+      await _viewModel.HandleAsync(new NewGameStartedMessage(), new CancellationToken());
+
+      A.CallTo(() =>
+        _messageBoxManager.ShowOkCancel(A<DependencyObject>._, A<string>._)
+      ).Returns(MessageBoxResult.Cancel);
+
+      await _viewModel.UseLeftToRightPrecedence(_testUiComponent);
+
+      AssertMessageWasNotPublished(ZeroDataMessage.GameSettingsChanged);
+    }
+
+    [Fact]
+    public async Task When_NewGameStarted_Message_Received_Then_HintEnabled_Is_Set_To_True()
+    {
+      await _viewModel.HandleAsync(new NewGameStartedMessage(), new CancellationToken());
+
+      Assert.True(_viewModel.HintEnabled);
+    }
+
+    [Fact]
+    public async Task When_NoHintsLeft_Message_Received_Then_HintEnabled_Is_Set_To_False()
+    {
+      await _viewModel.HandleAsync(ZeroDataMessage.NoHintsLeft, new CancellationToken());
+
+      Assert.False(_viewModel.HintEnabled);
     }
   }
 }

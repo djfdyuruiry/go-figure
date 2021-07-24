@@ -53,7 +53,7 @@ namespace GoFigure.Tests.ViewModels
     [Fact]
     public async Task When_F2Key_Is_Pressed_Then_PublishPauseOrResumeGameMessage_Is_Called() =>
       await RunKeyPressTest(Key.F3, () => 
-        A.CallTo(() => _menu.PublishPauseOrResumeGameMessage())
+        A.CallTo(() => _menu.PauseOrResumeGame())
           .MustHaveHappened()
       );
 

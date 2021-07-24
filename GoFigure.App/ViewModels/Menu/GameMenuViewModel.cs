@@ -17,7 +17,7 @@ namespace GoFigure.App.ViewModels.Menu
                    IHandle<ZeroDataMessage>
   {
     private readonly IWindowManager _windowManager;
-    private readonly HighScoresScreenViewModel _highScores;
+    private readonly IHighScoresScreenViewModel _highScores;
 
     private bool _gamePaused;
     private bool _canPause;
@@ -37,9 +37,9 @@ namespace GoFigure.App.ViewModels.Menu
       IEventAggregatorWrapper eventAggregator,
       IWindowManager windowManager,
       IMessageBoxManager messageBoxManager,
-      ISolutionGenerator generator,
       ISoundEffectPlayer soundEffectPlayer,
-      HighScoresScreenViewModel highScores,
+      ISolutionGenerator generator,
+      IHighScoresScreenViewModel highScores,
       GameSettings gameSettings
     ) : base(eventAggregator, messageBoxManager, soundEffectPlayer, generator, gameSettings)
     {
@@ -50,10 +50,7 @@ namespace GoFigure.App.ViewModels.Menu
     public async Task StartNewGame() =>
       await PublishNewGameMessage();
 
-    public async Task PauseOrResumeGame() =>
-      await PublishPauseOrResumeGameMessage();
-
-    public async Task PublishPauseOrResumeGameMessage()
+    public async Task PauseOrResumeGame()
     {
       if (_gamePaused)
       {

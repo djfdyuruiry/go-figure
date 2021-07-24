@@ -10,25 +10,18 @@ using Xunit;
 using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils.Interfaces;
-using GoFigure.App.ViewModels.Interfaces;
 using GoFigure.App.ViewModels.Menu;
 
 namespace GoFigure.Tests.ViewModels
 {
-  public class SkillMenuViewModelTests
+  public class SkillMenuViewModelTests : ViewModelTestsBase<SkillMenuViewModel>
   {
-    private IEventAggregatorWrapper _eventAggregator;
     private IMessageBoxManager _messageBoxManager;
     private ISolutionGenerator _solutionGenerator;
     private GameSettings _gameSettings;
 
-    private SkillMenuViewModel _viewModel;
-
-    private DependencyObject _testUiComponent;
-
     public SkillMenuViewModelTests()
     {
-      _eventAggregator = A.Fake<IEventAggregatorWrapper>();
       _messageBoxManager = A.Fake<IMessageBoxManager>();
       _solutionGenerator = A.Fake<ISolutionGenerator>();
       _gameSettings = new GameSettings();
@@ -39,8 +32,6 @@ namespace GoFigure.Tests.ViewModels
         _solutionGenerator,
         _gameSettings
       );
-
-      _testUiComponent = new DependencyObject();
     }
 
     [Fact]
@@ -48,8 +39,7 @@ namespace GoFigure.Tests.ViewModels
     {
       await _viewModel.PublishNewGameMessage();
 
-      A.CallTo(() => _eventAggregator.PublishOnCurrentThreadAsync(A<NewGameStartedMessage>._))
-        .MustHaveHappened();
+      AssertMessageWasPublished<NewGameStartedMessage>();
     }
 
     [Fact]
@@ -92,10 +82,8 @@ namespace GoFigure.Tests.ViewModels
     {
       await _viewModel.PublishNewGameMessage();
 
-      A.CallTo(() =>
-        _eventAggregator.PublishOnCurrentThreadAsync(
-          A<NewGameStartedMessage>.That.Matches(m => m.Level == 1)
-        )
+      PublishMessageCallMatching<NewGameStartedMessage>(
+        m => m.Level == 1
       ).MustHaveHappened();
     }
 
@@ -105,10 +93,8 @@ namespace GoFigure.Tests.ViewModels
     {
       await _viewModel.PublishNewGameMessage();
 
-      A.CallTo(() =>
-        _eventAggregator.PublishOnCurrentThreadAsync(
-          A<NewGameStartedMessage>.That.Matches(m => m.Solution != null)
-        )
+      PublishMessageCallMatching<NewGameStartedMessage>(
+        m => m.Solution != null
       ).MustHaveHappened();
     }
 
@@ -132,11 +118,7 @@ namespace GoFigure.Tests.ViewModels
     {
       await useSkillMethod(_viewModel, _testUiComponent);
 
-      A.CallTo(() =>
-        _eventAggregator.PublishOnCurrentThreadAsync(
-          A<ZeroDataMessage>.That.Matches(m => m == ZeroDataMessage.GameSettingsChanged)
-        )
-      ).MustHaveHappened();
+      AssertMessageWasPublished(ZeroDataMessage.GameSettingsChanged);
     }
 
     [Theory]
@@ -160,11 +142,7 @@ namespace GoFigure.Tests.ViewModels
     {
       await RunGameInProgressSkillTest(useSkillMethod, MessageBoxResult.OK);
 
-      A.CallTo(() =>
-        _eventAggregator.PublishOnCurrentThreadAsync(
-          A<ZeroDataMessage>.That.Matches(m => m == ZeroDataMessage.GameSettingsChanged)
-        )
-      ).MustHaveHappened();
+      AssertMessageWasPublished(ZeroDataMessage.GameSettingsChanged);
     }
 
     [Theory]
@@ -189,11 +167,7 @@ namespace GoFigure.Tests.ViewModels
     {
       await RunGameInProgressSkillTest(useSkillMethod, MessageBoxResult.Cancel);
 
-      A.CallTo(() =>
-        _eventAggregator.PublishOnCurrentThreadAsync(
-          A<ZeroDataMessage>.That.Matches(m => m == ZeroDataMessage.GameSettingsChanged)
-        )
-      ).MustNotHaveHappened();
+      AssertMessageWasNotPublished(ZeroDataMessage.GameSettingsChanged);
     }
 
     [Theory]

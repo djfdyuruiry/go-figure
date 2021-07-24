@@ -8,12 +8,10 @@ namespace GoFigure.App.ViewModels.Interfaces
 
     void CloseApp();
 
+    Task StartNewGame();
+
     Task PauseOrResumeGame();
 
-    Task PublishPauseOrResumeGameMessage();
-
     Task ShowHighScores();
-
-    Task StartNewGame();
   }
 }

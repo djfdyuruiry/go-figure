@@ -35,7 +35,7 @@ namespace GoFigure.App.ViewModels
     {
       if (e.Key == Key.F1)
       {
-        MenuBar.ShowHelp();
+        await MenuBar.ShowHelp();
       }
       else if (e.Key == Key.F2)
       {
@@ -43,7 +43,7 @@ namespace GoFigure.App.ViewModels
       }
       else if (e.Key == Key.F3)
       {
-        await MenuBar.PublishPauseOrResumeGameMessage();
+        await MenuBar.PauseOrResumeGame();
       }
     }
 

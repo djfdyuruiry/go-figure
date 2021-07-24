@@ -20,8 +20,8 @@ namespace GoFigure.App.ViewModels.Menu
       eventAggregator,
       windowManager,
       messageBoxManager,
-      generator,
       soundEffectPlayer,
+      generator,
       highScores,
       gameSettings
     )

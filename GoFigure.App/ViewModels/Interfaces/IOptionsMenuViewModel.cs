@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using System.Windows.Controls;
+using System.Windows;
 
 namespace GoFigure.App.ViewModels.Interfaces
 {
@@ -19,8 +19,8 @@ namespace GoFigure.App.ViewModels.Interfaces
 
     Task ToggleSound();
 
-    Task UseLeftToRightPrecedence(MenuItem view);
+    Task UseLeftToRightPrecedence(DependencyObject view);
 
-    Task UseOperatorPrecedence(MenuItem view);
+    Task UseOperatorPrecedence(DependencyObject view);
   }
 }

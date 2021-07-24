@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 using Caliburn.Micro;
 
@@ -63,10 +62,10 @@ namespace GoFigure.App.ViewModels.Menu
     public async Task ClearSolution() =>
       await PublishMessage(ZeroDataMessage.ClearSolution);
 
-    public async Task UseOperatorPrecedence(MenuItem view) =>
+    public async Task UseOperatorPrecedence(DependencyObject view) =>
       await SetOperatorPrecendence(view, true);
 
-    public async Task UseLeftToRightPrecedence(MenuItem view) =>
+    public async Task UseLeftToRightPrecedence(DependencyObject view) =>
       await SetOperatorPrecendence(view, false);
 
     public new async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
