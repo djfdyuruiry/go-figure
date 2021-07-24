@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 
 using Caliburn.Micro;
 
@@ -17,6 +16,7 @@ namespace GoFigure.App.ViewModels.Menu
                    IHandle<ZeroDataMessage>
   {
     private readonly IWindowManager _windowManager;
+    private readonly IApplicationManager _appManager;
     private readonly IHighScoresScreenViewModel _highScores;
 
     private bool _gamePaused;
@@ -39,11 +39,13 @@ namespace GoFigure.App.ViewModels.Menu
       IMessageBoxManager messageBoxManager,
       ISoundEffectPlayer soundEffectPlayer,
       ISolutionGenerator generator,
+      IApplicationManager appManager,
       IHighScoresScreenViewModel highScores,
       GameSettings gameSettings
     ) : base(eventAggregator, messageBoxManager, soundEffectPlayer, generator, gameSettings)
     {
       _windowManager = windowManager;
+      _appManager = appManager;
       _highScores = highScores;
     }
 
@@ -65,7 +67,7 @@ namespace GoFigure.App.ViewModels.Menu
       await _windowManager.ShowWindowAsync(_highScores);
 
     public void CloseApp() =>
-      Application.Current.Shutdown();
+      _appManager.Shutdown();
 
     public new async Task HandleAsync(NewGameStartedMessage message, CancellationToken _)
     {

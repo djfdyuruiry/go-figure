@@ -14,7 +14,8 @@ namespace GoFigure.App.ViewModels.Menu
       IMessageBoxManager messageBoxManager,
       ISolutionGenerator generator,
       ISoundEffectPlayer soundEffectPlayer,
-      HighScoresScreenViewModel highScores,
+      IApplicationManager applicationManager,
+      IHighScoresScreenViewModel highScores,
       GameSettings gameSettings
     ) : base(
       eventAggregator,
@@ -22,6 +23,7 @@ namespace GoFigure.App.ViewModels.Menu
       messageBoxManager,
       soundEffectPlayer,
       generator,
+      applicationManager,
       highScores,
       gameSettings
     )

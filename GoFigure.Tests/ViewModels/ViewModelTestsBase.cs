@@ -5,7 +5,6 @@ using System.Windows;
 using FakeItEasy;
 using FakeItEasy.Configuration;
 
-using GoFigure.App.Model.Messages;
 using GoFigure.App.ViewModels;
 using GoFigure.App.ViewModels.Interfaces;
 
