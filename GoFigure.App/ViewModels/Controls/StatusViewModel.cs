@@ -14,9 +14,9 @@ using GoFigure.App.Utils.Interfaces;
 namespace GoFigure.App.ViewModels.Controls
 {
   public class StatusViewModel : BaseControlViewModel,
-                   IStatusViewModel,
-                   IHandle<NewGameStartedMessage>,
-                   IHandle<ZeroDataMessage>
+                                 IStatusViewModel,
+                                 IHandle<NewGameStartedMessage>,
+                                 IHandle<ZeroDataMessage>
   {
     private const string TimeFormat = @"mm\:ss";
     private const string ScorePlaceholder = "Paused";
