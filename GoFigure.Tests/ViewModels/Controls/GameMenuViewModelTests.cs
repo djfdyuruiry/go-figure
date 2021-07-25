@@ -1,22 +1,18 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 
+using Caliburn.Micro;
 using FakeItEasy;
 using Xunit;
 
+using GoFigure.App.Model.Messages;
 using GoFigure.App.Model.Settings;
+using GoFigure.App.Model.Solution;
 using GoFigure.App.Utils.Interfaces;
 using GoFigure.App.ViewModels.Interfaces;
 using GoFigure.App.ViewModels.Menu;
-using System.Threading.Tasks;
-
-using Caliburn.Micro;
-
-using GoFigure.App.Model.Messages;
-using GoFigure.App.Model.Solution;
-using GoFigure.App.Utils;
-
-using System.Threading;
-using System.Collections.Generic;
 
 namespace GoFigure.Tests.ViewModels.Controls
 {
@@ -148,6 +144,5 @@ namespace GoFigure.Tests.ViewModels.Controls
 
       Assert.True(_viewModel.CanPause);
     }
-
   }
 }
