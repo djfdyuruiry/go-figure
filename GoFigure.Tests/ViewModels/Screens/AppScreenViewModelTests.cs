@@ -8,33 +8,35 @@ using Xunit;
 
 using GoFigure.App.Model.Settings;
 using GoFigure.App.ViewModels.Interfaces;
+using GoFigure.App.ViewModels.Screens;
 using GoFigure.App.Utils.Interfaces;
 
 using static GoFigure.Tests.TestUtils;
-using GoFigure.App.ViewModels.Screens;
 
 namespace GoFigure.Tests.ViewModels.Screens
 {
-  public class AppScreenViewModelTests
+  public class AppScreenViewModelTests : ViewModelTestsBase<AppScreenViewModel>
   {
     private IMenuBarViewModel _menu;
     private IGameSettingsStore _gameSettingsStore;
 
-    private AppScreenViewModel _viewModel;
-
-    public AppScreenViewModelTests()
+    public AppScreenViewModelTests() : base()
     {
       _menu = A.Fake<IMenuBarViewModel>();
       _gameSettingsStore = A.Fake<IGameSettingsStore>();
 
       _viewModel = new AppScreenViewModel(
-        A.Fake<IEventAggregatorWrapper>(),
+        _eventAggregator,
         _gameSettingsStore,
         new GameSettings(),
         _menu,
         A.Fake<IGameViewModel>()
       );
     }
+
+    [Fact]
+    public void When_ViewModel_Is_Constructed_Then_It_Subscribes_To_Events() =>
+      RunEventSubscribeTest();
 
     [Fact]
     public async Task When_F1Key_Is_Pressed_Then_ShowHelp_Is_Called() =>

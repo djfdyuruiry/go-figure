@@ -4,12 +4,12 @@ using System.Windows;
 
 using FakeItEasy;
 using FakeItEasy.Configuration;
-using GoFigure.App.ViewModels.Controls;
+
 using GoFigure.App.ViewModels.Interfaces;
 
-namespace GoFigure.Tests.ViewModels.Controls
+namespace GoFigure.Tests.ViewModels
 {
-  public class ViewModelTestsBase<T> where T : BaseControlViewModel
+  public class ViewModelTestsBase<T>
   {
     protected IEventAggregatorWrapper _eventAggregator;
 
@@ -22,6 +22,13 @@ namespace GoFigure.Tests.ViewModels.Controls
       _eventAggregator = A.Fake<IEventAggregatorWrapper>();
       _testUiComponent = new DependencyObject();
     }
+
+    protected void RunEventSubscribeTest() =>
+      A.CallTo(() => 
+        _eventAggregator.SubscribeOnPublishedThread(
+          A<object>.That.IsEqualTo(_viewModel)
+        )
+      ).MustHaveHappened();
 
     protected void AssertMessageWasPublished<U>() =>
       PublishMessageCallMatching<U>(_ => true).MustHaveHappened();
@@ -39,7 +46,7 @@ namespace GoFigure.Tests.ViewModels.Controls
       A.CallTo(() => _eventAggregator.PublishOnCurrentThreadAsync(A<U>.That.IsEqualTo(message)));
 
     protected IReturnValueArgumentValidationConfiguration<Task> PublishMessageCallMatching<U>(Func<U, bool> predicate) =>
-      A.CallTo(() => 
+      A.CallTo(() =>
         _eventAggregator.PublishOnCurrentThreadAsync(
           A<U>.That.Matches(u => predicate(u))
         )

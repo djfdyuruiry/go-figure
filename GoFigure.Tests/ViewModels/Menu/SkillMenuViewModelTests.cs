@@ -12,7 +12,7 @@ using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils.Interfaces;
 using GoFigure.App.ViewModels.Menu;
 
-namespace GoFigure.Tests.ViewModels.Controls
+namespace GoFigure.Tests.ViewModels.Menu
 {
   public class SkillMenuViewModelTests : ViewModelTestsBase<SkillMenuViewModel>
   {
@@ -33,6 +33,10 @@ namespace GoFigure.Tests.ViewModels.Controls
         _gameSettings
       );
     }
+
+    [Fact]
+    public void When_ViewModel_Is_Constructed_Then_It_Subscribes_To_Events() =>
+      RunEventSubscribeTest();
 
     [Fact]
     public async void When_PublishNewGameMessage_Is_Called_Then_Event_Is_Published()

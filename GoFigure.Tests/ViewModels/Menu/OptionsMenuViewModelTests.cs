@@ -10,7 +10,7 @@ using GoFigure.App.Model.Settings;
 using GoFigure.App.Utils.Interfaces;
 using GoFigure.App.ViewModels.Menu;
 
-namespace GoFigure.Tests.ViewModels.Controls
+namespace GoFigure.Tests.ViewModels.Menu
 {
   public class OptionsMenuViewModelTests : ViewModelTestsBase<OptionsMenuViewModel>
   {
@@ -34,6 +34,10 @@ namespace GoFigure.Tests.ViewModels.Controls
         _gameSettings
       );
     }
+
+    [Fact]
+    public void When_ViewModel_Is_Constructed_Then_It_Subscribes_To_Events() =>
+      RunEventSubscribeTest();
 
     [Fact]
     public void When_SoundEnabled_Read_Then_Value_Matches_Game_Settings()

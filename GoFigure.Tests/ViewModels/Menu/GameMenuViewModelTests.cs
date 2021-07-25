@@ -14,7 +14,7 @@ using GoFigure.App.Utils.Interfaces;
 using GoFigure.App.ViewModels.Interfaces;
 using GoFigure.App.ViewModels.Menu;
 
-namespace GoFigure.Tests.ViewModels.Controls
+namespace GoFigure.Tests.ViewModels.Menu
 {
   public class GameMenuViewModelTests : ViewModelTestsBase<GameMenuViewModel>
   {
@@ -52,6 +52,10 @@ namespace GoFigure.Tests.ViewModels.Controls
     }
 
     [Fact]
+    public void When_ViewModel_Is_Constructed_Then_It_Subscribes_To_Events() =>
+      RunEventSubscribeTest();
+
+    [Fact]
     public async Task When_StartNewGame_Is_Called_Then_NewGameStarted_Event_Is_Published()
     {
       await _viewModel.StartNewGame();
@@ -73,10 +77,10 @@ namespace GoFigure.Tests.ViewModels.Controls
     {
       await _viewModel.StartNewGame();
 
-      A.CallTo(() => 
+      A.CallTo(() =>
         _solutionGenerator.Generate
         (
-          A<int>.That.IsEqualTo(1), 
+          A<int>.That.IsEqualTo(1),
           A<int>.That.IsEqualTo(-1)
         )
       ).MustHaveHappened();
@@ -119,7 +123,7 @@ namespace GoFigure.Tests.ViewModels.Controls
     {
       await _viewModel.ShowHighScores();
 
-      A.CallTo(() => 
+      A.CallTo(() =>
         _windowManager.ShowWindowAsync(
           A<IHighScoresScreenViewModel>.That.IsEqualTo(_highScoresViewModel),
           A<object>._,
@@ -127,7 +131,7 @@ namespace GoFigure.Tests.ViewModels.Controls
         )
       ).MustHaveHappened();
     }
-    
+
     [Fact]
     public void When_CloseApp_Is_Called_Then_App_Manager_Is_Called()
     {

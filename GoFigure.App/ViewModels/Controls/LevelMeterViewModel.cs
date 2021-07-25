@@ -9,8 +9,8 @@ using GoFigure.App.ViewModels.Interfaces;
 namespace GoFigure.App.ViewModels.Controls
 {
   public class LevelMeterViewModel : BaseControlViewModel,
-                     ILevelMeterViewModel,
-                     IHandle<NewGameStartedMessage>
+                                     ILevelMeterViewModel,
+                                     IHandle<NewGameStartedMessage>
   {
     private int _level;
 
