@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoFigure.UiTests", "GoFigure.UiTests\GoFigure.UiTests.csproj", "{9CBF1CBF-5CFF-40B2-9CB8-1D4D50568825}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{8161187C-1A5E-4431-9D27-EABFF2B2304E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8161187C-1A5E-4431-9D27-EABFF2B2304E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8161187C-1A5E-4431-9D27-EABFF2B2304E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CBF1CBF-5CFF-40B2-9CB8-1D4D50568825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CBF1CBF-5CFF-40B2-9CB8-1D4D50568825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CBF1CBF-5CFF-40B2-9CB8-1D4D50568825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CBF1CBF-5CFF-40B2-9CB8-1D4D50568825}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
