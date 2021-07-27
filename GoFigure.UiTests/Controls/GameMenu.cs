@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 using FlaUI.Core.AutomationElements;
 
@@ -18,6 +19,8 @@ namespace GoFigure.UiTests.Controls
     public void OpenAndSelect(Func<GameMenu, AutomationElement> item)
     {
       _element.Click();
+
+      Thread.Sleep(500);
 
       item?.Invoke(this)?.Click();
     }

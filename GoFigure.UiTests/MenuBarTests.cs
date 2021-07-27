@@ -1,23 +1,22 @@
-﻿using GoFigure.UiTests.Screens;
+﻿using System.Threading;
+
 using Xunit;
+
+using GoFigure.UiTests.Screens;
 
 namespace GoFigure.UiTests
 {
   public class MenuBarTests : UiTestBase
   {
     //[Fact]
-    [VideoRecorded]
+    [UiTest]
     public void When_NewGame_Is_Clicked_Then_Target_Is_Shown()
     {
-      var appScreen = AppScreen.InWindow(GetMainWindow());
+      AppScreen.MenuBar.Game.OpenAndSelect(m => m.NewGame);
 
-      appScreen.MenuBar
-        .Game
-        .OpenAndSelect(m => m.NewGame);
+      Thread.Sleep(500);
 
-      var targetNumber = appScreen.Status
-        .Target
-        .Text;
+      var targetNumber = AppScreen.Status.Target.Text;
 
       Assert.False(string.IsNullOrWhiteSpace(targetNumber));
     }

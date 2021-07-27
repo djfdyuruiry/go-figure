@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 using FlaUI.Core;
@@ -10,6 +13,7 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Capturing;
 using FlaUI.Core.Tools;
 using FlaUI.UIA3;
+using GoFigure.UiTests.Screens;
 using Xunit;
 
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
@@ -18,10 +22,22 @@ namespace GoFigure.UiTests
 {
   public abstract class UiTestBase : IDisposable
   {
-    private static readonly string TestRuntimePath = 
-      Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
-    private static readonly string RecordingsOutputPath =
-      Path.Join(TestRuntimePath, "recordings");
+    private const string FfmpegExe = "ffmpeg.exe";
+    private const string FfmpegZip = "ffmpeg-release-essentials.zip";
+    private const int RecordingStartTimeoutInMs = 10000;
+
+    private static readonly string TestRuntimePath = Directory.GetCurrentDirectory();
+    private static readonly string AppExePath = Path.Join(
+      TestRuntimePath.Replace("GoFigure.UiTests", "GoFigure.App"), 
+      "Go Figure!.exe"
+    );
+
+    private static readonly Uri FfmpegUri =
+      new Uri($"https://www.gyan.dev/ffmpeg/builds/{FfmpegZip}");
+    private static readonly string FfmpegPath = Path.Combine(Path.GetTempPath(), FfmpegExe);
+
+    private static readonly string ScreenshotsOutputPath = Path.Join(TestRuntimePath, "screenshots");
+    private static readonly string RecordingsOutputPath = Path.Join(TestRuntimePath, "recordings");
 
     private static UiTestBase CurrentInstance;
 
@@ -29,11 +45,55 @@ namespace GoFigure.UiTests
     private string _testMethodName;
 
     private AutomationBase _automation;
+    private VideoRecorder _recorder;
+
     protected Application _application;
 
-    private VideoRecorder _recorder;
-    private string _testMediaPath;
-    private string _recordingPath;
+    protected Window MainWindow => _application.GetMainWindow(_automation);
+
+    protected AppScreen AppScreen => AppScreen.InWindow(MainWindow);
+
+    static UiTestBase()
+    {
+      if (Directory.Exists(ScreenshotsOutputPath))
+      {
+        Directory.Delete(ScreenshotsOutputPath, true);
+      }
+
+      Directory.CreateDirectory(ScreenshotsOutputPath);
+
+      if (Directory.Exists(RecordingsOutputPath))
+      {
+        Directory.Delete(RecordingsOutputPath, true);
+      }
+
+      Directory.CreateDirectory(RecordingsOutputPath);
+
+      if (!File.Exists(FfmpegPath))
+      {
+        DownloadFFMpeg();
+      }
+
+      SetProcessDPIAware();
+    }
+
+    [DllImport("user32.dll")]
+    private static extern bool SetProcessDPIAware();
+
+    private static void DownloadFFMpeg()
+    {
+      var archivePath = Path.Combine(Path.GetTempPath(), FfmpegZip);
+
+      using var webClient = new WebClient();
+      webClient.DownloadFile(FfmpegUri, archivePath);
+
+      using var archive = ZipFile.OpenRead(archivePath);
+      archive.Entries
+        .First(x => x.Name == FfmpegExe)
+        .ExtractToFile(FfmpegPath, true);
+
+      File.Delete(archivePath);
+    }
 
     public static void WithCurrentUiTest(Action<UiTestBase> action)
     {
@@ -45,12 +105,8 @@ namespace GoFigure.UiTests
       action?.Invoke(CurrentInstance);
     }
 
-    public UiTestBase()
-    {
+    public UiTestBase() => 
       CurrentInstance = this;
-
-      _testMediaPath = Path.GetTempPath();
-    }
 
     public void InitUiTestContext(string className, string methodName)
     {
@@ -58,9 +114,9 @@ namespace GoFigure.UiTests
       _testMethodName = methodName;
 
       _automation = new UIA3Automation();
-      _application = Application.Launch(@"C:\Users\Matthew\src\c#\go-figure\GoFigure.App\bin\Debug\net5.0-windows\win-x64\Go Figure!.exe");
+      _application = Application.Launch(AppExePath);
 
-      StartVideoRecorder(SanitizeFileName(_testClassName)).Wait();
+      StartVideoRecorder().Wait();
     }
 
     public void Dispose()
@@ -77,9 +133,6 @@ namespace GoFigure.UiTests
       _automation = null;
     }
 
-    protected Window GetMainWindow() =>
-      _application.GetMainWindow(_automation);
-
     private void CloseApplication()
     {
       _application?.Close();
@@ -95,81 +148,57 @@ namespace GoFigure.UiTests
     }
 
     private CaptureImage CaptureImage() => 
-      Capture.MainScreen();
+      Capture.Rectangle(
+        new Rectangle
+        {
+          X = 0,
+          Y = 0,
+          Width = MainWindow.BoundingRectangle.Width,
+          Height = MainWindow.BoundingRectangle.Height
+        }
+      );
 
-    private async Task InitRecorderSettings(VideoRecorderSettings videoRecorderSettings)
+    private async Task StartVideoRecorder()
     {
-      var ffmpegPath = await DownloadFFMpeg(Path.GetTempPath());
+      // move window so it gets captured correctly
+      MainWindow.Move(0, 0);
 
-      videoRecorderSettings.ffmpegPath = ffmpegPath;
-    }
-
-    private async Task<string> DownloadFFMpeg(string targetFolder)
-    {
-      var destPath = Path.Combine(targetFolder, "ffmpeg.exe");
-
-      if (File.Exists(destPath))
-      {
-        return destPath;
-      }
-
-      var uri = new Uri($"https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip");
-      var archivePath = Path.Combine(Path.GetTempPath(), "ffmpeg.zip");
-
-      using var webClient = new WebClient();
-
-      await webClient.DownloadFileTaskAsync(uri, archivePath);
-        
-      Directory.CreateDirectory(targetFolder);
-        
-      await Task.Run(() =>
-      {
-        using var archive = ZipFile.OpenRead(archivePath);
-
-        var exeEntry = archive.Entries.First(x => x.Name == "ffmpeg.exe");
-        exeEntry.ExtractToFile(destPath, true);
-      });
-
-      File.Delete(archivePath);
-
-      return destPath;
-    }
-
-    private async Task StartVideoRecorder(string videoName)
-    {
       SystemInfo.RefreshAll();
 
-      _recordingPath = Path.Combine(_testMediaPath, $"{SanitizeFileName(videoName)}.mkv");
+      var outputDirectory = Path.Combine(RecordingsOutputPath, SanitizeFileName(_testClassName));
+      var outputPath = Path.Combine(outputDirectory, $"{SanitizeFileName(_testMethodName)}.mkv");
 
-      var videoRecorderSettings = new VideoRecorderSettings
-      {
-        VideoFormat = VideoFormat.x264,
-        VideoQuality = 6,
-        TargetVideoPath = _recordingPath
-      };
-      
-      await InitRecorderSettings(videoRecorderSettings);
-      
-      _recorder = new VideoRecorder(videoRecorderSettings, r =>
-      {
-        var testName = $"{_testClassName}.{_testMethodName}";
-        var img = CaptureImage();
-   
-        img.ApplyOverlays(
-          new InfoOverlay(img)
-          {
-            RecordTimeSpan = r.RecordTimeSpan,
-            OverlayStringFormat =
-              @"{rt:hh\:mm\:ss\.fff} / {name} / CPU: {cpu} / RAM: {mem.p.used}/{mem.p.tot} ({mem.p.used.perc}) / " 
-                + testName
-          },
-          new MouseOverlay(img)
-        );
+      _recorder = new VideoRecorder(
+        new VideoRecorderSettings
+        {
+          VideoFormat = VideoFormat.x264,
+          VideoQuality = 6,
+          TargetVideoPath = outputPath,
+          ffmpegPath = FfmpegPath
+        },
+        CaptureFrame
+      );
 
-        return img;
-      });
+      Directory.CreateDirectory(outputDirectory);
+    }
 
-      await Task.Delay(500);
+    private CaptureImage CaptureFrame(VideoRecorder recorder)
+    {
+      var testName = $"{_testClassName}.{_testMethodName}";
+      var img = CaptureImage();
+
+      img.ApplyOverlays(
+        new InfoOverlay(img)
+        {
+          RecordTimeSpan = recorder.RecordTimeSpan,
+          OverlayStringFormat = testName
+            + "\n{rt:hh\\:mm\\:ss\\.fff} | {name} | CPU: {cpu} | RAM: "
+            + @"{mem.p.used}/{mem.p.tot} ({mem.p.used.perc})"
+        },
+        new MouseOverlay(img)
+      );
+
+      return img;
     }
 
     private void StopVideoRecorder()
@@ -177,35 +206,25 @@ namespace GoFigure.UiTests
       _recorder?.Stop();
       _recorder?.Dispose();
 
-      if (File.Exists(_recordingPath))
-      {
-        if (!Directory.Exists(RecordingsOutputPath))
-        {
-          Directory.CreateDirectory(RecordingsOutputPath);
-        }
-
-        var outputPath = Path.Join(RecordingsOutputPath, Path.GetFileName(_recordingPath));
-
-        File.Move(_recordingPath, outputPath, overwrite: true);
-      }
-
       _recorder = null;
     }
 
     private void TakeScreenShot(string testName)
     {
-      var imageName = $"{SanitizeFileName(testName)}.png".Replace(@"\", string.Empty);
-      var imagePath = Path.Combine(_testMediaPath, imageName);
+      var outputDirectory = Path.Combine(ScreenshotsOutputPath, SanitizeFileName(_testClassName));
+      var imageFilename = $"{SanitizeFileName(testName)}.png".Replace(@"\", string.Empty);
+      var imagePath = Path.Combine(outputDirectory, imageFilename);
 
       try
       {
-        Directory.CreateDirectory(_testMediaPath);
+        Directory.CreateDirectory(outputDirectory);
         CaptureImage().ToFile(imagePath);
       }
       catch (Exception ex)
       {
         Console.Error.WriteLine(
-          $"Failed to save screen shot to directory: {_testMediaPath}, filename: {imageName}, Ex: {ex.Message}"
+          $"Failed to save screen shot to directory: {ScreenshotsOutputPath}" +
+            $", filename: {imageFilename}, Ex: {ex.Message}"
         );
       }
     }
