@@ -1,4 +1,5 @@
-﻿using FlaUI.Core.AutomationElements;
+﻿using System.Linq;
+using FlaUI.Core.AutomationElements;
 
 using GoFigure.UiTests.Controls;
 
@@ -16,6 +17,14 @@ namespace GoFigure.UiTests.Screens
 
     public StatusControl Status => new StatusControl(
       GameArea.FindFirstChild(e => e.ByClassName("StatusView"))
+    );
+
+    public ControlsControl Controls => new ControlsControl(
+      GameArea.FindFirstChild(e => e.ByClassName("ControlsView"))
+    );
+
+    public MessageBox MessageBox => new MessageBox(
+      _window.ModalWindows.FirstOrDefault()
     );
 
     public static AppScreen InWindow(Window window) =>

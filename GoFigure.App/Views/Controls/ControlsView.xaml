@@ -29,35 +29,40 @@
         <ColumnDefinition Width="0.05*"/>
       </Grid.ColumnDefinitions>
 
-      <Button Grid.Column="1" 
+      <Button AutomationProperties.AutomationId="Number1"
+              Grid.Column="1" 
               cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(0)]" 
               Content="{Binding Path=Number1, Mode=OneWay}" 
               FontSize="22" 
               FontWeight="Bold" 
               IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-      <Button Grid.Column="3" 
+      <Button AutomationProperties.AutomationId="Number2"
+              Grid.Column="3" 
               cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(1)]" 
               Content="{Binding Path=Number2, Mode=OneWay}" 
               FontSize="22" 
               FontWeight="Bold" 
               IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-      <Button Grid.Column="5" 
+      <Button AutomationProperties.AutomationId="Number3"
+              Grid.Column="5" 
               cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(2)]" 
               Content="{Binding Path=Number3, Mode=OneWay}" 
               FontSize="22" 
               FontWeight="Bold" 
               IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-      <Button Grid.Column="7" 
+      <Button AutomationProperties.AutomationId="Number4"
+              Grid.Column="7" 
               cal:Message.Attach="[Event Click] = [Action EnterNumberIntoSolution(3)]" 
               Content="{Binding Path=Number4, Mode=OneWay}" 
               FontSize="22" 
               FontWeight="Bold" 
               IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-      <Button cal:Message.Attach="[Event Click] = [Action SubmitSolution($view)]"
+      <Button AutomationProperties.AutomationId="SubmitSolution"
+              cal:Message.Attach="[Event Click] = [Action SubmitSolution($view)]"
               Grid.Column="9" 
               FontSize="22" 
               FontWeight="Bold" 
@@ -80,28 +85,32 @@
         <ColumnDefinition Width="0.05*"/>
       </Grid.ColumnDefinitions>
 
-      <Button Grid.Column="1" 
+      <Button AutomationProperties.AutomationId="Multiply"
+              Grid.Column="1" 
               cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('*')]" 
               Content="*" 
               FontSize="22" 
               FontWeight="Bold" 
               IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-      <Button Grid.Column="3" 
+      <Button AutomationProperties.AutomationId="Divide"
+              Grid.Column="3" 
               cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('/')]" 
               Content="/" 
               FontSize="22" 
               FontWeight="Bold" 
               IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-      <Button Grid.Column="5" 
+      <Button AutomationProperties.AutomationId="Plus"
+              Grid.Column="5" 
               cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('+')]" 
               Content="+" 
               FontSize="22" 
               FontWeight="Bold" 
               IsEnabled="{Binding Path=ControlsEnabled, Mode=OneWay}"/>
 
-      <Button Grid.Column="7" 
+      <Button AutomationProperties.AutomationId="Minus"
+              Grid.Column="7" 
               cal:Message.Attach="[Event Click] = [Action EnterOperatorIntoSolution('-')]" 
               Content="-" 
               FontSize="22" 

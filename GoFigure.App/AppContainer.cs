@@ -49,6 +49,9 @@ namespace GoFigure.App
 
       RegisterInstance<IGameSettingsStore>(settingsStore);
       RegisterInstance(gameSettings);
+
+      // TODO: wrap around cli flag check
+      RegisterSingleton<DebugEventListener>();
     }
 
     private void RegisterUtils() =>

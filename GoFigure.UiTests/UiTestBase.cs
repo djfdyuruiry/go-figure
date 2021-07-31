@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Capturing;
 using FlaUI.Core.Tools;
 using FlaUI.UIA3;
-using GoFigure.UiTests.Screens;
 using Xunit;
+
+using GoFigure.UiTests.Screens;
+using System.Diagnostics;
 
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
 
@@ -24,16 +24,14 @@ namespace GoFigure.UiTests
   {
     private const string FfmpegExe = "ffmpeg.exe";
     private const string FfmpegZip = "ffmpeg-release-essentials.zip";
-    private const int RecordingStartTimeoutInMs = 10000;
 
     private static readonly string TestRuntimePath = Directory.GetCurrentDirectory();
     private static readonly string AppExePath = Path.Join(
-      TestRuntimePath.Replace("GoFigure.UiTests", "GoFigure.App"), 
+      TestRuntimePath.Replace($"{nameof(GoFigure)}.{nameof(UiTests)}", $"{nameof(GoFigure)}.App"),
       "Go Figure!.exe"
     );
 
-    private static readonly Uri FfmpegUri =
-      new Uri($"https://www.gyan.dev/ffmpeg/builds/{FfmpegZip}");
+    private static readonly Uri FfmpegUri = new Uri($"https://www.gyan.dev/ffmpeg/builds/{FfmpegZip}");
     private static readonly string FfmpegPath = Path.Combine(Path.GetTempPath(), FfmpegExe);
 
     private static readonly string ScreenshotsOutputPath = Path.Join(TestRuntimePath, "screenshots");
@@ -48,6 +46,7 @@ namespace GoFigure.UiTests
     private VideoRecorder _recorder;
 
     protected Application _application;
+    protected DebugEventListener EventListener { get; set; }
 
     protected Window MainWindow => _application.GetMainWindow(_automation);
 
@@ -82,17 +81,26 @@ namespace GoFigure.UiTests
 
     private static void DownloadFFMpeg()
     {
-      var archivePath = Path.Combine(Path.GetTempPath(), FfmpegZip);
+      try
+      {
+        var archivePath = Path.Combine(Path.GetTempPath(), FfmpegZip);
 
-      using var webClient = new WebClient();
-      webClient.DownloadFile(FfmpegUri, archivePath);
+        using var webClient = new WebClient();
+        webClient.DownloadFile(FfmpegUri, archivePath);
 
-      using var archive = ZipFile.OpenRead(archivePath);
-      archive.Entries
-        .First(x => x.Name == FfmpegExe)
-        .ExtractToFile(FfmpegPath, true);
+        using var archive = ZipFile.OpenRead(archivePath);
+        archive.Entries
+          .First(x => x.Name == FfmpegExe)
+          .ExtractToFile(FfmpegPath, true);
 
-      File.Delete(archivePath);
+        File.Delete(archivePath);
+      }
+      catch (Exception)
+      {
+        Console.Error.WriteLine($"Failed to download FFMpeg binary from {FfmpegUri}");
+
+        throw;
+      }
     }
 
     public static void WithCurrentUiTest(Action<UiTestBase> action)
@@ -105,7 +113,7 @@ namespace GoFigure.UiTests
       action?.Invoke(CurrentInstance);
     }
 
-    public UiTestBase() => 
+    public UiTestBase() =>
       CurrentInstance = this;
 
     public void InitUiTestContext(string className, string methodName)
@@ -114,9 +122,24 @@ namespace GoFigure.UiTests
       _testMethodName = methodName;
 
       _automation = new UIA3Automation();
-      _application = Application.Launch(AppExePath);
 
-      StartVideoRecorder().Wait();
+      var process = new Process
+      {
+        StartInfo = new ProcessStartInfo
+        {
+          FileName = AppExePath,
+          RedirectStandardOutput = true
+        }
+      };
+
+      process.Start();
+
+      _application = Application.Attach(process);
+            
+      EventListener = new DebugEventListener(process.StandardOutput);
+      EventListener.Start();
+
+      StartVideoRecorder();
     }
 
     public void Dispose()
@@ -124,6 +147,8 @@ namespace GoFigure.UiTests
       CurrentInstance = null;
 
       TakeScreenShot(_testMethodName);
+
+      EventListener?.Stop();
 
       CloseApplication();
 
@@ -158,7 +183,7 @@ namespace GoFigure.UiTests
         }
       );
 
-    private async Task StartVideoRecorder()
+    private void StartVideoRecorder()
     {
       // move window so it gets captured correctly
       MainWindow.Move(0, 0);

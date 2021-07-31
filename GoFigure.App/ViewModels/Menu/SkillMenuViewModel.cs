@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -53,6 +54,8 @@ namespace GoFigure.App.ViewModels.Menu
 
     private async Task SetSkill(DependencyObject view, Skill skill)
     {
+      Console.WriteLine("Hello");
+
       var okToProceed = !_gameInProgess;
 
       if (!okToProceed)

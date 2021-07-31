@@ -6,7 +6,7 @@ namespace GoFigure.UiTests.Controls
   {
     private readonly AutomationElement _element;
 
-    public TextBlock Target => new TextBlock(
+    public ControlWithValue Target => new ControlWithValue(
       _element.FindFirstDescendant(e => e.ByAutomationId("Target"))
     );
 

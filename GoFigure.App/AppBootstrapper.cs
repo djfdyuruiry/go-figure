@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 
 using Caliburn.Micro;
-
+using GoFigure.App.Utils;
 using GoFigure.App.ViewModels.Interfaces;
 
 namespace GoFigure.App
@@ -31,7 +31,12 @@ namespace GoFigure.App
         typeof(IEnumerable<>).MakeGenericType(serviceType)
       ) as IEnumerable<object> ?? Enumerable.Empty<object>();
 
-    protected override void OnStartup(object sender, StartupEventArgs e) =>
+    protected override void OnStartup(object sender, StartupEventArgs e)
+    {
+      // TODO: wrap around cli flag check
+      _appContainer.GetInstance<DebugEventListener>();
+
       DisplayRootViewFor<IAppScreenViewModel>();
+    }
   }
 }
