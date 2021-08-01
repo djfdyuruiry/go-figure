@@ -6,7 +6,7 @@ namespace GoFigure.UiTests.Tests
 {
   public class MenuBarTests : UiTestBase
   {
-    //[Fact]
+    [Fact]
     [UiTest]
     public void When_NewGame_Is_Started_Then_Target_Is_Shown()
     {

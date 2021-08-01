@@ -37,6 +37,7 @@ jobs:
       - name: Test App
         run: >
             dotnet test --configuration "Release" `
+                --filter "FullyQualifiedName~GoFigure.Tests" `
                 --no-build `
                 --no-restore `
                 --nologo

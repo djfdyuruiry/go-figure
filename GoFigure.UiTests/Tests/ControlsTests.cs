@@ -5,7 +5,7 @@ namespace GoFigure.UiTests.Tests
 {
   public class ControlsTests : UiTestBase
   {
-    //[Fact]
+    [Fact]
     [UiTest]
     public void When_NewGame_Is_Started_And_Correct_Solution_Entered_Then_Success_Popup_Is_Shown()
     {
