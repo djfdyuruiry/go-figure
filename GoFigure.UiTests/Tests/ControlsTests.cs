@@ -1,22 +1,23 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 
 namespace GoFigure.UiTests.Tests
 {
-  public class ControlsTests : UiTestBase
+  public class LevelMeterTests : UiTestBase
   {
     [Fact]
     [UiTest]
-    public void When_NewGame_Is_Started_And_Correct_Solution_Entered_Then_Success_Popup_Is_Shown()
-    {
-      AppScreen.MenuBar.Game.StartNewGame();
-      AppScreen.Controls.EnterCorrectSolution(EventListener);
-      AppScreen.Controls.SubmitCurrentSolution();
+    public void When_NewGame_Is_Started_And_Correct_Solution_Entered_Then_Level_Meter_Updates() =>
+      AppScreen.Use(s =>
+      {
+        s.MenuBar.Game.StartNewGame();
 
-      Assert.Equal(
-        "Solution correct! Moving to next level",
-        AppScreen.MessageBox.Prompt.Value
-      );
-    }
+        s.Controls.Use(c =>
+        {
+          c.EnterCorrectSolution();
+          c.SubmitCurrentSolution();
+        });
+
+        s.MessageBox.Ok.Click();
+      });
   }
 }

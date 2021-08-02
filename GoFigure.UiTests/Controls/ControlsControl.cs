@@ -4,9 +4,10 @@ using FlaUI.Core.AutomationElements;
 
 namespace GoFigure.UiTests.Controls
 {
-  public class ControlsControl
+  public class ControlsControl : WithUtil<ControlsControl>
   {
     private readonly AutomationElement _element;
+    private readonly DebugEventListener _eventListener;
 
     public Dictionary<string, ClickableControlWithValue> NumberToControl
     {
@@ -74,12 +75,17 @@ namespace GoFigure.UiTests.Controls
       _element.FindFirstDescendant(e => e.ByAutomationId("SubmitSolution"))
     );
 
-    public ControlsControl(AutomationElement element) => 
-      _element = element;
-
-    public void EnterCorrectSolution(DebugEventListener listener)
+    public ControlsControl(AutomationElement element, DebugEventListener eventListener)
     {
-      var currentSolution = listener.CurrentSolution;
+      _element = element;
+      _eventListener = eventListener;
+
+      _self = this;
+    }
+
+    public void EnterCorrectSolution()
+    {
+      var currentSolution = _eventListener.CurrentSolution;
 
       for (int i = 0; i < currentSolution.Count; i++)
       {

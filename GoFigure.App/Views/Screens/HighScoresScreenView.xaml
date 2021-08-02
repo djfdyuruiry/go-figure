@@ -2,10 +2,49 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p="clr-namespace:GoFigure.App.Properties"
         x:Class="GoFigure.App.Views.Screens.HighScoresScreenView"
         mc:Ignorable="d"
         Title="Go Figure! - High Scores"
         Height="300"
         Width="400">
-  <TextBlock>TODO: High Scores Screen</TextBlock>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="0.4*"/>
+      <RowDefinition Height="0.4*"/>
+      <RowDefinition Height="0.2*"/>
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="0.16*"/>
+        <ColumnDefinition Width="0.16*"/>
+        <ColumnDefinition Width="0.16*"/>
+        <ColumnDefinition Width="0.2*"/>
+        <ColumnDefinition Width="0.3*"/>
+      </Grid.ColumnDefinitions>
+
+      <Image Grid.Column="0"
+             Margin="5"
+             Stretch="Fill"
+             Source="{Binding Source={x:Static p:Resources.TrophyImageSource}}"/>
+      <Image Grid.Column="1"
+             Margin="5"
+             Stretch="Fill"
+             Source="{Binding Source={x:Static p:Resources.TrophyImageSource}}"/>
+      <Image Grid.Column="2"
+             Margin="5"
+             Stretch="Fill"
+             Source="{Binding Source={x:Static p:Resources.TrophyImageSource}}"/>
+
+      <Button Grid.Column="3"
+              Margin="5"
+              Content="OK"/>
+      <Button Grid.Column="4"
+              x:Name="ClearScores"
+              Margin="5"
+              Content="Clear Scores"
+              IsEnabled="{Binding Path=ScoresPresent, Mode=OneWay}"/>
+    </Grid>
+  </Grid>
 </Window>

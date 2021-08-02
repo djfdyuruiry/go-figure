@@ -31,7 +31,7 @@ namespace GoFigure.App
           SoundEffect.Alert,
           new SoundEffectSource(
             SoundEffect.Alert,
-            () => Resources.alert_sound
+            () => Resources.AlertSound
           )
         }
       };
